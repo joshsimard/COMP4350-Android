@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Doctor-Client Portal</string>
+    <string name="action_search">search</string>
+    <string name="action_submit">submit</string>
+    <string name="action_shopping_cart">shopping cart</string>
+    <string name="fatalError">Fatal error</string>
+    <string name="warning">Warning</string>
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <string-array name="menu_array">
+        <item>Home</item>
+        <item>Login</item>
+    </string-array>
+</resources>

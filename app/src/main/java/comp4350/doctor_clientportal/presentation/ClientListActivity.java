@@ -1,19 +1,149 @@
 package comp4350.doctor_clientportal.presentation;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import comp4350.doctor_clientportal.R;
+
 public class ClientListActivity extends AppCompatActivity {
 
+    final Context CONTEXT = this;
+    final ViewGroup.LayoutParams LAYOUT_PARAMETERS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+    private ScrollView scrollView;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_client_list);
+
+        scrollView = (ScrollView)findViewById(R.id.scroll);
+
+        createGUI();
+    }
+
+    private void createGUI()
+    {
+        LinearLayout listLayout = new LinearLayout(CONTEXT);
+
+        listLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        listLayout.setOrientation(LinearLayout.VERTICAL);
+        listLayout.setGravity(Gravity.CENTER_HORIZONTAL);
+        listLayout.setPadding(0, 50, 0, 0);
+
+        listLayout = createCart(listLayout);
+
+        //listLayout.setId(listLayoutID);
+
+        scrollView.addView(listLayout);
+        //setContentView(table);
+    }
+
+    public LinearLayout createCart(LinearLayout listLayout)
+    {
+        listLayout.removeAllViews();
+        listLayout.addView(createTitleView());
+        listLayout.addView(createHeaderLayout());
+        if(true /*replace with checking if there are clients to show*/)
+        {
+            listLayout=createClientLayout(listLayout);
+        }
+        else
+        {
+            listLayout.addView(createEmptyLayout());
+        }
+        //listLayout.addView(createSubtotalLayout());
+        //listLayout.addView(createCheckoutLayout());
+        listLayout.addView(createPaddingLayout());
+
+        return listLayout;
+    }
+
+    public TextView createTitleView()
+    {
+        TextView titleText = new TextView(CONTEXT);
+
+        titleText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        titleText.setPadding(0, 0, 0, 50);
+        titleText.setGravity(Gravity.CENTER);
+        titleText.setTextSize(24);
+        titleText.setText("My Client List:");
+
+        return titleText;
+    }
+
+    public LinearLayout createHeaderLayout()
+    {
+        //header if needed
+        LinearLayout headerLayout = new LinearLayout(CONTEXT);
+        TextView productHeaderText = new TextView(CONTEXT);
+        TextView quantityHeaderText = new TextView(CONTEXT);
+        TextView priceHeaderText = new TextView(CONTEXT);
+
+        headerLayout.setLayoutParams(new ViewGroup.LayoutParams(1000, ViewGroup.LayoutParams.WRAP_CONTENT));
+        headerLayout.setOrientation(LinearLayout.HORIZONTAL);
+        headerLayout.setBackgroundColor(0xFF848484);
+
+        productHeaderText.setLayoutParams(new ViewGroup.LayoutParams(480, ViewGroup.LayoutParams.WRAP_CONTENT));
+        productHeaderText.setPadding(20, 0, 0, 0);
+        productHeaderText.setTextColor(0xFF000000);
+        productHeaderText.setTextSize(18);
+        productHeaderText.setText("Name");
+        headerLayout.addView(productHeaderText);
+
+        quantityHeaderText.setLayoutParams(new ViewGroup.LayoutParams(260, ViewGroup.LayoutParams.WRAP_CONTENT));
+        quantityHeaderText.setTextColor(0xFF000000);
+        quantityHeaderText.setTextSize(18);
+        quantityHeaderText.setText("Email");
+        headerLayout.addView(quantityHeaderText);
+
+        priceHeaderText.setLayoutParams(new ViewGroup.LayoutParams(260, ViewGroup.LayoutParams.WRAP_CONTENT));
+        priceHeaderText.setTextColor(0xFF000000);
+        priceHeaderText.setTextSize(18);
+        priceHeaderText.setText("ID");
+        headerLayout.addView(priceHeaderText);
+
+        return headerLayout;
+    }
+
+    public LinearLayout createEmptyLayout()
+    {
+        LinearLayout emptyLayout = new LinearLayout(CONTEXT);
+        emptyLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        emptyLayout.setOrientation(LinearLayout.HORIZONTAL);
+        emptyLayout.setGravity(Gravity.CENTER);
+        emptyLayout.setPadding(0, 30, 0, 30);
+        emptyLayout.setBackgroundColor(0x00343434);
+
+        TextView emptyText = new TextView(CONTEXT);
+        emptyText.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        emptyText.setGravity(Gravity.CENTER);
+        emptyText.setTextSize(18);
+        emptyText.setText("No Clients were found!");
+        emptyLayout.addView(emptyText);
+
+        return emptyLayout;
+    }
+
+    public LinearLayout createClientLayout(LinearLayout listLayout)
+    {
+        /* this will be changed when api is figured out
+            Will be a loop that makes each linearlayout
+            horizontal with a listener set up for clicks
+            (to go to the client info page)
+         */
 
         TableLayout table = new TableLayout(this);
 
@@ -153,8 +283,17 @@ public class ClientListActivity extends AppCompatActivity {
         table.addView(rowLows);
         table.addView(rowConditions);
 
-        setContentView(table);
+        listLayout.addView(table);
 
+        return listLayout;
+    }
+
+    public LinearLayout createPaddingLayout()
+    {
+        LinearLayout newPaddingLayout = new LinearLayout(CONTEXT);
+        newPaddingLayout.setPadding(0, 0, 0, 100);
+
+        return newPaddingLayout;
     }
 
 }

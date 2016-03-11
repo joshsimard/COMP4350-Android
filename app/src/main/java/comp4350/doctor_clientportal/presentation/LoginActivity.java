@@ -109,12 +109,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         {
             public void onClick(View arg0)
             {
-                displayGamePage();
+                displayClientListPage();
             }
         });
     }
 
-    private void displayGamePage()
+    private void displayClientListPage()
     {
         final Context context = this;
 

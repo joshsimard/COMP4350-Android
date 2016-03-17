@@ -118,9 +118,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     {
         final Context context = this;
 
-        Intent intent = new Intent(context, ClientListActivity.class);
+        Intent intent = new Intent(context, NoteActivity.class);
         Bundle b = new Bundle();
-        b.putString("name","ClientList");
+        b.putString("name","Name");
         intent.putExtras(b);
         startActivity(intent);
     }

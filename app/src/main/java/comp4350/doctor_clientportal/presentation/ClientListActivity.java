@@ -21,6 +21,7 @@ public class ClientListActivity extends AppCompatActivity {
     final ViewGroup.LayoutParams LAYOUT_PARAMETERS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
     private ScrollView scrollView;
+    private LinearLayout content;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -29,9 +30,12 @@ public class ClientListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_client_list);
 
-        scrollView = (ScrollView)findViewById(R.id.scroll);
+        content = (LinearLayout)findViewById(R.id.content);
 
-        createGUI();
+        //scrollView = (ScrollView)findViewById(R.id.scroll);
+
+        //createGUI();
+        content = createLayout(content);
     }
 
     private void createGUI()
@@ -43,7 +47,7 @@ public class ClientListActivity extends AppCompatActivity {
         listLayout.setGravity(Gravity.CENTER_HORIZONTAL);
         listLayout.setPadding(0, 50, 0, 0);
 
-        listLayout = createCart(listLayout);
+        listLayout = createLayout(listLayout);
 
         //listLayout.setId(listLayoutID);
 
@@ -51,21 +55,20 @@ public class ClientListActivity extends AppCompatActivity {
         //setContentView(table);
     }
 
-    public LinearLayout createCart(LinearLayout listLayout)
+    public LinearLayout createLayout(LinearLayout listLayout)
     {
+        ScrollView content;
         listLayout.removeAllViews();
         listLayout.addView(createTitleView());
         listLayout.addView(createHeaderLayout());
-        if(true /*replace with checking if there are clients to show*/)
+        if(true /*Todo: replace with checking if there are clients to show*/)
         {
-            listLayout=createClientLayout(listLayout);
+            listLayout = createClientLayout(listLayout);
         }
         else
         {
             listLayout.addView(createEmptyLayout());
         }
-        //listLayout.addView(createSubtotalLayout());
-        //listLayout.addView(createCheckoutLayout());
         listLayout.addView(createPaddingLayout());
 
         return listLayout;
@@ -145,145 +148,57 @@ public class ClientListActivity extends AppCompatActivity {
             (to go to the client info page)
          */
 
-        TableLayout table = new TableLayout(this);
+        final ViewGroup.LayoutParams LAYOUT_PARAMETERS = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        table.setStretchAllColumns(true);
-        table.setShrinkAllColumns(true);
+        //TODO: Access all clients through API
 
-        TableRow rowTitle = new TableRow(this);
-        rowTitle.setGravity(Gravity.CENTER_HORIZONTAL);
+        ScrollView scrollView = new ScrollView(CONTEXT);
+        scrollView.setLayoutParams(LAYOUT_PARAMETERS);
+        scrollView.setBackgroundColor(getResources().getColor(R.color.black));
 
-        TableRow rowDayLabels = new TableRow(this);
-        TableRow rowHighs = new TableRow(this);
-        TableRow rowLows = new TableRow(this);
-        TableRow rowConditions = new TableRow(this);
-        rowConditions.setGravity(Gravity.CENTER);
+        LinearLayout linear = new LinearLayout(CONTEXT);
+        linear.setLayoutParams(LAYOUT_PARAMETERS);
+        linear.setOrientation(LinearLayout.VERTICAL);
 
-        TextView empty = new TextView(this);
+        //for all notes, do this
+        for(int i=0; i<30; i++) {
+            LinearLayout listItem = new LinearLayout(CONTEXT);
+            listItem.setLayoutParams(LAYOUT_PARAMETERS);
+            listItem.setOrientation(LinearLayout.HORIZONTAL);
+            listItem.setPadding(6, 6, 6, 6);
+            listItem.setClickable(true);//click to link to the note content
 
-        // title column/row
-        TextView title = new TextView(this);
-        title.setText("Java Weather Table");
+            TextView name = new TextView(CONTEXT);
+            name.setTypeface(null, Typeface.BOLD);
+            name.setTextSize(18);
+            name.setBackgroundColor(getResources().getColor(R.color.white));
+            name.setLayoutParams(new ViewGroup.LayoutParams(400, 60));
+            name.setText("Patient " + (int) (i + Math.floor(Math.random() * 100)) + "");
+            listItem.addView(name);
 
-        title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-        title.setGravity(Gravity.CENTER);
-        title.setTypeface(Typeface.SERIF, Typeface.BOLD);
+            TextView email = new TextView(CONTEXT);
+            email.setTypeface(null, Typeface.ITALIC);
+            email.setBackgroundColor(getResources().getColor(R.color.white));
+            email.setLayoutParams(new ViewGroup.LayoutParams(350, 60));
+            email.setTextSize(18);
+            email.setText("email@email.com");
+            listItem.addView(email);
 
-        TableRow.LayoutParams params = new TableRow.LayoutParams();
-        params.span = 6;
+            TextView id = new TextView(CONTEXT);
+            id.setTypeface(null, Typeface.ITALIC);
+            id.setBackgroundColor(getResources().getColor(R.color.white));
+            id.setLayoutParams(new ViewGroup.LayoutParams(350, 60));
+            id.setTextSize(18);
+            id.setText(i+"");
+            listItem.addView(id);
 
-        rowTitle.addView(title, params);
+            //add the view to the scroll view
+            linear.addView(listItem);
+        }
+        //end
 
-        // labels column
-        TextView highsLabel = new TextView(this);
-        highsLabel.setText("Day High");
-        highsLabel.setTypeface(Typeface.DEFAULT_BOLD);
-
-        TextView lowsLabel = new TextView(this);
-        lowsLabel.setText("Day Low");
-        lowsLabel.setTypeface(Typeface.DEFAULT_BOLD);
-
-        TextView conditionsLabel = new TextView(this);
-        conditionsLabel.setText("Conditions");
-        conditionsLabel.setTypeface(Typeface.DEFAULT_BOLD);
-
-        rowDayLabels.addView(empty);
-        rowHighs.addView(highsLabel);
-        rowLows.addView(lowsLabel);
-        rowConditions.addView(conditionsLabel);
-
-        // day 1 column
-        TextView day1Label = new TextView(this);
-        day1Label.setText("Feb 7");
-        day1Label.setTypeface(Typeface.SERIF, Typeface.BOLD);
-
-        TextView day1High = new TextView(this);
-        day1High.setText("28°F");
-        day1High.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        TextView day1Low = new TextView(this);
-        day1Low.setText("15°F");
-        day1Low.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        rowDayLabels.addView(day1Label);
-        rowHighs.addView(day1High);
-        rowLows.addView(day1Low);
-
-        // day2 column
-        TextView day2Label = new TextView(this);
-        day2Label.setText("Feb 8");
-        day2Label.setTypeface(Typeface.SERIF, Typeface.BOLD);
-
-        TextView day2High = new TextView(this);
-        day2High.setText("26°F");
-        day2High.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        TextView day2Low = new TextView(this);
-        day2Low.setText("14°F");
-        day2Low.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        rowDayLabels.addView(day2Label);
-        rowHighs.addView(day2High);
-        rowLows.addView(day2Low);
-
-        // day3 column
-        TextView day3Label = new TextView(this);
-        day3Label.setText("Feb 9");
-        day3Label.setTypeface(Typeface.SERIF, Typeface.BOLD);
-
-        TextView day3High = new TextView(this);
-        day3High.setText("23°F");
-        day3High.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        TextView day3Low = new TextView(this);
-        day3Low.setText("3°F");
-        day3Low.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        rowDayLabels.addView(day3Label);
-        rowHighs.addView(day3High);
-        rowLows.addView(day3Low);
-
-        // day4 column
-        TextView day4Label = new TextView(this);
-        day4Label.setText("Feb 10");
-        day4Label.setTypeface(Typeface.SERIF, Typeface.BOLD);
-
-        TextView day4High = new TextView(this);
-        day4High.setText("17°F");
-        day4High.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        TextView day4Low = new TextView(this);
-        day4Low.setText("5°F");
-        day4Low.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        rowDayLabels.addView(day4Label);
-        rowHighs.addView(day4High);
-        rowLows.addView(day4Low);
-
-        // day5 column
-        TextView day5Label = new TextView(this);
-        day5Label.setText("Feb 11");
-        day5Label.setTypeface(Typeface.SERIF, Typeface.BOLD);
-
-        TextView day5High = new TextView(this);
-        day5High.setText("19°F");
-        day5High.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        TextView day5Low = new TextView(this);
-        day5Low.setText("6°F");
-        day5Low.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        rowDayLabels.addView(day5Label);
-        rowHighs.addView(day5High);
-        rowLows.addView(day5Low);
-
-        table.addView(rowTitle);
-        table.addView(rowDayLabels);
-        table.addView(rowHighs);
-        table.addView(rowLows);
-        table.addView(rowConditions);
-
-        listLayout.addView(table);
+        scrollView.addView(linear);
+        listLayout.addView(scrollView);
 
         return listLayout;
     }

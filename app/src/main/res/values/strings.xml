@@ -15,6 +15,13 @@
         <item>Home</item>
         <item>Login</item>
     </string-array>
+
+    <string-array name="menu_array_doctor">
+        <item>Login</item>
+        <item>Client List</item>
+        <item>Notes</item>
+    </string-array>
+
     <string name="title_activity_login">Sign in</string>
 
     <!-- Strings related to login -->
@@ -29,4 +36,18 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="title_activity_drawer">DrawerActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+    <string name="search_hint">Enter a note...</string>
+    <string name="app_label">Search</string>
+    <string name="title_activity_add_note">AddNoteActivity</string>
 </resources>

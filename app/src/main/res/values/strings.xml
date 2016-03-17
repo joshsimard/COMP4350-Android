@@ -50,4 +50,8 @@
     <string name="search_hint">Enter a note...</string>
     <string name="app_label">Search</string>
     <string name="title_activity_add_note">AddNoteActivity</string>
+
+    <string name="action_add_note">Add</string>
+    <string name="prompt_title">Add a title...</string>
+    <string name="prompt_body">Add a message...</string>
 </resources>

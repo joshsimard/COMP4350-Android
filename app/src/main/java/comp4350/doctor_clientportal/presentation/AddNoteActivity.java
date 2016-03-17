@@ -11,4 +11,12 @@ public class AddNoteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
     }
+
+    /**
+     * Todo: Add a note to the database
+     *  - need to check both fields are filled in
+     *  - use API to submit a POST request
+     *  - confirm or deny POST via Toast
+     *  - redirect to the note page (on success); stay on page for failure
+     */
 }

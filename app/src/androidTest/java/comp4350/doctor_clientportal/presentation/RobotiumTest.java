@@ -28,11 +28,9 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
     //runs tests for the doctor
     public void testDoctor() {
         //get the email view
-        //solo.getView(R.id.email);
         solo.enterText((AutoCompleteTextView) solo.getView(R.id.email), "john@doe.com");
 
         //get the password
-        //solo.getView(R.id.password);
         solo.enterText((EditText) solo.getView(R.id.password), "password");
 
         //click login
@@ -85,16 +83,27 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
 
         //go back to home
         solo.goBack();
+
+        //select button VIEWCLIENT
+        solo.clickOnButton("Medical Terms");
+
+        //assert activity is ClientListActivity
+        solo.waitForActivity(MedicalTermsActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", MedicalTermsActivity.class);
+
+        //search for specific note on screen
+        solo.searchText("Cancer");
+
+        //go back to home
+        solo.goBack();
     }
 
     //runs tests for the client
     public void testClient() {
         //get the email view
-        //solo.getView(R.id.email);
         solo.enterText((AutoCompleteTextView) solo.getView(R.id.email), "jane@doe.com");
 
         //get the password
-        //solo.getView(R.id.password);
         solo.enterText((EditText) solo.getView(R.id.password), "password");
 
         //click login

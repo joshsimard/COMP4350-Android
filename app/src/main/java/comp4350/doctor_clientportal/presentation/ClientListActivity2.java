@@ -45,7 +45,7 @@ public class ClientListActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_list2);
         populateClientList();
-        populateListView();
+
     }
 
     private void populateClientList()
@@ -74,17 +74,18 @@ public class ClientListActivity2 extends AppCompatActivity {
         final RequestQueue queue = Volley.newRequestQueue(this);
 
                 JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        (Request.Method.GET, apiURL + "clients", null, new Response.Listener<JSONObject>() {
 
                             @Override
                             public void onResponse(JSONObject response) {
                                 try {
                                     JSONArray jsonArray = response.getJSONArray("data");
-                                    Toast.makeText(ClientListActivity2.this, jsonArray.length() + "", Toast.LENGTH_LONG).show();
+
                                     for(int i=0; i<jsonArray.length(); i++){
                                         JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                        clientList.add(new Client(json_data.getString("firstName") + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
+                                        Toast.makeText(ClientListActivity2.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
+                                        clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
 
 //                                        Log.i("log_tag", "_id" + json_data.getInt("account") +
 //                                                        ", mall_name" + json_data.getString("name") +
@@ -101,6 +102,7 @@ public class ClientListActivity2 extends AppCompatActivity {
                                         selectedPositions.add(0);
 
                                     //uiUpdate.setText("Response: " + response.getJSONArray("data"));
+                                    populateListView();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }

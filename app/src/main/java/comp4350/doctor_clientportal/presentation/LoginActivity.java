@@ -24,6 +24,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,9 +37,31 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Handler;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -74,10 +98,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public static String apiEvents = "";
     private   android.os.Handler handler;
 
+    public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
+    public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        final TextView uiUpdate = (TextView) findViewById(R.id.testText);
+
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -95,6 +126,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        //Reading JSON
+//        JSONObject json = new JSONObject(jsonString);
+//        JSONArray jArray = json.getJSONArray("list");
+//
+//        System.out.println("*****JARRAY*****" + jArray.length());
+//
+//        for(int i=0; i<jArray.length(); i++){
+//            JSONObject json_data = jArray.getJSONObject(i);
+//
+//            Log.i("log_tag", "_id" + json_data.getInt("account") +
+//                            ", mall_name" + json_data.getString("name") +
+//                            ", location" + json_data.getString("number") +
+//                            ", telephone" + json_data.getString("url") +
+//                            ",----" + json_data.getString("balance") +
+//                            ",----" + json_data.getString("credit") +
+//                            ",----" + json_data.getString("displayName")
+//            );
+//        }
+
+        //create request queue
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -102,9 +156,44 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //attemptLogin();
 
 
-                EventApi runner = new EventApi(getApplicationContext(), new android.os.Handler());
+                //EventApi runner = new EventApi(getApplicationContext(), new android.os.Handler());
                 //String sleepTime = time.getText().toString();
-                runner.execute();
+                //runner.execute();
+
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                        (Request.Method.GET, apiURL + "clients", null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    uiUpdate.setText("Response: " + response.getJSONArray("data"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO Auto-generated method stub
+                                uiUpdate.setText("Response: " + error.toString());
+                            }
+
+
+//                        @Override
+//                        public Map<String, String> getHeaders() throws AuthFailureError {
+//                            Map<String, String> headers = new HashMap<>();
+//                            String credentials = "john@doe.com:password";
+//                            String auth = "Basic "
+//                                    + Base64.encodeToString(credentials.getBytes(), Base64.NO_WRAP);
+//                            headers.put("Content-Type", "application/json");
+//                            headers.put("Authorization", auth);
+//                            return headers;
+//                        }
+                        });
+                // Add the request to the RequestQueue.
+                queue.add(jsObjRequest);
+
 
 //                final String[] message = {""};
 //                handler = new android.os.Handler() {
@@ -348,6 +437,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
+
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -402,6 +493,112 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled() {
             mAuthTask = null;
             showProgress(false);
+        }
+    }
+
+
+    public class EventApi extends AsyncTask<Void, String, String> {
+
+        private Exception exception;
+
+
+        public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
+
+        public final static String EXTRA_MESSAGE = "CalEvents";
+        public String eventsResponse = "";
+        private Context context;
+        public android.os.Handler handler;
+
+
+
+        public EventApi(Context context, android.os.Handler handler){
+            this.context=context;
+            this.handler=handler;
+        }
+
+        protected void onPreExecute() {
+            //progressBar.setVisibility(View.VISIBLE);
+            //responseView.setText("");
+
+        }
+
+        protected String doInBackground(Void... urls) {
+
+
+
+//            HttpURLConnection urlConnection = null;
+//            // Do some validation here
+//            try {
+//                URL url = new URL(apiURL + "events");
+//                String auth = android.util.Base64.encodeToString(
+//                        ("john@doe.com" + ":" + "password").getBytes(),
+//                        android.util.Base64.NO_WRAP
+//                );
+//
+//                try {
+//                    urlConnection = (HttpURLConnection) url.openConnection();
+//                    urlConnection.setRequestMethod("GET");
+//                    urlConnection.addRequestProperty("Authorization", "Basic " + auth);
+//                    urlConnection.connect();
+//                    InputStream stream = urlConnection.getInputStream();
+//
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+//                    StringBuilder stringBuilder = new StringBuilder();
+//
+//                    String line;
+//                    while ((line = bufferedReader.readLine()) != null) {
+//                        stringBuilder.append(line).append("\n");
+//                    }
+//                    bufferedReader.close();
+//                    return stringBuilder.toString();
+//                }
+//                finally{
+//                    urlConnection.disconnect();
+//                }
+//            }
+//            catch(Exception e) {
+//                Log.e("ERROR", e.getMessage(), e);
+//                return null;
+//            }
+            return null;
+        }
+
+        public String getEventsResponse() {
+            return eventsResponse;
+        }
+
+        protected void onPostExecute(String response) {
+            if(response == null) {
+                response = "THERE WAS AN ERROR";
+            }
+            //progressBar.setVisibility(View.GONE);
+            Log.i("INFO", response);
+
+            //Intent intent = new Intent(context, LoginActivity.class);
+            // intent.putExtra(EXTRA_MESSAGE, response);
+            //Bundle extras = intent.getExtras();
+            //extras.putString(EXTRA_MESSAGE, response);
+
+//        try {
+//            context.startActivity(intent);
+//            ((Activity)context).finish();
+//        }catch (Exception e)
+//        {
+//            Log.i("INFO-ERROR",e.getMessage());
+//        }
+
+            Toast.makeText(context, response, Toast.LENGTH_SHORT).show();
+
+            //uiUpdate.setText("Output : "+response);
+            //LoginActivity.apiEvents = response;
+            // eventsResponse = response;
+            //responseView.setText(response);
+//        super.onPostExecute(response);
+//        Message message = new Message();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("file", response);
+//        message.setData(bundle);
+//        handler.sendMessage(message);
         }
     }
 

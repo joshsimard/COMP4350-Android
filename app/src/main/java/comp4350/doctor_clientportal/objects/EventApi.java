@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -16,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.logging.Handler;
 
+import comp4350.doctor_clientportal.R;
 import comp4350.doctor_clientportal.presentation.LoginActivity;
 
 /**
@@ -31,6 +33,8 @@ public class EventApi extends AsyncTask<Void, String, String> {
     private Context context;
     public android.os.Handler handler;
 
+    //TextView uiUpdate = (TextView) findViewById(R.id.output);
+
     public EventApi(Context context, android.os.Handler handler){
         this.context=context;
         this.handler=handler;
@@ -39,6 +43,7 @@ public class EventApi extends AsyncTask<Void, String, String> {
     protected void onPreExecute() {
         //progressBar.setVisibility(View.VISIBLE);
         //responseView.setText("");
+
     }
 
     protected String doInBackground(Void... urls) {

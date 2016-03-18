@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:scrollbars="vertical"
+    android:background="@color/grey"
+    tools:context="comp4350.doctor_clientportal.presentation.ClientInfo"
+    android:nestedScrollingEnabled="false">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:id="@+id/header_relativeLayout">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="John Doe"
+            android:id="@+id/client_name_info"
+            android:layout_marginLeft="65dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="53dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="john@doe.com"
+            android:id="@+id/client_email_info"
+            android:layout_marginTop="15dp"
+            android:layout_below="@+id/client_name_info"
+            android:layout_alignLeft="@+id/client_name_info"
+            android:layout_alignStart="@+id/client_name_info" />
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="60px"
+            android:layout_below="@+id/client_email_info"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="419"
+            android:id="@+id/client_id_info"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="30px"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/header_relativeLayout"
+        android:background="@color/colorPrimaryDark" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/separator"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:id="@+id/body_relativeLayout">
+
+        <TextView
+            android:id="@+id/height_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Height: "
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            />
+
+        <TextView
+            android:id="@+id/client_height_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Weight"
+            android:id="@+id/weight_label"
+            android:layout_below="@+id/height_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="402dp"
+            android:layout_marginEnd="402dp" />
+
+        <TextView
+            android:id="@+id/client_weight_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:layout_below="@+id/height_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gender"
+            android:id="@+id/gender_label"
+            android:layout_below="@+id/weight_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="402dp"
+            android:layout_marginEnd="402dp" />
+
+        <TextView
+            android:id="@+id/client_gender_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:layout_below="@+id/weight_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DOB:"
+            android:id="@+id/dob_label"
+            android:layout_below="@+id/gender_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="402dp"
+            android:layout_marginEnd="402dp" />
+
+        <TextView
+            android:id="@+id/client_dob_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:layout_below="@+id/gender_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Occupation:"
+            android:id="@+id/occupation_label"
+            android:layout_below="@+id/dob_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="402dp"
+            android:layout_marginEnd="402dp" />
+
+        <TextView
+            android:id="@+id/client_occupation_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:layout_below="@+id/dob_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Marital:"
+            android:id="@+id/marital_status_label"
+            android:layout_below="@+id/occupation_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="402dp"
+            android:layout_marginEnd="402dp" />
+
+        <TextView
+            android:id="@+id/client_marital_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="N/A"
+            android:layout_below="@+id/occupation_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginStart="132dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/body_relativeLayout"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/symptoms_label"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Symptoms:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/client_symptoms_info"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:layout_marginLeft="57dp"
+            android:layout_marginStart="30dp"
+            android:text="N/A"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/symptoms_label"
+            android:layout_toEndOf="@+id/symptoms_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/allergies_label"
+            android:layout_marginTop="30dp"
+            android:layout_below="@+id/symptoms_label"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Allergies:"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/client_allergies_info"
+            android:textColor="@color/white"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="N/A"
+            android:layout_alignTop="@+id/allergies_label"
+            android:layout_alignLeft="@+id/client_symptoms_info"
+            android:layout_alignStart="@+id/client_symptoms_info" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

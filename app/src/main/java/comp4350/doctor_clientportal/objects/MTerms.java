@@ -3,22 +3,22 @@ package comp4350.doctor_clientportal.objects;
 /**
  * Created by joshsimard on 2016-03-16.
  */
-public class Note {
-    private String subject;
+public class MTerms {
+    private String name;
     private String body;
 
 
-    public Note(String subject, String body)
+    public MTerms(String name, String body)
     {
-        this.subject = subject;
+        this.name = name;
         this.body = body;
 
     }
 
     //getters
 
-    public String getSubject() {
-        return subject;
+    public String getName() {
+        return name;
     }
 
     public String getBody() {
@@ -31,7 +31,7 @@ public class Note {
         this.body = body;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setName(String name) {
+        this.name = name;
     }
 }

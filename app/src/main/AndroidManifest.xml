@@ -3,6 +3,8 @@
     package="comp4350.doctor_clientportal">
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -12,7 +14,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".presentation.LoginActivity"
             android:label="@string/app_name"
@@ -23,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ClientListActivity" />
         <activity android:name=".presentation.NoteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -34,7 +35,14 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".presentation.NoteDisplayActivity" />
-        <activity android:name=".presentation.AddNoteActivity"></activity>
+        <activity android:name=".presentation.AddNoteActivity" />
+        <activity android:name=".presentation.CalanderActivity" />
+        <activity android:name=".presentation.DoctorActivity" />
+        <activity android:name=".presentation.ClientActivity" />
+        <activity android:name=".presentation.EditClientActivity" />
+        <activity android:name=".presentation.ClientListActivity" />
+        <activity android:name=".presentation.ClientInfo" />
+        <activity android:name=".presentation.MedicalTermsActivity"></activity>
     </application>
 
 </manifest>

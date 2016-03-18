@@ -24,43 +24,36 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Note;
+import comp4350.doctor_clientportal.objects.MTerms;
 
-public class NoteActivity extends AppCompatActivity {
+public class MedicalTermsActivity extends AppCompatActivity {
 
-    private ArrayList<Note> noteList;
+    private ArrayList<MTerms> termList;
     static final String STATE_EVENT_LIST = null;
 
     private ArrayList<Integer> selectedPositions;
     private ListView list;
-    private View notesItemView;
+    private View termsItemView;
     private String listResult;
-    private ArrayAdapter<Note> noteArrayAdapter;
+    private ArrayAdapter<MTerms> termsArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
 
-    private String doctorID;
-    private Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note);
-        bundle = getIntent().getExtras();
-        if(bundle != null) {
-            doctorID =  bundle.getString("doctor_id");
-        }
-
-        populateClientList();
+        setContentView(R.layout.activity_medical_terms);
+        populateTermList();
     }
 
-    private void populateClientList()
+    private void populateTermList()
     {
-        noteList = new ArrayList<Note>();
+        termList = new ArrayList<MTerms>();
         //create request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, apiURL + "notes/"+doctorID, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, apiURL + "terms", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -69,12 +62,12 @@ public class NoteActivity extends AppCompatActivity {
                             for(int i=0; i<jsonArray.length(); i++){
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                noteList.add(new Note(json_data.getString("subject"), json_data.getString("body")));
+                                termList.add(new MTerms(json_data.getString("name"), json_data.getString("description")));
 
                             }
                             selectedPositions = new ArrayList<Integer>();
-                            System.out.println("This is the size " + noteList.size());
-                            for(int i = 0; i < noteList.size(); i++)
+                            System.out.println("This is the size " + termList.size());
+                            for(int i = 0; i < termList.size(); i++)
                                 selectedPositions.add(0);
 
                             populateListView();
@@ -87,7 +80,7 @@ public class NoteActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(NoteActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MedicalTermsActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         // Add the request to the RequestQueue.
@@ -95,11 +88,11 @@ public class NoteActivity extends AppCompatActivity {
 
     }
 
-    private class NoteArrayAdapter extends ArrayAdapter<Note>
+    private class MTermsArrayAdapter extends ArrayAdapter<MTerms>
     {
-        public NoteArrayAdapter()
+        public MTermsArrayAdapter()
         {
-            super(NoteActivity.this,R.layout.custom_notes_item, noteList);
+            super(MedicalTermsActivity.this,R.layout.custom_terms_item, termList);
 
         }
 
@@ -107,19 +100,19 @@ public class NoteActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent)
         {
 
-            notesItemView = convertView;
-            if(notesItemView == null)
-                notesItemView = getLayoutInflater().inflate(R.layout.custom_notes_item,parent, false);
+            termsItemView = convertView;
+            if(termsItemView == null)
+                termsItemView = getLayoutInflater().inflate(R.layout.custom_terms_item,parent, false);
 
-            Note currNote = noteList.get(position);
-            TextView subject_textview = (TextView) notesItemView.findViewById(R.id.subject_name);
-            subject_textview.setText(currNote.getSubject());
+            MTerms currTerm = termList.get(position);
+            TextView subject_textview = (TextView) termsItemView.findViewById(R.id.subject_name_mt);
+            subject_textview.setText(currTerm.getName());
 
-            TextView body_textview = (TextView) notesItemView.findViewById(R.id.note_body);
-            body_textview.setText(currNote.getBody());
+            TextView body_textview = (TextView) termsItemView.findViewById(R.id.term_body);
+            body_textview.setText(currTerm.getBody());
 
 
-            return notesItemView;
+            return termsItemView;
         }
 
     }
@@ -129,10 +122,10 @@ public class NoteActivity extends AppCompatActivity {
         if(listResult == null)
         {
 
-            noteArrayAdapter = new NoteArrayAdapter();
+            termsArrayAdapter = new MTermsArrayAdapter();
 
-            ListView courseListView = (ListView)findViewById(R.id.listNotes);
-            courseListView.setAdapter(noteArrayAdapter);
+            ListView courseListView = (ListView)findViewById(R.id.listTerms);
+            courseListView.setAdapter(termsArrayAdapter);
         }
         else
         {

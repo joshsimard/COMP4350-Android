@@ -2,6 +2,7 @@ package comp4350.doctor_clientportal.presentation;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +42,60 @@ public class EditClientActivity extends AppCompatActivity {
     {
 
         try {
-            TextView textView = (TextView)findViewById(R.id.client_fname_edit);
-            textView.setText(json_data.getString("firstName"));
+            TextView client_fname_textView = (TextView)findViewById(R.id.client_fname_edit);
+            client_fname_textView.setText(json_data.getString("firstName"));
 
-            textView = (TextView)findViewById(R.id.client_lname_edit);
-            textView.setText(json_data.getString("lastName"));
+            TextView client_lname_textView = (TextView)findViewById(R.id.client_lname_edit);
+            client_lname_textView.setText(json_data.getString("lastName"));
 
+            TextView client_email_textView = (TextView)findViewById(R.id.client_email_edit);
+            client_email_textView.setText(json_data.getString("email"));
+            client_email_textView.setEnabled(false);
+
+            TextView client_dob_textView = (TextView)findViewById(R.id.client_dob_edit);
+            client_dob_textView.setText(json_data.getString("dob"));
+
+            RadioGroup gender = (RadioGroup)findViewById(R.id.gender_radiogp);
+            if(json_data.getString("gender").equalsIgnoreCase("male"))
+                gender.check(R.id.male_radio_edit);
+            else if(json_data.getString("gender").equalsIgnoreCase("female"))
+                gender.check(R.id.female_radio_edit);
+
+            TextView client_height_textView = (TextView)findViewById(R.id.client_height_edit);
+            client_height_textView.setText(json_data.getString("height"));
+
+            TextView client_weight_textView = (TextView)findViewById(R.id.client_weight_edit);
+            client_weight_textView.setText(json_data.getString("weight"));
+
+            TextView client_phone_textView = (TextView)findViewById(R.id.client_phone_edit);
+            client_phone_textView.setText(json_data.getString("mobileNum"));
+
+            TextView client_home_phone_textView = (TextView)findViewById(R.id.client_phone_edit);
+            client_home_phone_textView.setText(json_data.getString("homeNum"));
+
+            TextView client_pobox_textView = (TextView)findViewById(R.id.client_pobox_edit);
+            client_pobox_textView.setText(json_data.getString("address"));
+
+            TextView client_city_textView = (TextView)findViewById(R.id.client_city_edit);
+            client_city_textView.setText(json_data.getString("city"));
+
+            TextView client_postal_textView = (TextView)findViewById(R.id.client_postal_edit);
+            client_postal_textView.setText(json_data.getString("postalCode"));
+
+            TextView client_state_textView = (TextView)findViewById(R.id.client_province_edit);
+            client_state_textView.setText(json_data.getString("state"));
+
+            TextView client_country_textView = (TextView)findViewById(R.id.client_country_edit);
+            client_country_textView.setText(json_data.getString("country"));
+
+            TextView client_occupation_textView = (TextView)findViewById(R.id.client_occupation_edit);
+            client_occupation_textView.setText(json_data.getString("occupation"));
+
+            TextView client_marital_textView = (TextView)findViewById(R.id.client_marital_edit);
+            client_marital_textView.setText(json_data.getString("maritalStatus"));
+
+            TextView client_kin_textView = (TextView)findViewById(R.id.client_next_kin_edit);
+            client_kin_textView.setText(json_data.getString("nextOfKin"));
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -65,8 +114,6 @@ public class EditClientActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject json_data = response.getJSONObject("data");
-                            Toast.makeText(EditClientActivity.this, json_data.getString("id"), Toast.LENGTH_LONG).show();
-
                            populateForm(json_data);
                         } catch (JSONException e) {
                             e.printStackTrace();

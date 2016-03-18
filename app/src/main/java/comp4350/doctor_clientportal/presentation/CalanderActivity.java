@@ -132,7 +132,7 @@ public class CalanderActivity extends AppCompatActivity {
             TextView event_title_textview = (TextView)eventItemView.findViewById(R.id.subject_name);
             event_title_textview.setText(currEven.getTitle());
 
-            TextView event_start_textview = (TextView)eventItemView.findViewById(R.id.notes_body);
+            TextView event_start_textview = (TextView)eventItemView.findViewById(R.id.note_body);
             event_start_textview.setText(currEven.getStartTime());
 
             //TextView event_end_textview = (TextView)eventItemView.findViewById(R.id.event_end_time);

@@ -11,43 +11,44 @@
         android:layout_height="wrap_content"
 
         android:contentDescription="Nada"
-        android:src="@drawable/calendar_icon"
+        android:src="@android:drawable/ic_input_get"
         android:adjustViewBounds="true"
         android:maxWidth="42dp"
         android:maxHeight="42dp"
-        android:layout_alignTop="@+id/subject_name"
+        android:layout_alignTop="@+id/subject_name_mt"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp" />
 
     <TextView
-        android:id="@+id/subject_name"
+        android:id="@+id/subject_name_mt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancer - Jane Doe"
+        android:text="Brain Damage"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/event_icon"
         android:layout_toEndOf="@+id/event_icon" />
 
     <TextView
-        android:id="@+id/note_body"
+        android:id="@+id/term_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Monday 5:00 am"
+        android:text="Nawa for you"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/subject_name"
-        android:layout_alignLeft="@+id/subject_name"
-        android:layout_alignStart="@+id/subject_name" />
+        android:layout_below="@+id/subject_name_mt"
+        android:layout_alignLeft="@+id/subject_name_mt"
+        android:layout_alignStart="@+id/subject_name_mt" />
 
     <Space
         android:layout_width="20px"
-        android:layout_height="40px"
+        android:layout_height="60px"
         android:layout_below="@+id/note_body"
         android:layout_alignLeft="@+id/event_icon"
-        android:layout_alignStart="@+id/event_icon" />
+        android:layout_alignStart="@+id/event_icon"
+        android:id="@+id/space" />
 
 </RelativeLayout>

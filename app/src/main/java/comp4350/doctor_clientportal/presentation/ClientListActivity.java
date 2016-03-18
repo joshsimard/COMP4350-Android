@@ -138,7 +138,7 @@ public class ClientListActivity extends AppCompatActivity {
             TextView client_name_textview = (TextView) clientItemView.findViewById(R.id.subject_name);
             client_name_textview.setText(currClient.getClientName());
 
-            TextView client_email_textview = (TextView) clientItemView.findViewById(R.id.notes_body);
+            TextView client_email_textview = (TextView) clientItemView.findViewById(R.id.note_body);
             client_email_textview.setText(currClient.getClientEmail());
 
             TextView client_id_textview = (TextView) clientItemView.findViewById(R.id.client_id);

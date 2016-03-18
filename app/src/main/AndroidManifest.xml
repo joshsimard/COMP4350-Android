@@ -41,7 +41,8 @@
         <activity android:name=".presentation.ClientActivity" />
         <activity android:name=".presentation.EditClientActivity" />
         <activity android:name=".presentation.ClientListActivity" />
-        <activity android:name=".presentation.ClientInfo"></activity>
+        <activity android:name=".presentation.ClientInfo" />
+        <activity android:name=".presentation.MedicalTermsActivity"></activity>
     </application>
 
 </manifest>

@@ -34,7 +34,7 @@
         android:layout_toEndOf="@+id/event_icon" />
 
     <TextView
-        android:id="@+id/notes_body"
+        android:id="@+id/note_body"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Monday 5:00 am"
@@ -46,7 +46,7 @@
     <Space
         android:layout_width="20px"
         android:layout_height="40px"
-        android:layout_below="@+id/notes_body"
+        android:layout_below="@+id/note_body"
         android:layout_alignLeft="@+id/event_icon"
         android:layout_alignStart="@+id/event_icon"
         android:id="@+id/space" />

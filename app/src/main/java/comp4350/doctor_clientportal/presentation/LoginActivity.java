@@ -125,26 +125,32 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             public void onResponse(JSONObject response) {
                                 try {
                                     //JSONArray jsonArray = response.getJSONArray("data");
+                                    //Toast.makeText(LoginActivity.this, response.getString("data"), Toast.LENGTH_LONG).show();
 
-                                        JSONObject result = response.getJSONObject("data");
 
                                         //Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
                                         //clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
                                     Intent intent;
-                                    if(result.getString("admin").toString().equalsIgnoreCase("1")) {
-                                        Toast.makeText(LoginActivity.this, "Welcome Doctor:"+result.getString("id").toString(), Toast.LENGTH_LONG).show();
+                                    if (response.getString("data").equalsIgnoreCase("Invalid"))
+                                    {
+                                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                                    }
+                                    else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("1")) {
+                                        JSONObject result = response.getJSONObject("data");
+                                        Toast.makeText(LoginActivity.this, "Welcome Doctor", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, DoctorActivity.class);
                                         intent.putExtra("doctor_id",result.getString("id").toString()); //pass id
                                         startActivity(intent);
                                     }
-                                    else if(result.getString("admin").toString().equalsIgnoreCase("0")) {
+                                    else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("0")) {
+                                        JSONObject result = response.getJSONObject("data");
                                         Toast.makeText(LoginActivity.this, "Welcome Client", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, ClientActivity.class);
                                         intent.putExtra("client_id",result.getString("id").toString()); //pass id
                                         startActivity(intent);
                                     }
-                                    else
-                                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                                    //else
+                                       // Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
 
 
                                 } catch (JSONException e) {

@@ -28,6 +28,7 @@
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
             android:scrollbarAlwaysDrawVerticalTrack="true">
 
             <!-- firstName-->
@@ -73,13 +74,15 @@
                 android:layout_below="@id/lname_view">
 
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/client_email_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:enabled="false"
+                    android:editable="false" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -206,7 +209,7 @@
                     android:id="@+id/client_pobox_edit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="P.O. Box"
+                    android:hint="P.O. Box, Street Address"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true" />
@@ -326,6 +329,7 @@
                 android:id="@+id/next_kin_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_below="@id/marital_view">
 
                 <AutoCompleteTextView

@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.Button;
 
 import comp4350.doctor_clientportal.R;
+import comp4350.doctor_clientportal.objects.MTerms;
 
 public class DoctorActivity extends AppCompatActivity {
 
     Button view_client_button;
     Button appointments_button;
     Button notes_button;
+    Button mterms_button;
     private String doctorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,7 @@ public class DoctorActivity extends AppCompatActivity {
         view_client_button = (Button)findViewById(R.id.edit_info_button);
         appointments_button = (Button)findViewById(R.id.appointment_button_cl);
         notes_button = (Button)findViewById(R.id.notes_button);
+        mterms_button = (Button)findViewById(R.id.mterms_button);
     }
 
     private void addActionListeners()
@@ -61,6 +64,16 @@ public class DoctorActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(DoctorActivity.this, NoteActivity.class);
                 intent.putExtra("doctor_id", doctorID);
+                startActivity(intent);
+            }
+        });
+
+        //mterms button
+        mterms_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
+                //intent.putExtra("doctor_id", doctorID);
                 startActivity(intent);
             }
         });

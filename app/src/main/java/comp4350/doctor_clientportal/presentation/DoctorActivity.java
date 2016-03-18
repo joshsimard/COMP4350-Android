@@ -13,11 +13,15 @@ public class DoctorActivity extends AppCompatActivity {
     Button view_client_button;
     Button appointments_button;
     Button notes_button;
-
+    private String doctorID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            doctorID =  bundle.getString("doctor_id");
+        }
         intt();
         addActionListeners();
     }
@@ -35,7 +39,7 @@ public class DoctorActivity extends AppCompatActivity {
         view_client_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorActivity.this, ClientListActivity2.class);
+                Intent intent = new Intent(DoctorActivity.this, ClientListActivity.class);
                 startActivity(intent);
                 //finish();
             }
@@ -56,8 +60,8 @@ public class DoctorActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DoctorActivity.this, NoteActivity.class);
+                intent.putExtra("doctor_id", doctorID);
                 startActivity(intent);
-                //finish();
             }
         });
     }

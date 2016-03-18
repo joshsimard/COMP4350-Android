@@ -52,7 +52,7 @@
     <string name="title_activity_add_note">AddNoteActivity</string>
 
     <string name="action_add_note">Add</string>
-    <string name="prompt_title">Add a clientName...</string>
+    <string name="prompt_title">Add a subject...</string>
     <string name="prompt_body">Add a message...</string>
     <string name="title_activity_calander">CalanderActivity</string>
 

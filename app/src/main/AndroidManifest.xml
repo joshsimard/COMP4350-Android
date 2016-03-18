@@ -25,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.ClientListActivity" />
         <activity android:name=".presentation.NoteActivity">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
@@ -41,7 +40,7 @@
         <activity android:name=".presentation.DoctorActivity" />
         <activity android:name=".presentation.ClientActivity" />
         <activity android:name=".presentation.EditClientActivity" />
-        <activity android:name=".presentation.ClientListActivity2" />
+        <activity android:name=".presentation.ClientListActivity" />
         <activity android:name=".presentation.ClientInfo"></activity>
     </application>
 

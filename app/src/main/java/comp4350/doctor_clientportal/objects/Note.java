@@ -4,63 +4,34 @@ package comp4350.doctor_clientportal.objects;
  * Created by joshsimard on 2016-03-16.
  */
 public class Note {
-    private String title;
-    private String description;
-    private int nID;
+    private String subject;
+    private String body;
 
-    public Note()
+
+    public Note(String subject, String body)
     {
-        nID = 0;
-        title = null;
-        description = null;
+        this.subject = subject;
+        this.body = body;
+
     }
 
-    public Note(int nID, String title, String description)
-    {
-        this.nID = nID;
-        this.title = title;
-        this.description = description;
-        if(this.title == null || this.title.equalsIgnoreCase(""))
-        {
-            this.title = "(Unknown)";
-        }
-        if(this.description == null || this.description.equalsIgnoreCase(""))
-        {
-            this.description = "(Unknown)";
-        }
+    //getters
+
+    public String getSubject() {
+        return subject;
     }
 
-    public boolean equalsForSearch(String noteTitle)
-    {
-        return title.equalsIgnoreCase(noteTitle);
+    public String getBody() {
+        return body;
     }
 
-    public int getnID() {return nID;}
+    //setters
 
-    public String getTitle()
-    {
-        return title;
+    public void setBody(String body) {
+        this.body = body;
     }
 
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setnID(int nID) {this.nID = nID;}
-
-    public void setTitle(String title) {this.title = title;}
-
-    public void setDescription(String description) {this.description = description;}
-
-    public Note copy()
-    {
-        Note result = new Note();
-
-        result.setnID(nID);
-        result.setTitle(title);
-        result.setDescription(description);
-        return result;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 }

@@ -1,102 +1,146 @@
 package comp4350.doctor_clientportal.presentation;
 
-import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 import comp4350.doctor_clientportal.R;
+import comp4350.doctor_clientportal.objects.Client;
 import comp4350.doctor_clientportal.objects.Note;
 
 public class NoteActivity extends AppCompatActivity {
 
-    final Context CONTEXT = this;
+    private ArrayList<Note> noteList;
+    static final String STATE_EVENT_LIST = null;
 
-    Note note;
-    private Button button;
-    private String search;
+    private ArrayList<Integer> selectedPositions;
+    private ListView list;
+    private View notesItemView;
+    private String listResult;
+    private ArrayAdapter<Note> noteArrayAdapter;
+    public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
+    public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
 
+    private String doctorID;
+    private Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
-
-        button = (Button)findViewById(R.id.search_button);
-        //Todo: Get list of all games
-
-        addListenerOnButton();
-
-        //createGUI();
-    }
-
-    private void addListenerOnButton(){
-        button = (Button)findViewById(R.id.search_button);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //getselectedItem
-                EditText searchField = (EditText) findViewById(R.id.search_field);
-                search = searchField.getText().toString();
-                displayNotePage(search);
-            }
-        });
-    }
-
-    private void displayNotePage(String name){
-        final Context context = this;
-
-        //Todo: use api to search a name with a given string
-        note = new Note(0, "This is the title.", "This is the description.");
-        //note = null;
-
-        if(note != null)
-        {
-            Intent intent = new Intent(context, NoteDisplayActivity.class);
-            Bundle b = new Bundle();
-            b.putString("name", name);
-            intent.putExtras(b);
-            startActivity(intent);
-        } else {
-            Toast toast = Toast.makeText(this, "Not found.", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.TOP|Gravity.CENTER_HORIZONTAL, 0, 800);
-            toast.show();
+        bundle = getIntent().getExtras();
+        if(bundle != null) {
+            doctorID =  bundle.getString("doctor_id");
         }
+
+        populateClientList();
     }
 
+    private void populateClientList()
+    {
+        noteList = new ArrayList<Note>();
+        //create request queue
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.GET, apiURL + "notes/"+doctorID, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("data");
+                            for(int i=0; i<jsonArray.length(); i++){
+                                JSONObject json_data = jsonArray.getJSONObject(i);
+
+                                noteList.add(new Note(json_data.getString("subject"), json_data.getString("body")));
+
+                            }
+                            selectedPositions = new ArrayList<Integer>();
+                            System.out.println("This is the size " + noteList.size());
+                            for(int i = 0; i < noteList.size(); i++)
+                                selectedPositions.add(0);
+
+                            populateListView();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(NoteActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        // Add the request to the RequestQueue.
+        queue.add(jsObjRequest);
+
+    }
+
+    private class NoteArrayAdapter extends ArrayAdapter<Note>
+    {
+        public NoteArrayAdapter()
+        {
+            super(NoteActivity.this,R.layout.custom_notes_item, noteList);
+
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent)
+        {
+
+            notesItemView = convertView;
+            if(notesItemView == null)
+                notesItemView = getLayoutInflater().inflate(R.layout.custom_notes_item,parent, false);
+
+            Note currNote = noteList.get(position);
+            TextView subject_textview = (TextView) notesItemView.findViewById(R.id.subject_name);
+            subject_textview.setText(currNote.getSubject());
+
+            TextView body_textview = (TextView) notesItemView.findViewById(R.id.notes_body);
+            body_textview.setText(currNote.getBody());
 
 
-//        <TextView
-//        android:id="@+id/secondLine"
-//        android:layout_width="fill_parent"
-//        android:layout_height="26dip"
-//        android:layout_alignParentBottom="true"
-//        android:layout_alignParentRight="true"
-//        android:layout_toRightOf="@id/icon"
-//        android:ellipsize="marquee"
-//        android:singleLine="true"
-//        android:text="Description"
-//        android:textSize="12sp" />
-//
-//        <TextView
-//        android:id="@+id/firstLine"
-//        android:layout_width="fill_parent"
-//        android:layout_height="wrap_content"
-//        android:layout_above="@id/secondLine"
-//        android:layout_alignParentRight="true"
-//        android:layout_alignParentTop="true"
-//        android:layout_alignWithParentIfMissing="true"
-//        android:layout_toRightOf="@id/icon"
-//        android:gravity="center_vertical"
-//        android:text="Example application"
-//        android:textSize="16sp" />
-//
-//        </RelativeLayout>
+            return notesItemView;
+        }
+
+    }
+    private void populateListView()
+    {
+
+        if(listResult == null)
+        {
+
+            noteArrayAdapter = new NoteArrayAdapter();
+
+            ListView courseListView = (ListView)findViewById(R.id.listNotes);
+            courseListView.setAdapter(noteArrayAdapter);
+        }
+        else
+        {
+            Log.i("ERROR", "nawa");
+        }
+
+    }
 }

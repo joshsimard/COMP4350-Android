@@ -24,7 +24,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Client;
 import comp4350.doctor_clientportal.objects.Event;
 
 public class CalanderActivity extends AppCompatActivity {
@@ -64,7 +63,7 @@ public class CalanderActivity extends AppCompatActivity {
                             for(int i=0; i<jsonArray.length(); i++){
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                // Toast.makeText(ClientListActivity2.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
+                                // Toast.makeText(ClientListActivity.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
                                 //clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
 
                                 eventList.add(new Event(json_data.getString("title"),json_data.getString("start_time").substring(0,23),json_data.getString("end_time").substring(0,23)));
@@ -130,10 +129,10 @@ public class CalanderActivity extends AppCompatActivity {
                 eventItemView = getLayoutInflater().inflate(R.layout.custom_event_item,parent, false);
 
             Event currEven = eventList.get(position);
-            TextView event_title_textview = (TextView)eventItemView.findViewById(R.id.client_name);
+            TextView event_title_textview = (TextView)eventItemView.findViewById(R.id.subject_name);
             event_title_textview.setText(currEven.getTitle());
 
-            TextView event_start_textview = (TextView)eventItemView.findViewById(R.id.client_email);
+            TextView event_start_textview = (TextView)eventItemView.findViewById(R.id.notes_body);
             event_start_textview.setText(currEven.getStartTime());
 
             //TextView event_end_textview = (TextView)eventItemView.findViewById(R.id.event_end_time);

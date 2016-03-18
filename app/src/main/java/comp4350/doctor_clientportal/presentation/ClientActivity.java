@@ -12,12 +12,16 @@ public class ClientActivity extends AppCompatActivity {
 
     Button edit_info_button;
     Button appointments_button;
-    Button idk_button;
+    private String clientID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            clientID =  bundle.getString("client_id");
+        }
         intt();
         addActionListeners();
     }
@@ -26,7 +30,6 @@ public class ClientActivity extends AppCompatActivity {
     {
         edit_info_button = (Button)findViewById(R.id.edit_info_button);
         appointments_button = (Button)findViewById(R.id.appointment_button_cl);
-        idk_button = (Button)findViewById(R.id.idk_button);
     }
 
     private void addActionListeners()
@@ -36,8 +39,8 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClientActivity.this, EditClientActivity.class);
+                intent.putExtra("client_id", clientID);
                 startActivity(intent);
-                //finish();
             }
         });
 
@@ -47,18 +50,8 @@ public class ClientActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ClientActivity.this, CalanderActivity.class);
                 startActivity(intent);
-                //finish();
             }
         });
 
-        //notes button
-        idk_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ClientActivity.this, NoteActivity.class);
-                startActivity(intent);
-                //finish();
-            }
-        });
     }
 }

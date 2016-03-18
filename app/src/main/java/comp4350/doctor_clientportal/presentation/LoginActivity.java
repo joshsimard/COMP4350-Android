@@ -80,7 +80,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-    private Button button;
 
     public final static String EXTRA_MESSAGE = "CalEvents";
     public static String apiEvents = "";
@@ -127,17 +126,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 try {
                                     //JSONArray jsonArray = response.getJSONArray("data");
 
-                                        String result = response.getString("data");
+                                        JSONObject result = response.getJSONObject("data");
 
-                                        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
+                                        //Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
                                         //clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
                                     Intent intent;
-                                    if(result.toString().equalsIgnoreCase("Doctor")) {
+                                    if(result.getString("admin").toString().equalsIgnoreCase("1")) {
+                                        Toast.makeText(LoginActivity.this, "Welcome Doctor:"+result.getString("id").toString(), Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, DoctorActivity.class);
+                                        intent.putExtra("doctor_id",result.getString("id").toString()); //pass id
                                         startActivity(intent);
                                     }
-                                    else if(result.toString().equalsIgnoreCase("client")) {
+                                    else if(result.getString("admin").toString().equalsIgnoreCase("0")) {
+                                        Toast.makeText(LoginActivity.this, "Welcome Client", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, ClientActivity.class);
+                                        intent.putExtra("client_id",result.getString("id").toString()); //pass id
                                         startActivity(intent);
                                     }
                                     else
@@ -166,33 +169,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-
-        button = (Button)findViewById(R.id .action_test);
-        addListenerOnButton();
-    }
-
-    private void addListenerOnButton()
-    {
-        button = (Button) findViewById(R.id.action_test);
-
-        button.setOnClickListener(new OnClickListener()
-        {
-            public void onClick(View arg0)
-            {
-                displayClientListPage();
-            }
-        });
-    }
-
-    private void displayClientListPage()
-    {
-        final Context context = this;
-
-        Intent intent = new Intent(context, ClientListActivity.class);
-        Bundle b = new Bundle();
-        b.putString("name","ClientList");
-        intent.putExtras(b);
-        startActivity(intent);
     }
 
     private void populateAutoComplete() {

@@ -1,5 +1,6 @@
 package comp4350.doctor_clientportal.presentation;
 import comp4350.doctor_clientportal.R;
+import comp4350.doctor_clientportal.objects.Client;
 import comp4350.doctor_clientportal.objects.EventApi;
 
 import android.animation.Animator;
@@ -34,6 +35,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     public final static String EXTRA_MESSAGE = "CalEvents";
     public static String apiEvents = "";
     private   android.os.Handler handler;
+    public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,31 +114,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View view) {
                 //attemptLogin();
 
+                //create request queue
+                final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                //login?email=john@doe.com&password=password
+                final String login = "login?email=" + mEmailView.getText().toString() +"&password=" + mPasswordView.getText().toString();
 
-//                EventApi runner = new EventApi(getApplicationContext(), new android.os.Handler());
-                //String sleepTime = time.getText().toString();
-//                runner.execute();
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                        (Request.Method.POST, apiURL + login, null, new Response.Listener<JSONObject>() {
 
-//                final String[] message = {""};
-//                handler = new android.os.Handler() {
-//                    @Override
-//                    public void handleMessage(Message msg) {
-//                        message[0] = msg.getData().getString("file"); // You can change this according to your requirement.
-//
-//                    }
-//                };
-                //Intent intent = getIntent();
-                //String message = apiEvents; //intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
-                //handler.handleMessage(runner.handler.obtainMessage());
-                //Toast.makeText(LoginActivity.this,message[0], Toast.LENGTH_LONG).show();
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    //JSONArray jsonArray = response.getJSONArray("data");
 
-                Intent intent;
-                if(mEmailView.getText().toString().equalsIgnoreCase("Dr"))
-                    intent = new Intent(LoginActivity.this, DoctorActivity.class);
-                else
-                    intent = new Intent(LoginActivity.this, ClientActivity.class);
+                                        String result = response.getString("data");
 
-                startActivity(intent);
+                                        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
+                                        //clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
+                                    Intent intent;
+                                    if(result.toString().equalsIgnoreCase("Doctor")) {
+                                        intent = new Intent(LoginActivity.this, DoctorActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else if(result.toString().equalsIgnoreCase("client")) {
+                                        intent = new Intent(LoginActivity.this, ClientActivity.class);
+                                        startActivity(intent);
+                                    }
+                                    else
+                                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO Auto-generated method stub
+                                //uiUpdate.setText("Response: " + error.toString());
+                                Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                // Add the request to the RequestQueue.
+                queue.add(jsObjRequest);
+
+
             }
         });
 

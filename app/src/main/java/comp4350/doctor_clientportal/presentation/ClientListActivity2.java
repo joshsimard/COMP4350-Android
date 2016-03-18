@@ -84,7 +84,7 @@ public class ClientListActivity2 extends AppCompatActivity {
                                     for(int i=0; i<jsonArray.length(); i++){
                                         JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                        Toast.makeText(ClientListActivity2.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
+                                       // Toast.makeText(ClientListActivity2.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
                                         clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
 
 //                                        Log.i("log_tag", "_id" + json_data.getInt("account") +

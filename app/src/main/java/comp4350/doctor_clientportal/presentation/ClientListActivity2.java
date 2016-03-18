@@ -6,8 +6,21 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -24,6 +37,8 @@ public class ClientListActivity2 extends AppCompatActivity {
     private View clientItemView;
     private String listResult;
     private ArrayAdapter<Client> clientArrayAdapter;
+    public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
+    public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +51,82 @@ public class ClientListActivity2 extends AppCompatActivity {
     private void populateClientList()
     {
         clientList = new ArrayList<Client>();
+        //Reading JSON
+//        JSONObject json = new JSONObject(jsonString);
+//        JSONArray jArray = json.getJSONArray("list");
+//
+//        System.out.println("*****JARRAY*****" + jArray.length());
+//
+//        for(int i=0; i<jArray.length(); i++){
+//            JSONObject json_data = jArray.getJSONObject(i);
+//
+//            Log.i("log_tag", "_id" + json_data.getInt("account") +
+//                            ", mall_name" + json_data.getString("name") +
+//                            ", location" + json_data.getString("number") +
+//                            ", telephone" + json_data.getString("url") +
+//                            ",----" + json_data.getString("balance") +
+//                            ",----" + json_data.getString("credit") +
+//                            ",----" + json_data.getString("displayName")
+//            );
+//        }
+
+        //create request queue
+        final RequestQueue queue = Volley.newRequestQueue(this);
+
+                JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                        (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONArray jsonArray = response.getJSONArray("data");
+                                    Toast.makeText(ClientListActivity2.this, jsonArray.length() + "", Toast.LENGTH_LONG).show();
+                                    for(int i=0; i<jsonArray.length(); i++){
+                                        JSONObject json_data = jsonArray.getJSONObject(i);
+
+                                        clientList.add(new Client(json_data.getString("firstName") + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
+
+//                                        Log.i("log_tag", "_id" + json_data.getInt("account") +
+//                                                        ", mall_name" + json_data.getString("name") +
+//                                                        ", location" + json_data.getString("number") +
+//                                                        ", telephone" + json_data.getString("url") +
+//                                                        ",----" + json_data.getString("balance") +
+//                                                        ",----" + json_data.getString("credit") +
+//                                                        ",----" + json_data.getString("displayName")
+//                                        );
+                                    }
+                                    selectedPositions = new ArrayList<Integer>();
+                                    System.out.println("This is the size " + clientList.size());
+                                    for(int i = 0; i < clientList.size(); i++)
+                                        selectedPositions.add(0);
+
+                                    //uiUpdate.setText("Response: " + response.getJSONArray("data"));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }, new Response.ErrorListener() {
+
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                // TODO Auto-generated method stub
+                                //uiUpdate.setText("Response: " + error.toString());
+                                Toast.makeText(ClientListActivity2.this, error.toString(), Toast.LENGTH_LONG).show();
+                            }
+                        });
+                // Add the request to the RequestQueue.
+                queue.add(jsObjRequest);
+           // }
+        //});
 
         //listResult = accessCourses.getCourses(courseList);
 
-        for(int i = 0; i < 5; i++)
-        {
-            clientList.add(new Client("Cancer Patient" + i + 1, "jane@yeloo.com", "419"));
-        }
+//        for(int i = 0; i < 5; i++)
+//        {
+//            clientList.add(new Client("Cancer Patient" + i + 1, "jane@yeloo.com", "419"));
+//        }
 
-        selectedPositions = new ArrayList<Integer>();
-        System.out.println("This is the size " + clientList.size());
-        for(int i = 0; i < clientList.size(); i++)
-            selectedPositions.add(0);
+
     }
 
     private class ClientArrayAdapter extends ArrayAdapter<Client>

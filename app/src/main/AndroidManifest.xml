@@ -13,7 +13,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@style/AppTheme">
         <activity
             android:name=".presentation.LoginActivity"
             android:label="@string/app_name"
@@ -35,7 +35,12 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity android:name=".presentation.NoteDisplayActivity" />
-        <activity android:name=".presentation.AddNoteActivity"></activity>
+        <activity android:name=".presentation.AddNoteActivity" />
+        <activity android:name=".presentation.CalanderActivity" />
+        <activity android:name=".presentation.DoctorActivity" />
+        <activity android:name=".presentation.ClientActivity" />
+        <activity android:name=".presentation.EditClientActivity" />
+        <activity android:name=".presentation.ClientListActivity2"></activity>
     </application>
 
 </manifest>

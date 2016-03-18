@@ -52,6 +52,12 @@
     <string name="title_activity_add_note">AddNoteActivity</string>
 
     <string name="action_add_note">Add</string>
-    <string name="prompt_title">Add a title...</string>
+    <string name="prompt_title">Add a clientName...</string>
     <string name="prompt_body">Add a message...</string>
+    <string name="title_activity_calander">CalanderActivity</string>
+
+    <!-- Strings related to client form -->
+    <string name="prompt_height">Email</string>
+    <string name="prompt_weight">Email</string>
+    <!--<string name="prompt_height">Email</string>-->
 </resources>

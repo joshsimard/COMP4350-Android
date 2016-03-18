@@ -102,9 +102,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //attemptLogin();
 
 
-                EventApi runner = new EventApi(getApplicationContext(), new android.os.Handler());
+//                EventApi runner = new EventApi(getApplicationContext(), new android.os.Handler());
                 //String sleepTime = time.getText().toString();
-                runner.execute();
+//                runner.execute();
 
 //                final String[] message = {""};
 //                handler = new android.os.Handler() {
@@ -118,6 +118,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 //String message = apiEvents; //intent.getStringExtra(LoginActivity.EXTRA_MESSAGE);
                 //handler.handleMessage(runner.handler.obtainMessage());
                 //Toast.makeText(LoginActivity.this,message[0], Toast.LENGTH_LONG).show();
+
+                Intent intent;
+                if(mEmailView.getText().toString().equalsIgnoreCase("Dr"))
+                    intent = new Intent(LoginActivity.this, DoctorActivity.class);
+                else
+                    intent = new Intent(LoginActivity.this, ClientActivity.class);
+
+                startActivity(intent);
             }
         });
 

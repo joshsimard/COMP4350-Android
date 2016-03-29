@@ -1,10 +1,7 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,12 +17,8 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Client;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,7 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView lName_view;
     TextView email_view;
     TextView password_view;
-    TextView passwword_cfm_view;
+    TextView password_cfm_view;
     Button register_button;
 
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
@@ -52,7 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
         lName_view = (TextView)findViewById(R.id.client_lname_edit);
         email_view = (TextView)findViewById(R.id.client_email_edit);
         password_view = (TextView)findViewById(R.id.password_view_rg);
-        passwword_cfm_view = (TextView)findViewById(R.id.password_cfm_view_rg);
+        password_cfm_view = (TextView)findViewById(R.id.password_cfm_view_rg);
         register_button = (Button)findViewById(R.id.submit_button);
     }
 
@@ -63,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if (!(password_view.getText().toString().equalsIgnoreCase(passwword_cfm_view.getText().toString()))) {
+                if (!(password_view.getText().toString().equalsIgnoreCase(password_cfm_view.getText().toString()))) {
                     Toast.makeText(RegisterActivity.this, "Password Mismatch", Toast.LENGTH_LONG).show();
                 } else if (attemptRegister()) {
                     //create request queue
@@ -137,9 +130,9 @@ public class RegisterActivity extends AppCompatActivity {
             password_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
-        if (passwword_cfm_view.getText().toString().isEmpty())
+        if (password_cfm_view.getText().toString().isEmpty())
         {
-            passwword_cfm_view.setError(getString(R.string.error_field_required));
+            password_cfm_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
 

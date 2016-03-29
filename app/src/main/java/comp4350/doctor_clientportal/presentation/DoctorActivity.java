@@ -28,9 +28,10 @@ public class DoctorActivity extends AppCompatActivity
     TextView username_textview;
     View headerView;
 
-    private String doctorID;
-    private String doctorName;
-    private String doctorEmail;
+    private int admin = 1;
+    private String userID;
+    private String userName;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +52,16 @@ public class DoctorActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
+        navigationView.getMenu().getItem(5).setVisible(false);
+        navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            doctorID =  bundle.getString("doctor_id");
-            doctorName =  bundle.getString("doctor_name");
-            doctorEmail =  bundle.getString("doctor_email");
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
         }
 
         intt();
@@ -98,17 +104,17 @@ public class DoctorActivity extends AppCompatActivity
     {
 
         //initialize ui elements
-        view_client_button = (Button)findViewById(R.id.edit_info_button);
+        view_client_button = (Button)findViewById(R.id.edit_info_button_cl);
         appointments_button = (Button)findViewById(R.id.appointment_button_cl);
         notes_button = (Button)findViewById(R.id.notes_button);
         medlist_button = (Button)findViewById(R.id.mterms_button);
         profile_email = (TextView)findViewById(R.id.profile_email);
 
         email_textview = (TextView)headerView.findViewById(R.id.profile_email);
-        email_textview.setText(doctorEmail);
+        email_textview.setText(userEmail);
 
         username_textview = (TextView)headerView.findViewById(R.id.user_name);
-        username_textview.setText(doctorName);
+        username_textview.setText(userName);
 
     }
 
@@ -141,7 +147,7 @@ public class DoctorActivity extends AppCompatActivity
             }
         });
 
-        //mterms button
+        //medlist button
         medlist_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,9 +159,10 @@ public class DoctorActivity extends AppCompatActivity
 
     private void defaultIntentMessage(Intent intent)
     {
-        intent.putExtra("doctor_id", doctorID);
-        intent.putExtra("doctor_name", doctorName);
-        intent.putExtra("doctor_email", doctorEmail);
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
         startActivity(intent);
     }
 
@@ -179,11 +186,6 @@ public class DoctorActivity extends AppCompatActivity
         {
             Intent intent = new Intent(DoctorActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_terms)
-        {
-//            Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
-//            startActivity(intent);
         }
         else if (id == R.id.nav_logout)
         {

@@ -46,10 +46,11 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
 
     View headerView;
-
-    private String doctorID;
-    private String doctorName;
-    private String doctorEmail;
+    NavigationView navigationView;
+    private String userID;
+    private String userName;
+    private String userEmail;
+    private int admin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,18 +69,25 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(2).setChecked(true);
+
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            doctorID =  bundle.getString("doctor_id");
-            doctorName =  bundle.getString("doctor_name");
-            doctorEmail =  bundle.getString("doctor_email");
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
+            admin = bundle.getInt("admin");
         }
+
+        // set drawer "appointment" item to selected
+        if(admin == 1)
+            navigationView.getMenu().getItem(2).setChecked(true);
+        else
+            navigationView.getMenu().getItem(7).setChecked(true);
 
         initt();
         populateEventList();
@@ -87,11 +95,28 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
 
     private void initt()
     {
+        //init drawer
+        if(admin == 1)
+        {
+            navigationView.getMenu().getItem(5).setVisible(false);
+            navigationView.getMenu().getItem(6).setVisible(false);
+            navigationView.getMenu().getItem(7).setVisible(false);
+            navigationView.getMenu().getItem(8).setVisible(false);
+        }
+        else
+        {
+            navigationView.getMenu().getItem(0).setVisible(false);
+            navigationView.getMenu().getItem(1).setVisible(false);
+            navigationView.getMenu().getItem(2).setVisible(false);
+            navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
+        }
+
         TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
-        email_textview.setText(doctorEmail);
+        email_textview.setText(userEmail);
 
         TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
-        username_textview.setText(doctorName);
+        username_textview.setText(userName);
     }
 
     private void populateEventList()
@@ -209,9 +234,10 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
 
     private void defaultIntentMessage(Intent intent)
     {
-        intent.putExtra("doctor_id", doctorID);
-        intent.putExtra("doctor_name", doctorName);
-        intent.putExtra("doctor_email", doctorEmail);
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
         startActivity(intent);
     }
 
@@ -246,10 +272,20 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(CalanderActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
-        else if (id == R.id.nav_terms)
+        else if (id == R.id.nav_mterms_cl)
         {
-            //Intent intent = new Intent(CalanderActivity.this, MedicalTermsActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(CalanderActivity.this, MedicalTermsActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_edit_cl)
+        {
+            Intent intent = new Intent(CalanderActivity.this, EditClientActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_home_cl)
+        {
+            Intent intent = new Intent(CalanderActivity.this, ClientActivity.class);
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_logout)
         {

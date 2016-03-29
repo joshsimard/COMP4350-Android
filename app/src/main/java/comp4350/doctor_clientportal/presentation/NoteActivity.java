@@ -49,9 +49,10 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
     private View headerView;
 
-    private String doctorID;
-    private String doctorName;
-    private String doctorEmail;
+    private int admin = 1;
+    private String userID;
+    private String userName;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,6 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
         //select which layout to display
         findViewById(R.id.include_file).setVisibility(View.GONE);
-        //findViewById(R.id.include_appoint_view).setVisibility(View.GONE);
-        //findViewById(R.id.include_client_list_view).setVisibility(View.GONE);
         findViewById(R.id.include_notes_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,11 +77,16 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(3).setChecked(true);
 
+        navigationView.getMenu().getItem(5).setVisible(false);
+        navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            doctorID =  bundle.getString("doctor_id");
-            doctorName =  bundle.getString("doctor_name");
-            doctorEmail =  bundle.getString("doctor_email");
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
         }
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -101,10 +105,10 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
     private void initt()
     {
         TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
-        email_textview.setText(doctorEmail);
+        email_textview.setText(userEmail);
 
         TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
-        username_textview.setText(doctorName);
+        username_textview.setText(userName);
     }
 
     private void populateClientList()
@@ -114,7 +118,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, apiURL + "notes/"+doctorID, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, apiURL + "notes/"+ userID, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -198,9 +202,10 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
     private void defaultIntentMessage(Intent intent)
     {
-        intent.putExtra("doctor_id", doctorID);
-        intent.putExtra("doctor_name", doctorName);
-        intent.putExtra("doctor_email", doctorEmail);
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
         startActivity(intent);
     }
 

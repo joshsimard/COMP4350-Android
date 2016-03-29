@@ -1,16 +1,13 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +18,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,11 +48,12 @@ public class ClientListActivity extends AppCompatActivity
     private ArrayAdapter<Client> clientArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
-    View headerView;
+    private View headerView;
 
-    private String doctorID;
-    private String doctorName;
-    private String doctorEmail;
+    private String userID;
+    private String userName;
+    private int admin = 1;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -81,11 +78,16 @@ public class ClientListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(1).setChecked(true);
 
+        navigationView.getMenu().getItem(5).setVisible(false);
+        navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
+
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            doctorID =  bundle.getString("doctor_id");
-            doctorName =  bundle.getString("doctor_name");
-            doctorEmail =  bundle.getString("doctor_email");
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
         }
 
         initt();
@@ -96,10 +98,10 @@ public class ClientListActivity extends AppCompatActivity
     private void initt()
     {
         TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
-        email_textview.setText(doctorEmail);
+        email_textview.setText(userEmail);
 
         TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
-        username_textview.setText(doctorName);
+        username_textview.setText(userName);
     }
 
     private void registerClick()
@@ -222,9 +224,10 @@ public class ClientListActivity extends AppCompatActivity
 
     private void defaultIntentMessage(Intent intent)
     {
-        intent.putExtra("doctor_id", doctorID);
-        intent.putExtra("doctor_name", doctorName);
-        intent.putExtra("doctor_email", doctorEmail);
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
         startActivity(intent);
     }
 
@@ -265,11 +268,6 @@ public class ClientListActivity extends AppCompatActivity
         {
             Intent intent = new Intent(ClientListActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_terms)
-        {
-            //Intent intent = new Intent(ClientListActivity.this, MedicalTermsActivity.class);
-            //startActivity(intent);
         }
         else if (id == R.id.nav_logout)
         {

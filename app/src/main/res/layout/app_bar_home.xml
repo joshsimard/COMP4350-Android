@@ -41,4 +41,19 @@
         layout="@layout/activity_note"
         android:visibility="gone"/>
 
+    <include
+        android:id="@+id/include_client_view"
+        layout="@layout/activity_client"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/include_medical_view"
+        layout="@layout/activity_medical_terms"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/include_edit_view"
+        layout="@layout/activity_edit_client"
+        android:visibility="gone"/>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -133,16 +133,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         JSONObject result = response.getJSONObject("data");
                                         Toast.makeText(LoginActivity.this, "Welcome Doctor", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, DoctorActivity.class);
-                                        intent.putExtra("doctor_id",result.getString("id").toString()); //pass id
-                                        intent.putExtra("doctor_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
-                                        intent.putExtra("doctor_email",result.getString("email").toString()); //pass email
+                                        intent.putExtra("user_id",result.getString("id").toString()); //pass id
+                                        intent.putExtra("user_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
+                                        intent.putExtra("user_email",result.getString("email").toString()); //pass email
                                         startActivity(intent);
                                     }
                                     else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("0")) {
                                         JSONObject result = response.getJSONObject("data");
                                         Toast.makeText(LoginActivity.this, "Welcome Client", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, ClientActivity.class);
-                                        intent.putExtra("client_id",result.getString("id").toString()); //pass id
+                                        intent.putExtra("user_id",result.getString("id").toString()); //pass id
+                                        intent.putExtra("user_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
+                                        intent.putExtra("user_email",result.getString("email").toString()); //pass email
                                         startActivity(intent);
                                     }
                                     //else

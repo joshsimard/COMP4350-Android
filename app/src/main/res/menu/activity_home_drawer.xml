@@ -2,27 +2,45 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     android:background="#455A64">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/admin_drawer"
+        android:checkableBehavior="single"
+        android:visibility="visible">
         <item
             android:id="@+id/nav_home"
-            android:title="Home"
-            android:visibility="visible"/>
+            android:title="Home" />
         <item
             android:id="@+id/nav_clients"
-            android:title="Clients"
-            android:visibility="visible" />
+            android:title="Clients" />
         <item
             android:id="@+id/nav_appoint"
-            android:title="Appoinments"
-            android:visibility="visible"/>
+            android:title="Appoinments" />
         <item
             android:id="@+id/nav_notes"
-            android:title="Notes"
-            android:visibility="visible"/>
+            android:title="Notes" />
         <item
             android:id="@+id/nav_terms"
-            android:title="Medication List"
-            android:visibility="visible"/>
+            android:title="Medication List" />
+
+    </group>
+
+    <group
+        android:id="@+id/clients_drawer"
+        android:checkableBehavior="single"
+        android:visibility="gone">
+        <item
+            android:id="@+id/nav_home_cl"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_edit_cl"
+            android:title="Edit Information" />
+        <item
+            android:id="@+id/nav_appoint_cl"
+            android:title="Appoinments" />
+
+        <item
+            android:id="@+id/nav_mterms_cl"
+            android:title="Medical Terms" />
 
     </group>
 

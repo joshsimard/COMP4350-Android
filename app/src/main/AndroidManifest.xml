@@ -25,7 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.NoteActivity">
+        <activity android:name=".presentation.NoteActivity"
+            android:label="@string/title_activity_notes"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -36,8 +38,9 @@
         </activity>
         <activity android:name=".presentation.NoteDisplayActivity" />
         <activity android:name=".presentation.AddNoteActivity" />
-        <activity android:name=".presentation.CalanderActivity" />
-        <!--<activity android:name=".presentation.DoctorActivity2" />-->
+        <activity android:name=".presentation.CalanderActivity"
+            android:label="@string/title_activity_calander"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".presentation.ClientActivity" />
         <activity android:name=".presentation.EditClientActivity" />
         <activity android:name=".presentation.ClientListActivity"

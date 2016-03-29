@@ -52,7 +52,7 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Medical Terms"
+        android:text="Medication List"
         android:id="@+id/mterms_button"
         android:layout_below="@+id/notes_button"
         android:layout_alignParentLeft="true"

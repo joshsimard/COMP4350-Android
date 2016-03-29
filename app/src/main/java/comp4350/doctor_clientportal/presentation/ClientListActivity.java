@@ -67,7 +67,7 @@ public class ClientListActivity extends AppCompatActivity
 
         //select which layout to display
         findViewById(R.id.include_file).setVisibility(View.GONE);
-        findViewById(R.id.include_file2).setVisibility(View.VISIBLE);
+        findViewById(R.id.include_client_list_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -220,13 +220,21 @@ public class ClientListActivity extends AppCompatActivity
 
     }
 
+    private void defaultIntentMessage(Intent intent)
+    {
+        intent.putExtra("doctor_id", doctorID);
+        intent.putExtra("doctor_name", doctorName);
+        intent.putExtra("doctor_email", doctorEmail);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            finish();
+            super.onBackPressed();
         }
     }
 
@@ -246,27 +254,22 @@ public class ClientListActivity extends AppCompatActivity
         if (id == R.id.nav_home)
         {
             Intent intent = new Intent(ClientListActivity.this, DoctorActivity.class);
-            intent.putExtra("doctor_id", doctorID);
-            intent.putExtra("doctor_name", doctorName);
-            intent.putExtra("doctor_email", doctorEmail);
-            startActivity(intent);
-            finish();
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_appoint)
         {
             Intent intent = new Intent(ClientListActivity.this, CalanderActivity.class);
-            startActivity(intent);
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_notes)
         {
             Intent intent = new Intent(ClientListActivity.this, NoteActivity.class);
-            intent.putExtra("doctor_id", doctorID);
-            startActivity(intent);
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_terms)
         {
-            Intent intent = new Intent(ClientListActivity.this, MedicalTermsActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(ClientListActivity.this, MedicalTermsActivity.class);
+            //startActivity(intent);
         }
         else if (id == R.id.nav_logout)
         {

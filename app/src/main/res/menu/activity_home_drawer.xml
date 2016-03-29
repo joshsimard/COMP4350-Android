@@ -5,19 +5,24 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:title="Home" />
+            android:title="Home"
+            android:visibility="visible"/>
         <item
             android:id="@+id/nav_clients"
-            android:title="Clients" />
+            android:title="Clients"
+            android:visibility="visible" />
         <item
             android:id="@+id/nav_appoint"
-            android:title="Appoinments" />
+            android:title="Appoinments"
+            android:visibility="visible"/>
         <item
             android:id="@+id/nav_notes"
-            android:title="Notes" />
+            android:title="Notes"
+            android:visibility="visible"/>
         <item
             android:id="@+id/nav_terms"
-            android:title="Medical Terms" />
+            android:title="Medication List"
+            android:visibility="visible"/>
 
     </group>
 

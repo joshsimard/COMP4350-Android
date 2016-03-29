@@ -27,16 +27,18 @@
         android:visibility="visible"/>
 
     <include
-        android:id="@+id/include_file2"
+        android:id="@+id/include_client_list_view"
         layout="@layout/activity_client_list"
         android:visibility="gone"/>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="bottom|end"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email" />-->
+    <include
+        android:id="@+id/include_appoint_view"
+        layout="@layout/activity_calander"
+        android:visibility="gone"/>
+
+    <include
+        android:id="@+id/include_notes_view"
+        layout="@layout/activity_note"
+        android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

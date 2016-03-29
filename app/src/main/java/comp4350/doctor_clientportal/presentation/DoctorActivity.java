@@ -2,8 +2,6 @@ package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 
 import comp4350.doctor_clientportal.R;
 
@@ -25,7 +22,7 @@ public class DoctorActivity extends AppCompatActivity
     Button view_client_button;
     Button appointments_button;
     Button notes_button;
-    Button mterms_button;
+    Button medlist_button;
     TextView profile_email;
     TextView email_textview;
     TextView username_textview;
@@ -104,7 +101,7 @@ public class DoctorActivity extends AppCompatActivity
         view_client_button = (Button)findViewById(R.id.edit_info_button);
         appointments_button = (Button)findViewById(R.id.appointment_button_cl);
         notes_button = (Button)findViewById(R.id.notes_button);
-        mterms_button = (Button)findViewById(R.id.mterms_button);
+        medlist_button = (Button)findViewById(R.id.mterms_button);
         profile_email = (TextView)findViewById(R.id.profile_email);
 
         email_textview = (TextView)headerView.findViewById(R.id.profile_email);
@@ -122,10 +119,7 @@ public class DoctorActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DoctorActivity.this, ClientListActivity.class);
-                intent.putExtra("doctor_id", doctorID);
-                intent.putExtra("doctor_name", doctorName);
-                intent.putExtra("doctor_email", doctorEmail);
-                startActivity(intent);
+                defaultIntentMessage(intent);
             }
         });
 
@@ -134,7 +128,7 @@ public class DoctorActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DoctorActivity.this, CalanderActivity.class);
-                startActivity(intent);
+                defaultIntentMessage(intent);
             }
         });
 
@@ -143,19 +137,26 @@ public class DoctorActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DoctorActivity.this, NoteActivity.class);
-                intent.putExtra("doctor_id", doctorID);
-                startActivity(intent);
+                defaultIntentMessage(intent);
             }
         });
 
         //mterms button
-        mterms_button.setOnClickListener(new View.OnClickListener() {
+        medlist_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
-                startActivity(intent);
+                //Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
+                //startActivity(intent);
             }
         });
+    }
+
+    private void defaultIntentMessage(Intent intent)
+    {
+        intent.putExtra("doctor_id", doctorID);
+        intent.putExtra("doctor_name", doctorName);
+        intent.putExtra("doctor_email", doctorEmail);
+        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -167,27 +168,22 @@ public class DoctorActivity extends AppCompatActivity
         if (id == R.id.nav_clients)
         {
             Intent intent = new Intent(DoctorActivity.this, ClientListActivity.class);
-            intent.putExtra("doctor_id", doctorID);
-            intent.putExtra("doctor_name", doctorName);
-            intent.putExtra("doctor_email", doctorEmail);
-            startActivity(intent);
-            finish();
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_appoint)
         {
             Intent intent = new Intent(DoctorActivity.this, CalanderActivity.class);
-            startActivity(intent);
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_notes)
         {
             Intent intent = new Intent(DoctorActivity.this, NoteActivity.class);
-            intent.putExtra("doctor_id", doctorID);
-            startActivity(intent);
+            defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_terms)
         {
-            Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(DoctorActivity.this, MedicalTermsActivity.class);
+//            startActivity(intent);
         }
         else if (id == R.id.nav_logout)
         {

@@ -60,11 +60,12 @@
     <string name="prompt_height">Email</string>
     <string name="prompt_weight">Email</string>
     <string name="title_activity_home">Home</string>
-    <string name="title_activity_client_list">Client List</string>
+    <string name="title_activity_client_list">Clients</string>
     <string name="title_activity_notes">Notes</string>
     <string name="title_activity_mterms">Medical Terms</string>
     <string name="title_activity_edit_client">Edit Information</string>
     <!--<string name="prompt_height">Email</string>-->
 
     <string name="profile_email">N/A</string>
+    <string name="title_activity_register">Register</string>
 </resources>

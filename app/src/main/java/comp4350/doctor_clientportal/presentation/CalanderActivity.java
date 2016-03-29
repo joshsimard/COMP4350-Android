@@ -1,6 +1,7 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -55,12 +56,11 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_drawer_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_file).setVisibility(View.GONE);
         findViewById(R.id.include_appoint_view).setVisibility(View.VISIBLE);
         
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,9 +85,17 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
 
         // set drawer "appointment" item to selected
         if(admin == 1)
-            navigationView.getMenu().getItem(2).setChecked(true);
+            navigationView.getMenu().getItem(1).setChecked(true);
         else
-            navigationView.getMenu().getItem(7).setChecked(true);
+            navigationView.getMenu().getItem(4).setChecked(true);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_cal);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CalanderActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
+            }
+        });
 
         initt();
         populateEventList();
@@ -98,10 +106,9 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         //init drawer
         if(admin == 1)
         {
+            navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);
-            navigationView.getMenu().getItem(7).setVisible(false);
-            navigationView.getMenu().getItem(8).setVisible(false);
         }
         else
         {
@@ -109,7 +116,6 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
-            navigationView.getMenu().getItem(4).setVisible(false);
         }
 
         TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
@@ -257,12 +263,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home)
-        {
-            Intent intent = new Intent(CalanderActivity.this, DoctorActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_clients)
+        if (id == R.id.nav_clients)
         {
             Intent intent = new Intent(CalanderActivity.this, ClientListActivity.class);
             defaultIntentMessage(intent);
@@ -282,12 +283,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(CalanderActivity.this, EditClientActivity.class);
             defaultIntentMessage(intent);
         }
-        else if (id == R.id.nav_home_cl)
-        {
-            Intent intent = new Intent(CalanderActivity.this, ClientActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_logout)
+        if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(CalanderActivity.this, LoginActivity.class);
             startActivity(intent);

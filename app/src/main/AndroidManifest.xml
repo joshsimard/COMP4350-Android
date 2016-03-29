@@ -25,7 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.NoteActivity"
+        <activity
+            android:name=".presentation.NoteActivity"
             android:label="@string/title_activity_notes"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -38,29 +39,27 @@
         </activity>
         <activity android:name=".presentation.NoteDisplayActivity" />
         <activity android:name=".presentation.AddNoteActivity" />
-        <activity android:name=".presentation.CalanderActivity"
+        <activity
+            android:name=".presentation.CalanderActivity"
             android:label="@string/title_activity_calander"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".presentation.ClientActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
             android:name=".presentation.EditClientActivity"
             android:label="@string/title_activity_edit_client"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".presentation.ClientListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".presentation.ClientListActivity"
             android:label="@string/title_activity_client_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".presentation.ClientInfo" />
         <activity
             android:name=".presentation.MedicalTermsActivity"
             android:label="@string/title_activity_mterms"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".presentation.DoctorActivity"
-            android:label="@string/title_activity_home"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:name=".presentation.RegisterActivity"
+            android:label="@string/title_activity_register"
+            ></activity>
     </application>
 
 </manifest>

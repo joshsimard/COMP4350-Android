@@ -60,12 +60,11 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_drawer_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_file).setVisibility(View.GONE);
         findViewById(R.id.include_edit_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,13 +77,12 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(6).setChecked(true);
+        navigationView.getMenu().getItem(5).setChecked(true);
 
         navigationView.getMenu().getItem(0).setVisible(false);
         navigationView.getMenu().getItem(1).setVisible(false);
         navigationView.getMenu().getItem(2).setVisible(false);
         navigationView.getMenu().getItem(3).setVisible(false);
-        navigationView.getMenu().getItem(4).setVisible(false);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -304,12 +302,7 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home_cl)
-        {
-            Intent intent = new Intent(EditClientActivity.this, ClientActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_appoint_cl)
+        if (id == R.id.nav_appoint_cl)
         {
             Intent intent = new Intent(EditClientActivity.this, CalanderActivity.class);
             defaultIntentMessage(intent);

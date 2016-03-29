@@ -57,12 +57,11 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_drawer_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_file).setVisibility(View.GONE);
         findViewById(R.id.include_notes_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -75,12 +74,11 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.getMenu().getItem(2).setChecked(true);
 
+        navigationView.getMenu().getItem(4).setVisible(false);
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
-        navigationView.getMenu().getItem(7).setVisible(false);
-        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -89,12 +87,11 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
             userEmail =  bundle.getString("user_email");
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_note);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast.makeText(NoteActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -225,12 +222,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home)
-        {
-            Intent intent = new Intent(NoteActivity.this, DoctorActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_appoint)
+        if (id == R.id.nav_appoint)
         {
             Intent intent = new Intent(NoteActivity.this, CalanderActivity.class);
             defaultIntentMessage(intent);
@@ -239,11 +231,6 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         {
             Intent intent = new Intent(NoteActivity.this, ClientListActivity.class);
             defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_terms)
-        {
-            //Intent intent = new Intent(NoteActivity.this, MedicalTermsActivity.class);
-            //startActivity(intent);
         }
         else if (id == R.id.nav_logout)
         {

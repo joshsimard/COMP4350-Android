@@ -7,9 +7,6 @@
         android:checkableBehavior="single"
         android:visibility="visible">
         <item
-            android:id="@+id/nav_home"
-            android:title="Home" />
-        <item
             android:id="@+id/nav_clients"
             android:title="Clients" />
         <item
@@ -29,15 +26,11 @@
         android:checkableBehavior="single"
         android:visibility="gone">
         <item
-            android:id="@+id/nav_home_cl"
-            android:title="Home" />
+            android:id="@+id/nav_appoint_cl"
+            android:title="Appoinments" />
         <item
             android:id="@+id/nav_edit_cl"
             android:title="Edit Information" />
-        <item
-            android:id="@+id/nav_appoint_cl"
-            android:title="Appoinments" />
-
         <item
             android:id="@+id/nav_mterms_cl"
             android:title="Medical Terms" />

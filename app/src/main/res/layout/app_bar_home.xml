@@ -22,11 +22,6 @@
     </android.support.design.widget.AppBarLayout>
 
     <include
-        android:id="@+id/include_file"
-        layout="@layout/doctor_content"
-        android:visibility="visible"/>
-
-    <include
         android:id="@+id/include_client_list_view"
         layout="@layout/activity_client_list"
         android:visibility="gone"/>
@@ -39,11 +34,6 @@
     <include
         android:id="@+id/include_notes_view"
         layout="@layout/activity_note"
-        android:visibility="gone"/>
-
-    <include
-        android:id="@+id/include_client_view"
-        layout="@layout/activity_client"
         android:visibility="gone"/>
 
     <include

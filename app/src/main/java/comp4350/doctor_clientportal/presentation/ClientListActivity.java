@@ -58,12 +58,11 @@ public class ClientListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_drawer_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_file).setVisibility(View.GONE);
         findViewById(R.id.include_client_list_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,12 +75,11 @@ public class ClientListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(1).setChecked(true);
+        navigationView.getMenu().getItem(0).setChecked(true);
 
+        navigationView.getMenu().getItem(4).setVisible(false);
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
-        navigationView.getMenu().getItem(7).setVisible(false);
-        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -254,12 +252,7 @@ public class ClientListActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_home)
-        {
-            Intent intent = new Intent(ClientListActivity.this, DoctorActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_appoint)
+        if (id == R.id.nav_appoint)
         {
             Intent intent = new Intent(ClientListActivity.this, CalanderActivity.class);
             defaultIntentMessage(intent);

@@ -56,12 +56,11 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_medical_terms);
-        setContentView(R.layout.activity_doctor);
+        setContentView(R.layout.activity_drawer_template);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_file).setVisibility(View.GONE);
         findViewById(R.id.include_medical_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -74,13 +73,12 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(8).setChecked(true);
+        navigationView.getMenu().getItem(6).setChecked(true);
 
         navigationView.getMenu().getItem(0).setVisible(false);
         navigationView.getMenu().getItem(1).setVisible(false);
         navigationView.getMenu().getItem(2).setVisible(false);
         navigationView.getMenu().getItem(3).setVisible(false);
-        navigationView.getMenu().getItem(4).setVisible(false);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -215,11 +213,6 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         else if (id == R.id.nav_edit_cl)
         {
             Intent intent = new Intent(MedicalTermsActivity.this, EditClientActivity.class);
-            defaultIntentMessage(intent);
-        }
-        else if (id == R.id.nav_home_cl)
-        {
-            Intent intent = new Intent(MedicalTermsActivity.this, ClientActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_logout)

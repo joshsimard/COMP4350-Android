@@ -1,9 +1,19 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ViewFlipper;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,7 +39,8 @@ import java.util.ArrayList;
 import comp4350.doctor_clientportal.R;
 import comp4350.doctor_clientportal.objects.Client;
 
-public class ClientListActivity extends AppCompatActivity {
+public class ClientListActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<Client> clientList;
     static final String STATE_EVENT_LIST = null;
@@ -40,13 +52,54 @@ public class ClientListActivity extends AppCompatActivity {
     private ArrayAdapter<Client> clientArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
+    View headerView;
+
+    private String doctorID;
+    private String doctorName;
+    private String doctorEmail;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_list);
+        setContentView(R.layout.activity_doctor);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //select which layout to display
+        findViewById(R.id.include_file).setVisibility(View.GONE);
+        findViewById(R.id.include_file2).setVisibility(View.VISIBLE);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(1).setChecked(true);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            doctorID =  bundle.getString("doctor_id");
+            doctorName =  bundle.getString("doctor_name");
+            doctorEmail =  bundle.getString("doctor_email");
+        }
+
+        initt();
         populateClientList();
         registerClick();
+    }
+
+    private void initt()
+    {
+        TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
+        email_textview.setText(doctorEmail);
+
+        TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
+        username_textview.setText(doctorName);
     }
 
     private void registerClick()
@@ -54,13 +107,11 @@ public class ClientListActivity extends AppCompatActivity {
 
         list = (ListView)findViewById(R.id.listClients);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id)
-            {
+                                    int position, long id) {
 
                 //pass client info to info activity
                 Intent intent = new Intent(ClientListActivity.this, ClientInfo.class);
@@ -72,6 +123,7 @@ public class ClientListActivity extends AppCompatActivity {
             }
         });
     }
+
     private void populateClientList()
     {
         clientList = new ArrayList<Client>();
@@ -149,6 +201,7 @@ public class ClientListActivity extends AppCompatActivity {
         }
 
     }
+
     private void populateListView()
     {
 
@@ -165,5 +218,65 @@ public class ClientListActivity extends AppCompatActivity {
             Log.i("ERROR", "nawa");
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_home)
+        {
+            Intent intent = new Intent(ClientListActivity.this, DoctorActivity.class);
+            intent.putExtra("doctor_id", doctorID);
+            intent.putExtra("doctor_name", doctorName);
+            intent.putExtra("doctor_email", doctorEmail);
+            startActivity(intent);
+            finish();
+        }
+        else if (id == R.id.nav_appoint)
+        {
+            Intent intent = new Intent(ClientListActivity.this, CalanderActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_notes)
+        {
+            Intent intent = new Intent(ClientListActivity.this, NoteActivity.class);
+            intent.putExtra("doctor_id", doctorID);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_terms)
+        {
+            Intent intent = new Intent(ClientListActivity.this, MedicalTermsActivity.class);
+            startActivity(intent);
+        }
+        else if (id == R.id.nav_logout)
+        {
+            Intent intent = new Intent(ClientListActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

@@ -1,15 +1,11 @@
 package comp4350.doctor_clientportal.presentation;
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Client;
-import comp4350.doctor_clientportal.objects.EventApi;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -43,13 +39,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -140,6 +134,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                         Toast.makeText(LoginActivity.this, "Welcome Doctor", Toast.LENGTH_LONG).show();
                                         intent = new Intent(LoginActivity.this, DoctorActivity.class);
                                         intent.putExtra("doctor_id",result.getString("id").toString()); //pass id
+                                        intent.putExtra("doctor_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
+                                        intent.putExtra("doctor_email",result.getString("email").toString()); //pass email
                                         startActivity(intent);
                                     }
                                     else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("0")) {

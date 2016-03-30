@@ -85,8 +85,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     try {
                                         JSONArray jsonArray = response.getJSONArray("data");
 
+                                        //after saving data
                                         Toast.makeText(RegisterActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
-
+                                        finish();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }

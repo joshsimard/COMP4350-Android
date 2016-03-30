@@ -2,6 +2,7 @@ package comp4350.doctor_clientportal.presentation;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class ClientInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client_info);
         Bundle bundle = getIntent().getExtras();
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(bundle != null)
         {
@@ -134,5 +136,17 @@ public class ClientInfo extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // app icon in action bar clicked; goto parent activity.
+                this.finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

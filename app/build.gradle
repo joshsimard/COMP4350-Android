@@ -25,5 +25,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.android.support:support-v4:23.2.0'
-    compile project(':volley')
+    compile 'com.android.volley:volley:1.0.0'
+    compile 'com.wdullaer:materialdatetimepicker:2.3.0'
+    compile 'com.jayway.android.robotium:robotium-solo:5.5.4'
 }

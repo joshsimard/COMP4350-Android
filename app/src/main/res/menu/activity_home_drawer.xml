@@ -11,7 +11,7 @@
             android:title="Clients" />
         <item
             android:id="@+id/nav_appoint"
-            android:title="Appoinments" />
+            android:title="Appointments" />
         <item
             android:id="@+id/nav_notes"
             android:title="Notes" />
@@ -27,7 +27,7 @@
         android:visibility="gone">
         <item
             android:id="@+id/nav_appoint_cl"
-            android:title="Appoinments" />
+            android:title="Appointments" />
         <item
             android:id="@+id/nav_edit_cl"
             android:title="Edit Information" />

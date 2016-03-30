@@ -36,10 +36,6 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //click login
         solo.clickOnButton("Sign In");
 
-        //assert activity is doctor activity
-        solo.waitForActivity(DoctorActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", DoctorActivity.class);
-
         //select button VIEWCLIENT
         solo.clickOnButton("View Client");
 
@@ -54,7 +50,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         solo.waitForActivity(ClientInfo.class, 2000);
         solo.assertCurrentActivity("wrong activity", ClientInfo.class);
 
-        //back to doctor home
+        //back to doctor DoctorActivity
         solo.goBack();
         solo.goBack();
 
@@ -68,7 +64,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //search for the text on screen
         solo.searchText("Seminar - John Doe");
 
-        //go back to home
+        //go back to DoctorActivity
         solo.goBack();
 
         //select button VIEWCLIENT
@@ -81,7 +77,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //search for specific note on screen
         solo.searchText("I would rather die a meaningful death than to live a meaningless life.");
 
-        //go back to home
+        //go back to DoctorActivity
         solo.goBack();
 
         //select button VIEWCLIENT
@@ -94,7 +90,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //search for specific note on screen
         solo.searchText("Cancer");
 
-        //go back to home
+        //go back to DoctorActivity
         solo.goBack();
     }
 
@@ -109,10 +105,6 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //click login
         solo.clickOnButton("Sign In");
 
-        //assert activity is client activity
-        solo.waitForActivity(ClientActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", ClientActivity.class);
-
         //select button EDIT INFORMATION
         solo.clickOnButton("Edit Information");
 
@@ -124,7 +116,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         solo.searchText("Jane");
         solo.searchText("Doe");
 
-        //back to client home
+        //back to client DoctorActivity
         solo.goBack();
 
         //select button EDIT INFORMATION
@@ -137,7 +129,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //search for the text on screen
         solo.searchText("Checkup - Jane Doe");
 
-        //go back to client home
+        //go back to client DoctorActivity
         solo.goBack();
     }
 

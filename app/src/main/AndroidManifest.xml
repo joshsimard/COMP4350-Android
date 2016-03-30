@@ -51,7 +51,8 @@
             android:name=".presentation.ClientListActivity"
             android:label="@string/title_activity_client_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".presentation.ClientInfo" />
+        <activity android:name=".presentation.ClientInfo"
+            android:label="Client Information"/>
         <activity
             android:name=".presentation.MedicalTermsActivity"
             android:label="@string/title_activity_mterms"

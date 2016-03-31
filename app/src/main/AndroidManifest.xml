@@ -51,8 +51,9 @@
             android:name=".presentation.ClientListActivity"
             android:label="@string/title_activity_client_list"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".presentation.ClientInfo"
-            android:label="Client Information"/>
+        <activity
+            android:name=".presentation.ClientInfo"
+            android:label="Client Information" />
         <activity
             android:name=".presentation.MedicalTermsActivity"
             android:label="@string/title_activity_mterms"
@@ -61,8 +62,13 @@
             android:name=".presentation.RegisterActivity"
             android:label="@string/title_activity_register" />
         <activity
+            android:name=".presentation.MedicationActivity"
+            android:label="Medication List"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.AddEventActivity"
-            android:label="Set Appointment"></activity>
+            android:label="Set Appointment" />
+        <activity android:name=".presentation.OrderMedsActivity"></activity>
     </application>
 
 </manifest>

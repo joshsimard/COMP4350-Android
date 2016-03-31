@@ -1,14 +1,13 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -33,18 +32,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Note;
+import comp4350.doctor_clientportal.objects.Medication;
 
-public class NoteActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MedicationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private ArrayList<Note> noteList;
+    private ArrayList<Medication> medList;
     static final String STATE_EVENT_LIST = null;
 
     private ArrayList<Integer> selectedPositions;
     private ListView list;
-    private View notesItemView;
+    private View medItemView;
     private String listResult;
-    private ArrayAdapter<Note> noteArrayAdapter;
+    private ArrayAdapter<Medication> medArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
     private View headerView;
@@ -62,7 +61,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_notes_view).setVisibility(View.VISIBLE);
+        findViewById(R.id.include_medlist_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -74,7 +73,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(2).setChecked(true);
+        navigationView.getMenu().getItem(3).setChecked(true);
 
         navigationView.getMenu().getItem(4).setVisible(false);
         navigationView.getMenu().getItem(5).setVisible(false);
@@ -87,11 +86,12 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
             userEmail =  bundle.getString("user_email");
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_note);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_med);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(NoteActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MedicationActivity.this, OrderMedsActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -110,12 +110,12 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
     private void populateClientList()
     {
-        noteList = new ArrayList<Note>();
+        medList = new ArrayList<Medication>();
         //create request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
 
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, apiURL + "notes/"+ userID, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, apiURL + "medication", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -124,12 +124,12 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
                             for(int i=0; i<jsonArray.length(); i++){
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                noteList.add(new Note(json_data.getString("subject"), json_data.getString("body")));
-
+                                medList.add(new Medication(json_data.getString("name"), json_data.getString("quantity")));
+                                //Toast.makeText(MedicationActivity.this, json_data.getString("name"), Toast.LENGTH_LONG).show();
                             }
                             selectedPositions = new ArrayList<Integer>();
-                            System.out.println("This is the size " + noteList.size());
-                            for(int i = 0; i < noteList.size(); i++)
+                            System.out.println("This is the size " + medList.size());
+                            for(int i = 0; i < medList.size(); i++)
                                 selectedPositions.add(0);
 
                             populateListView();
@@ -142,7 +142,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(NoteActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(MedicationActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         // Add the request to the RequestQueue.
@@ -150,11 +150,11 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    private class NoteArrayAdapter extends ArrayAdapter<Note>
+    private class MedArrayAdapter extends ArrayAdapter<Medication>
     {
-        public NoteArrayAdapter()
+        public MedArrayAdapter()
         {
-            super(NoteActivity.this,R.layout.custom_notes_item, noteList);
+            super(MedicationActivity.this,R.layout.custom_mdlist_item, medList);
 
         }
 
@@ -162,19 +162,19 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         public View getView(int position, View convertView, ViewGroup parent)
         {
 
-            notesItemView = convertView;
-            if(notesItemView == null)
-                notesItemView = getLayoutInflater().inflate(R.layout.custom_notes_item,parent, false);
+            medItemView = convertView;
+            if(medItemView == null)
+                medItemView = getLayoutInflater().inflate(R.layout.custom_mdlist_item,parent, false);
 
-            Note currNote = noteList.get(position);
-            TextView subject_textview = (TextView) notesItemView.findViewById(R.id.subject_name);
-            subject_textview.setText(currNote.getSubject());
+            Medication currMed = medList.get(position);
+            TextView subject_textview = (TextView) medItemView.findViewById(R.id.med_name);
+            subject_textview.setText(currMed.getName());
 
-            TextView body_textview = (TextView) notesItemView.findViewById(R.id.note_body);
-            body_textview.setText(currNote.getBody());
+            TextView body_textview = (TextView) medItemView.findViewById(R.id.quantity);
+            body_textview.setText(currMed.getQuantity());
 
 
-            return notesItemView;
+            return medItemView;
         }
 
     }
@@ -185,10 +185,10 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         if(listResult == null)
         {
 
-            noteArrayAdapter = new NoteArrayAdapter();
+            medArrayAdapter = new MedArrayAdapter();
 
-            ListView courseListView = (ListView)findViewById(R.id.listNotes);
-            courseListView.setAdapter(noteArrayAdapter);
+            ListView courseListView = (ListView)findViewById(R.id.listMeds);
+            courseListView.setAdapter(medArrayAdapter);
         }
         else
         {
@@ -224,22 +224,22 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
         if (id == R.id.nav_appoint)
         {
-            Intent intent = new Intent(NoteActivity.this, CalanderActivity.class);
+            Intent intent = new Intent(MedicationActivity.this, CalanderActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_clients)
         {
-            Intent intent = new Intent(NoteActivity.this, ClientListActivity.class);
+            Intent intent = new Intent(MedicationActivity.this, ClientListActivity.class);
             defaultIntentMessage(intent);
         }
-        else if (id == R.id.nav_mdlist)
+        else if (id == R.id.nav_notes)
         {
-            Intent intent = new Intent(NoteActivity.this, MedicationActivity.class);
+            Intent intent = new Intent(MedicationActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_logout)
         {
-            Intent intent = new Intent(NoteActivity.this, LoginActivity.class);
+            Intent intent = new Intent(MedicationActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }

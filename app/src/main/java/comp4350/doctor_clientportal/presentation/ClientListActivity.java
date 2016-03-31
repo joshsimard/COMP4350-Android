@@ -262,6 +262,11 @@ public class ClientListActivity extends AppCompatActivity
             Intent intent = new Intent(ClientListActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_mdlist)
+        {
+            Intent intent = new Intent(ClientListActivity.this, MedicationActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(ClientListActivity.this, LoginActivity.class);

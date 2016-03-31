@@ -46,4 +46,9 @@
         layout="@layout/activity_edit_client"
         android:visibility="gone"/>
 
+    <include
+        android:id="@+id/include_medlist_view"
+        layout="@layout/activity_medication"
+        android:visibility="gone"/>
+
 </android.support.design.widget.CoordinatorLayout>

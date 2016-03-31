@@ -275,6 +275,11 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(CalanderActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_mdlist)
+        {
+            Intent intent = new Intent(CalanderActivity.this, MedicationActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_mterms_cl)
         {
             Intent intent = new Intent(CalanderActivity.this, MedicalTermsActivity.class);

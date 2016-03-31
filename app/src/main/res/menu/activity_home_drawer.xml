@@ -16,7 +16,7 @@
             android:id="@+id/nav_notes"
             android:title="Notes" />
         <item
-            android:id="@+id/nav_terms"
+            android:id="@+id/nav_mdlist"
             android:title="Medication List" />
 
     </group>

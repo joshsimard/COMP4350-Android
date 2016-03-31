@@ -53,6 +53,15 @@
             android:layout_alignParentStart="true"
             android:layout_marginTop="69dp" />
 
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/end_time_spinner"
+            android:layout_below="@+id/time_spinner"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="69dp" />
+
         <Button
             android:id="@+id/save_appoint_button"
             android:layout_width="match_parent"
@@ -61,7 +70,7 @@
             android:textColor="@color/white"
             android:background="@color/colorAccent"
             android:layout_marginTop="69dp"
-            android:layout_below="@+id/time_spinner"
+            android:layout_below="@+id/end_time_spinner"
             android:layout_centerHorizontal="true" />
 
     </RelativeLayout>

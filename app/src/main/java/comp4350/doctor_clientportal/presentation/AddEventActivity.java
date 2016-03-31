@@ -1,6 +1,8 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.app.ActionBar;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -39,8 +41,8 @@ public class AddEventActivity extends AppCompatActivity
 
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     private Button save_button;
-    private int curr_hour;
-    private int curr_minute;
+    private int set_hour;
+    private int set_minute;
 
     private String setDay = "";
     private String setTime = "";
@@ -82,7 +84,7 @@ public class AddEventActivity extends AppCompatActivity
     private void initt()
     {
         Calendar now = Calendar.getInstance();
-        timePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, curr_hour, curr_minute, false);
+        timePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, 0, 0, false);
         //endTimePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, curr_hour, curr_minute, false);
         datePickerDialog = DatePickerDialog.newInstance(
                 AddEventActivity.this,
@@ -186,7 +188,7 @@ public class AddEventActivity extends AppCompatActivity
                                         JSONArray jsonArray = response.getJSONArray("data");
 
                                         //after saving data
-                                        Toast.makeText(AddEventActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(AddEventActivity.this, "Saved!", Toast.LENGTH_LONG).show();
                                         finish();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -218,7 +220,8 @@ public class AddEventActivity extends AppCompatActivity
         String hour_s = hourOfDay+"";
         String minute_ss = (minute + 30) % 60 + "";
         String hour_ss = hourOfDay+"";
-
+        set_hour = hourOfDay;
+        set_minute = minute;
 
         //format hour
         if(hourOfDay >= 12) {
@@ -246,7 +249,7 @@ public class AddEventActivity extends AppCompatActivity
         //Toast.makeText(AddEventActivity.this, setTime, Toast.LENGTH_LONG).show();
 
         //re-init adapter
-        timeItems = new String[]{hour_s+":"+minute_s+""+am_pm,"Morning", "AfterNoon", "Evening", "Set Time"};
+        timeItems = new String[]{hour_s+":"+minute_s+""+am_pm,"None", "Set Time"};
         timeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeItems);
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -271,7 +274,7 @@ public class AddEventActivity extends AppCompatActivity
         //Toast.makeText(AddEventActivity.this, setDay, Toast.LENGTH_LONG).show();
 
         //re-init adapter
-        dateItems = new String[]{day_s+", "+month_s+" "+dayOfMonth,"Today", "Set Date"};
+        dateItems = new String[]{day_s+", "+month_s+" "+dayOfMonth,"None", "Set Date"};
         dateAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateItems);
         dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         date_spinner.setAdapter(dateAdapter);
@@ -312,6 +315,20 @@ public class AddEventActivity extends AppCompatActivity
         {
             TextView textView = (TextView) time_spinner.getChildAt(0);
             textView.setTextColor(getResources().getColor(R.color.error));
+            attempt = false;
+        }
+        else if (set_hour >= 22)
+        {
+            new AlertDialog.Builder(AddEventActivity.this)
+                        .setTitle("Error")
+                        .setMessage("Please Set Appointments before 10:00PM")
+                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                timePickerDialog.show(getFragmentManager(), "TimePickerDialog");
+                            }
+                        })
+                    .show();
             attempt = false;
         }
 

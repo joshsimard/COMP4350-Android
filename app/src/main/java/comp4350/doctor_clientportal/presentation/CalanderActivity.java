@@ -95,7 +95,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             public void onClick(View view) {
                 //Toast.makeText(CalanderActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(CalanderActivity.this, AddEventActivity.class);
-                startActivity(intent);
+                defaultIntentMessage(intent);
             }
         });
 

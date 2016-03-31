@@ -60,7 +60,8 @@
             android:layout_below="@+id/time_spinner"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="69dp" />
+            android:layout_marginTop="69dp"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/save_appoint_button"

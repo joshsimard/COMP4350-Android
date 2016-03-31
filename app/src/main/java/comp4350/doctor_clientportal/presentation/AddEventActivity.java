@@ -15,9 +15,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -27,17 +37,20 @@ import comp4350.doctor_clientportal.R;
 public class AddEventActivity extends AppCompatActivity
         implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener{
 
+    public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     private Button save_button;
     private int curr_hour;
     private int curr_minute;
 
     private String setDay = "";
     private String setTime = "";
+    private String setEndTime = "";
     private String dateData = "";
 
     Spinner date_spinner;
     Spinner time_spinner;
     TimePickerDialog timePickerDialog;
+    //TimePickerDialog endTimePickerDialog;
     DatePickerDialog datePickerDialog;
     TextView title_view;
     String[] timeItems;
@@ -70,6 +83,7 @@ public class AddEventActivity extends AppCompatActivity
     {
         Calendar now = Calendar.getInstance();
         timePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, curr_hour, curr_minute, false);
+        //endTimePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, curr_hour, curr_minute, false);
         datePickerDialog = DatePickerDialog.newInstance(
                 AddEventActivity.this,
                 now.get(Calendar.YEAR),
@@ -138,10 +152,57 @@ public class AddEventActivity extends AppCompatActivity
                     String event_id = new Date().getTime()+""; // -> event_id
                     String title = title_view.getText().toString(); // ->title
                     dateData = setDay+" "+setTime; // ->start & end time
+
                     //userName; ->client_name
                     //userEmail; -> client_id
 
-                    Toast.makeText(AddEventActivity.this, event_id, Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddEventActivity.this, dateData, Toast.LENGTH_LONG).show();
+                    final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+                    JSONObject postData = new JSONObject();
+                    JSONObject data = new JSONObject();
+
+
+                    try {
+                        postData.put("event_id", event_id);
+                        postData.put("title", title);
+                        postData.put("start_time", dateData);
+                        postData.put("end_time", setDay+" "+setEndTime);
+                        postData.put("client_id", userEmail);
+                        postData.put("client_name", userName);
+
+                        data.put("data", postData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                            (Request.Method.POST, apiURL + "events", data, new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONArray jsonArray = response.getJSONArray("data");
+
+                                        //after saving data
+                                        Toast.makeText(AddEventActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
+                                    //uiUpdate.setText("Response: " + error.toString());
+                                    Toast.makeText(AddEventActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    // Add the request to the RequestQueue.
+                    queue.add(jsObjRequest);
                     //finish(); -> if it saves without error
                 }
             }
@@ -150,10 +211,13 @@ public class AddEventActivity extends AppCompatActivity
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+
         String time = "You picked the following time: "+hourOfDay+"h"+minute;
         String am_pm = "AM";
         String minute_s = minute+"";
         String hour_s = hourOfDay+"";
+        String minute_ss = (minute + 30) % 60 + "";
+        String hour_ss = hourOfDay+"";
 
 
         //format hour
@@ -168,9 +232,17 @@ public class AddEventActivity extends AppCompatActivity
 
         //format minute
         if(minute_s.length() < 2)
-            minute_s+="0";
+            minute_s ="0" + minute_s;
+
+        //format minute
+        if(minute_ss.length() < 2)
+            minute_ss ="0" + minute_ss;
+
+        if(Integer.parseInt(minute_ss) < Integer.parseInt(minute_s))
+            hour_ss = (hourOfDay + 1) % 24 + "";
 
         setTime = hourOfDay+":"+minute_s+":00 GMT+0000";
+        setEndTime = hour_ss+":"+minute_ss+":00 GMT+0000";
         //Toast.makeText(AddEventActivity.this, setTime, Toast.LENGTH_LONG).show();
 
         //re-init adapter

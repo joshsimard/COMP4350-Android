@@ -302,4 +302,15 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         return true;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item on resume
+        if(admin == 1)
+            navigationView.getMenu().getItem(1).setChecked(true);
+        else
+            navigationView.getMenu().getItem(4).setChecked(true);
+    }
+
 }

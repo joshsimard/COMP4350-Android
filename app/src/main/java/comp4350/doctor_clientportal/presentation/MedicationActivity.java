@@ -47,7 +47,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
     private View headerView;
-
+    private NavigationView navigationView;
     private int admin = 1;
     private String userID;
     private String userName;
@@ -69,7 +69,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
@@ -247,5 +247,12 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //set drawer item on resume
+        navigationView.getMenu().getItem(3).setChecked(true);
     }
 }

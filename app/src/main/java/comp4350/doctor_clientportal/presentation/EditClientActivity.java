@@ -51,6 +51,7 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
     private TextView client_kin_textView;
     private RadioGroup gender;
 
+    private NavigationView navigationView;
     private View headerView;
     private String userID;
     private String userName;
@@ -73,7 +74,7 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
@@ -322,5 +323,13 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item
+        navigationView.getMenu().getItem(5).setChecked(true);
     }
 }

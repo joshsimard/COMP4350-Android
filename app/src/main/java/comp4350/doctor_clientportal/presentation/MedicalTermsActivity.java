@@ -46,6 +46,7 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
 
+    private NavigationView navigationView;
     private  View headerView;
     private int admin = 0;
     private String userID;
@@ -69,7 +70,7 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
@@ -235,5 +236,13 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item
+        navigationView.getMenu().getItem(6).setChecked(true);
     }
 }

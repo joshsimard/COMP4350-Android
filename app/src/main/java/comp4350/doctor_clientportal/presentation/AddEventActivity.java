@@ -158,7 +158,7 @@ public class AddEventActivity extends AppCompatActivity
                     //userName; ->client_name
                     //userEmail; -> client_id
 
-                    Toast.makeText(AddEventActivity.this, dateData, Toast.LENGTH_LONG).show();
+                    //Toast.makeText(AddEventActivity.this, dateData, Toast.LENGTH_LONG).show();
                     final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
                     JSONObject postData = new JSONObject();

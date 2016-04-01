@@ -37,7 +37,6 @@ import comp4350.doctor_clientportal.objects.Medication;
 public class MedicationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<Medication> medList;
-    static final String STATE_EVENT_LIST = null;
 
     private ArrayList<Integer> selectedPositions;
     private ListView list;
@@ -113,7 +112,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         medList = new ArrayList<Medication>();
         //create request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
-
+        Toast.makeText(MedicationActivity.this,"1st", Toast.LENGTH_LONG).show();
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, apiURL + "medication", null, new Response.Listener<JSONObject>() {
 
@@ -125,7 +124,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
                                 medList.add(new Medication(json_data.getString("name"), json_data.getString("quantity")));
-                                //Toast.makeText(MedicationActivity.this, json_data.getString("name"), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MedicationActivity.this, json_data.getString("name"), Toast.LENGTH_LONG).show();
                             }
                             selectedPositions = new ArrayList<Integer>();
                             System.out.println("This is the size " + medList.size());
@@ -135,6 +134,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
                             populateListView();
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(MedicationActivity.this, e.getMessage(), Toast.LENGTH_LONG).show(); //FUNNY
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -147,6 +147,8 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
                 });
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
+
+        Toast.makeText(MedicationActivity.this,"end", Toast.LENGTH_LONG).show();
 
     }
 

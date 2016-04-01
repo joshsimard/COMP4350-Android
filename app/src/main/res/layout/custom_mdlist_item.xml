@@ -10,7 +10,7 @@
     >
 
     <ImageView
-        android:id="@+id/event_icon"
+        android:id="@+id/med_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="Nada"
@@ -33,8 +33,8 @@
         android:layout_marginTop="20dp"
         android:layout_marginLeft="10dp"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/event_icon"
-        android:layout_toEndOf="@+id/event_icon" />
+        android:layout_toRightOf="@+id/med_icon"
+        android:layout_toEndOf="@+id/med_icon" />
 
     <TextView
         android:id="@+id/quantity"
@@ -50,8 +50,8 @@
         android:layout_width="20px"
         android:layout_height="60px"
         android:layout_below="@+id/quantity"
-        android:layout_alignLeft="@+id/event_icon"
-        android:layout_alignStart="@+id/event_icon"
+        android:layout_alignLeft="@+id/med_icon"
+        android:layout_alignStart="@+id/med_icon"
         android:id="@+id/space" />
 
 </RelativeLayout>

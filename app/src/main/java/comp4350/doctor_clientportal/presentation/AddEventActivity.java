@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -85,13 +86,13 @@ public class AddEventActivity extends AppCompatActivity
     {
         Calendar now = Calendar.getInstance();
         timePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, 0, 0, false);
-        //endTimePickerDialog = TimePickerDialog.newInstance(AddEventActivity.this, curr_hour, curr_minute, false);
         datePickerDialog = DatePickerDialog.newInstance(
                 AddEventActivity.this,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
                 now.get(Calendar.DAY_OF_MONTH)
         );
+
 
         //date spinner
         dateItems = new String[]{"None","Set Date"};
@@ -130,6 +131,14 @@ public class AddEventActivity extends AppCompatActivity
 
         });
 
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                date_spinner.setSelection(0);
+            }
+        });
+
+        //fix bug
         time_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selectedItem = parent.getItemAtPosition(position).toString();
@@ -146,6 +155,13 @@ public class AddEventActivity extends AppCompatActivity
 
         });
 
+        timePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                time_spinner.setSelection(0);
+            }
+        });
+
         save_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,9 +170,6 @@ public class AddEventActivity extends AppCompatActivity
                     String event_id = new Date().getTime()+""; // -> event_id
                     String title = title_view.getText().toString(); // ->title
                     dateData = setDay+" "+setTime; // ->start & end time
-
-                    //userName; ->client_name
-                    //userEmail; -> client_id
 
                     //Toast.makeText(AddEventActivity.this, dateData, Toast.LENGTH_LONG).show();
                     final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
@@ -305,19 +318,19 @@ public class AddEventActivity extends AppCompatActivity
             title_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
-        if (date_spinner.getSelectedItem().toString().equals("None"))
+        if (date_spinner.getSelectedItem().toString().equals("None") || date_spinner.getSelectedItem().toString().equals("Set Date"))
         {
             TextView textView = (TextView) date_spinner.getChildAt(0);
             textView.setTextColor(getResources().getColor(R.color.error));
             attempt = false;
         }
-        if (time_spinner.getSelectedItem().toString().equals("None"))
+        if (time_spinner.getSelectedItem().toString().equals("None") || time_spinner.getSelectedItem().toString().equals("Set Time") )
         {
             TextView textView = (TextView) time_spinner.getChildAt(0);
             textView.setTextColor(getResources().getColor(R.color.error));
             attempt = false;
         }
-        else if (set_hour >= 22)
+        else if (set_hour > 22) //fix bug
         {
             new AlertDialog.Builder(AddEventActivity.this)
                         .setTitle("Error")

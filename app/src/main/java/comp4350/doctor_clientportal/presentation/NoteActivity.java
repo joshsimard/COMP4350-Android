@@ -77,9 +77,9 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(2).setChecked(true);
 
-        navigationView.getMenu().getItem(4).setVisible(false);
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {

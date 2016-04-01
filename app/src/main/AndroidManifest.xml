@@ -66,6 +66,10 @@
             android:label="Medication List"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".presentation.DoctorRequestActivity"
+            android:label="Client Requests"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.AddEventActivity"
             android:label="Set Appointment" />
         <activity android:name=".presentation.OrderMedsActivity"

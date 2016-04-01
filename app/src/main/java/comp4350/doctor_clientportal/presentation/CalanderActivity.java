@@ -87,7 +87,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         if(admin == 1)
             navigationView.getMenu().getItem(1).setChecked(true);
         else
-            navigationView.getMenu().getItem(4).setChecked(true);
+            navigationView.getMenu().getItem(5).setChecked(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_cal);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -108,9 +108,9 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         //init drawer
         if(admin == 1)
         {
-            navigationView.getMenu().getItem(4).setVisible(false);
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);
+            navigationView.getMenu().getItem(7).setVisible(false);
         }
         else
         {
@@ -118,6 +118,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             navigationView.getMenu().getItem(1).setVisible(false);
             navigationView.getMenu().getItem(2).setVisible(false);
             navigationView.getMenu().getItem(3).setVisible(false);
+            navigationView.getMenu().getItem(4).setVisible(false);
         }
 
         TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
@@ -310,7 +311,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         if(admin == 1)
             navigationView.getMenu().getItem(1).setChecked(true);
         else
-            navigationView.getMenu().getItem(4).setChecked(true);
+            navigationView.getMenu().getItem(5).setChecked(true);
     }
 
 }

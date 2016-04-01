@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,21 +33,23 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Medication;
+import comp4350.doctor_clientportal.objects.MedRequest;
+import comp4350.doctor_clientportal.objects.Note;
 
-public class MedicationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class DoctorRequestActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
-    private ArrayList<Medication> medList;
+    private ArrayList<MedRequest> medRequestList;
 
     private ArrayList<Integer> selectedPositions;
     private ListView list;
-    private View medItemView;
+    private View requestItemView;
     private String listResult;
-    private ArrayAdapter<Medication> medArrayAdapter;
+    private ArrayAdapter<MedRequest> requestArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
     private View headerView;
     private NavigationView navigationView;
+
     private int admin = 1;
     private String userID;
     private String userName;
@@ -60,7 +63,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         setSupportActionBar(toolbar);
 
         //select which layout to display
-        findViewById(R.id.include_medlist_view).setVisibility(View.VISIBLE);
+        findViewById(R.id.include_client_rq_view).setVisibility(View.VISIBLE);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -72,7 +75,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(3).setChecked(true);
+        navigationView.getMenu().getItem(4).setChecked(true);
 
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
@@ -85,17 +88,8 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
             userEmail =  bundle.getString("user_email");
         }
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_med);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MedicationActivity.this, OrderMedsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         initt();
-        populateClientList();
+        populateRequestList();
     }
 
     private void initt()
@@ -107,13 +101,14 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         username_textview.setText(userName);
     }
 
-    private void populateClientList()
+    private void populateRequestList()
     {
-        medList = new ArrayList<Medication>();
+        medRequestList = new ArrayList<MedRequest>();
         //create request queue
         final RequestQueue queue = Volley.newRequestQueue(this);
+
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, apiURL + "medication", null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, apiURL + "requests", null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -121,11 +116,19 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
                             JSONArray jsonArray = response.getJSONArray("data");
                             for(int i=0; i<jsonArray.length(); i++){
                                 JSONObject json_data = jsonArray.getJSONObject(i);
-                                medList.add(new Medication(json_data.getString("name"), json_data.getString("quantity")));
+
+                                medRequestList.add(new MedRequest
+                                        (json_data.getString("name"),
+                                                json_data.getString("quantity"),
+                                                json_data.getString("created_at"),
+                                                json_data.getString("status"),
+                                                json_data.getString("notes"),
+                                                json_data.getString("client")));
+
                             }
                             selectedPositions = new ArrayList<Integer>();
-                            System.out.println("This is the size " + medList.size());
-                            for(int i = 0; i < medList.size(); i++)
+                            System.out.println("This is the size " + medRequestList.size());
+                            for(int i = 0; i < medRequestList.size(); i++)
                                 selectedPositions.add(0);
 
                             populateListView();
@@ -138,7 +141,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // TODO Auto-generated method stub
-                        Toast.makeText(MedicationActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(DoctorRequestActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 });
         // Add the request to the RequestQueue.
@@ -146,11 +149,11 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
 
     }
 
-    private class MedArrayAdapter extends ArrayAdapter<Medication>
+    private class RequestArrayAdapter extends ArrayAdapter<MedRequest>
     {
-        public MedArrayAdapter()
+        public RequestArrayAdapter()
         {
-            super(MedicationActivity.this,R.layout.custom_mdlist_item, medList);
+            super(DoctorRequestActivity.this,R.layout.custom_request_item, medRequestList);
 
         }
 
@@ -158,19 +161,42 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         public View getView(int position, View convertView, ViewGroup parent)
         {
 
-            medItemView = convertView;
-            if(medItemView == null)
-                medItemView = getLayoutInflater().inflate(R.layout.custom_mdlist_item,parent, false);
+            requestItemView = convertView;
+            if(requestItemView == null)
+                requestItemView = getLayoutInflater().inflate(R.layout.custom_request_item,parent, false);
 
-            Medication currMed = medList.get(position);
-            TextView subject_textview = (TextView) medItemView.findViewById(R.id.med_name);
-            subject_textview.setText(currMed.getName());
+            MedRequest currRequest = medRequestList.get(position);
+            TextView name_textview = (TextView) requestItemView.findViewById(R.id.request_name);
+            name_textview.setText(currRequest.getName());
 
-            TextView body_textview = (TextView) medItemView.findViewById(R.id.quantity);
-            body_textview.setText(currMed.getQuantity());
+            TextView quantity_textview = (TextView) requestItemView.findViewById(R.id.request_quantity);
+            quantity_textview.setText(currRequest.getQuantity());
 
+            TextView client_textview = (TextView) requestItemView.findViewById(R.id.client_name_rq);
+            client_textview.setText(currRequest.getClientName());
 
-            return medItemView;
+            TextView date_textview = (TextView) requestItemView.findViewById(R.id.date_rq);
+            date_textview.setText(currRequest.getDate());
+
+            //action listener for buttons
+            Button accept_button = (Button)findViewById(R.id.accept_request_button);
+            Button decline_button = (Button)findViewById(R.id.decline_request_button);
+
+//            accept_button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //do stuff
+//                }
+//            });
+//
+//            decline_button.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    //do stuff
+//                }
+//            });
+
+            return requestItemView;
         }
 
     }
@@ -181,10 +207,10 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         if(listResult == null)
         {
 
-            medArrayAdapter = new MedArrayAdapter();
+            requestArrayAdapter = new RequestArrayAdapter();
 
-            ListView courseListView = (ListView)findViewById(R.id.listMeds);
-            courseListView.setAdapter(medArrayAdapter);
+            ListView courseListView = (ListView)findViewById(R.id.list_doctor_request);
+            courseListView.setAdapter(requestArrayAdapter);
         }
         else
         {
@@ -220,22 +246,22 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
 
         if (id == R.id.nav_appoint)
         {
-            Intent intent = new Intent(MedicationActivity.this, CalanderActivity.class);
+            Intent intent = new Intent(DoctorRequestActivity.this, CalanderActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_clients)
         {
-            Intent intent = new Intent(MedicationActivity.this, ClientListActivity.class);
+            Intent intent = new Intent(DoctorRequestActivity.this, ClientListActivity.class);
             defaultIntentMessage(intent);
         }
-        else if (id == R.id.nav_notes)
+        else if (id == R.id.nav_mdlist)
         {
-            Intent intent = new Intent(MedicationActivity.this, NoteActivity.class);
+            Intent intent = new Intent(DoctorRequestActivity.this, MedicationActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_logout)
         {
-            Intent intent = new Intent(MedicationActivity.this, LoginActivity.class);
+            Intent intent = new Intent(DoctorRequestActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
@@ -248,7 +274,8 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
     @Override
     protected void onResume() {
         super.onResume();
-        //set drawer item on resume
-        navigationView.getMenu().getItem(3).setChecked(true);
+
+        //set drawer item
+        navigationView.getMenu().getItem(4).setChecked(true);
     }
 }

@@ -78,9 +78,9 @@ public class ClientListActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        navigationView.getMenu().getItem(4).setVisible(false);
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -266,6 +266,11 @@ public class ClientListActivity extends AppCompatActivity
         else if (id == R.id.nav_mdlist)
         {
             Intent intent = new Intent(ClientListActivity.this, MedicationActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_client_request)
+        {
+            Intent intent = new Intent(ClientListActivity.this, DoctorRequestActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_logout)

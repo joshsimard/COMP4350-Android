@@ -74,12 +74,13 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(6).setChecked(true);
+        navigationView.getMenu().getItem(7).setChecked(true);
 
         navigationView.getMenu().getItem(0).setVisible(false);
         navigationView.getMenu().getItem(1).setVisible(false);
         navigationView.getMenu().getItem(2).setVisible(false);
         navigationView.getMenu().getItem(3).setVisible(false);
+        navigationView.getMenu().getItem(4).setVisible(false);
 
 
         Bundle bundle = getIntent().getExtras();
@@ -243,6 +244,6 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
         super.onResume();
 
         //set drawer item
-        navigationView.getMenu().getItem(6).setChecked(true);
+        navigationView.getMenu().getItem(7).setChecked(true);
     }
 }

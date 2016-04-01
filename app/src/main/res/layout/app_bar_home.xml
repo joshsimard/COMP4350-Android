@@ -51,4 +51,9 @@
         layout="@layout/activity_medication"
         android:visibility="gone"/>
 
+    <include
+        android:id="@+id/include_client_rq_view"
+        layout="@layout/activity_request_dc"
+        android:visibility="gone"/>
+
 </android.support.design.widget.CoordinatorLayout>

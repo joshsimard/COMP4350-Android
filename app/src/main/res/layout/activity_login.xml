@@ -76,23 +76,27 @@
             android:id="@+id/email_sign_in_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginTop="16dp"
             android:text="Sign In"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:background="@color/colorPrimaryDark" />
+            android:backgroundTint="@color/colorPrimaryDark" />
 
         <Button
             android:id="@+id/register_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_marginTop="16dp"
             android:text="Register"
             android:textStyle="bold"
+            android:shadowColor="@color/black"
             android:textColor="@color/white"
-            android:background="@color/colorAccent" />
+            android:elevation="15dp"
+            android:backgroundTint="@color/colorAccent"
+
+            />
 
     </LinearLayout>
 </LinearLayout>

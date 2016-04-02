@@ -233,6 +233,11 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
             Intent intent = new Intent(MedicationActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_client_request)
+        {
+            Intent intent = new Intent(MedicationActivity.this, DoctorRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(MedicationActivity.this, LoginActivity.class);

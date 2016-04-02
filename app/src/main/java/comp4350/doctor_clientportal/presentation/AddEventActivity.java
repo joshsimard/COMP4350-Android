@@ -95,7 +95,7 @@ public class AddEventActivity extends AppCompatActivity
 
 
         //date spinner
-        dateItems = new String[]{"None","Set Date"};
+        dateItems = new String[]{"Date:","Set Date"};
         dateAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateItems);
         dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         date_spinner = (Spinner) findViewById(R.id.date_spinner);
@@ -103,7 +103,7 @@ public class AddEventActivity extends AppCompatActivity
 
 
         //time spinner
-        timeItems = new String[]{"None","Set Time"};
+        timeItems = new String[]{"Time:","Set Time"};
         timeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeItems);
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         time_spinner = (Spinner) findViewById(R.id.time_spinner);
@@ -180,7 +180,7 @@ public class AddEventActivity extends AppCompatActivity
 
                     try {
                         postData.put("event_id", event_id);
-                        postData.put("title", title);
+                        postData.put("title", title+" - "+userName);
                         postData.put("start_time", dateData);
                         postData.put("end_time", setDay+" "+setEndTime);
                         postData.put("client_id", userEmail);
@@ -262,7 +262,7 @@ public class AddEventActivity extends AppCompatActivity
         //Toast.makeText(AddEventActivity.this, setTime, Toast.LENGTH_LONG).show();
 
         //re-init adapter
-        timeItems = new String[]{hour_s+":"+minute_s+""+am_pm,"None", "Set Time"};
+        timeItems = new String[]{hour_s+":"+minute_s+""+am_pm,"Time:", "Set Time"};
         timeAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, timeItems);
         timeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -287,7 +287,7 @@ public class AddEventActivity extends AppCompatActivity
         //Toast.makeText(AddEventActivity.this, setDay, Toast.LENGTH_LONG).show();
 
         //re-init adapter
-        dateItems = new String[]{day_s+", "+month_s+" "+dayOfMonth,"None", "Set Date"};
+        dateItems = new String[]{day_s+", "+month_s+" "+dayOfMonth,"Date:", "Set Date"};
         dateAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, dateItems);
         dateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         date_spinner.setAdapter(dateAdapter);
@@ -318,19 +318,19 @@ public class AddEventActivity extends AppCompatActivity
             title_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
-        if (date_spinner.getSelectedItem().toString().equals("None") || date_spinner.getSelectedItem().toString().equals("Set Date"))
+        if (date_spinner.getSelectedItem().toString().equals("Date:") || date_spinner.getSelectedItem().toString().equals("Set Date"))
         {
             TextView textView = (TextView) date_spinner.getChildAt(0);
             textView.setTextColor(getResources().getColor(R.color.error));
             attempt = false;
         }
-        if (time_spinner.getSelectedItem().toString().equals("None") || time_spinner.getSelectedItem().toString().equals("Set Time") )
+        if (time_spinner.getSelectedItem().toString().equals("Time:") || time_spinner.getSelectedItem().toString().equals("Set Time") )
         {
             TextView textView = (TextView) time_spinner.getChildAt(0);
             textView.setTextColor(getResources().getColor(R.color.error));
             attempt = false;
         }
-        else if (set_hour > 22) //fix bug
+        else if (set_hour > 22)
         {
             new AlertDialog.Builder(AddEventActivity.this)
                         .setTitle("Error")

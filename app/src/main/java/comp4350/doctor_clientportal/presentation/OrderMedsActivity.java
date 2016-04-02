@@ -1,12 +1,7 @@
 package comp4350.doctor_clientportal.presentation;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +18,6 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 import comp4350.doctor_clientportal.R;
@@ -49,7 +43,7 @@ public class OrderMedsActivity extends AppCompatActivity {
 
     private void initt()
     {
-        dialogView = getLayoutInflater().inflate(R.layout.dialog_view, null);
+        dialogView = getLayoutInflater().inflate(R.layout.number_picker_view, null);
         numberPicker = (MaterialNumberPicker)dialogView.findViewById(R.id.number_picker);
         name_text_view = (TextView)findViewById(R.id.med_name_edit);
         quantity_text_view = (TextView)findViewById(R.id.quantity_edit);
@@ -58,34 +52,6 @@ public class OrderMedsActivity extends AppCompatActivity {
 
     private void addActionListener()
     {
-//        {
-//            "data":{
-//            "name":"Propanol",
-//                    "quantity":"100"
-//        }
-//        }
-        quantity_text_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final int[] value = {0};
-//                new AlertDialog.Builder(OrderMedsActivity.this)
-//                        .setTitle("Hello")
-//                        .removeView(dialogView)
-//                        .setView(dialogView)
-//                        .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                value[0] = numberPicker.getValue();
-//                                //Toast.makeText(OrderMedsActivity.this, "You Picked: " + numberPicker.getValue(), Toast.LENGTH_LONG).show();
-//                            }
-//                        })
-//                                .show();
-//
-//                if(value[0] != 0)
-//                    quantity_text_view.setText(value[0]);
-//                Toast.makeText(OrderMedsActivity.this, "You Picked: " + numberPicker.getValue(), Toast.LENGTH_LONG).show();
-            }
-        });
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override

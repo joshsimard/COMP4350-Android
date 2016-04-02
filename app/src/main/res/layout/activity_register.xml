@@ -118,12 +118,12 @@
 
             <Button
                 android:id="@+id/submit_button"
-                android:background="@color/colorAccent"
+                android:backgroundTint="@color/colorAccent"
                 android:textColor="@color/white"
                 android:text="Submit"
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_below="@+id/password_cfm_view"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true">

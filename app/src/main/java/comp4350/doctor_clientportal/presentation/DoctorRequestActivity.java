@@ -1,6 +1,9 @@
 package comp4350.doctor_clientportal.presentation;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,7 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 import comp4350.doctor_clientportal.R;
 import comp4350.doctor_clientportal.objects.MedRequest;
 import comp4350.doctor_clientportal.objects.Note;
@@ -54,7 +60,7 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
     private String userID;
     private String userName;
     private String userEmail;
-
+    private View dialogView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,7 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        dialogView = getLayoutInflater().inflate(R.layout.number_picker_view, null);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
@@ -149,27 +156,26 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
 
     }
 
-    private class RequestArrayAdapter extends ArrayAdapter<MedRequest>
-    {
-        public RequestArrayAdapter()
-        {
-            super(DoctorRequestActivity.this,R.layout.custom_request_item, medRequestList);
+    private class RequestArrayAdapter extends ArrayAdapter<MedRequest> {
+        public RequestArrayAdapter() {
+            super(DoctorRequestActivity.this, R.layout.custom_request_item, medRequestList);
 
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent)
-        {
+        public View getView(final int position, final View convertView, ViewGroup parent) {
 
             requestItemView = convertView;
-            if(requestItemView == null)
-                requestItemView = getLayoutInflater().inflate(R.layout.custom_request_item,parent, false);
+            final String[] note = {""};
+
+            if (requestItemView == null)
+                requestItemView = getLayoutInflater().inflate(R.layout.custom_request_item, parent, false);
 
             MedRequest currRequest = medRequestList.get(position);
             TextView name_textview = (TextView) requestItemView.findViewById(R.id.request_name);
             name_textview.setText(currRequest.getName());
 
-            TextView quantity_textview = (TextView) requestItemView.findViewById(R.id.request_quantity);
+            final TextView quantity_textview = (TextView) requestItemView.findViewById(R.id.request_quantity);
             quantity_textview.setText(currRequest.getQuantity());
 
             TextView client_textview = (TextView) requestItemView.findViewById(R.id.client_name_rq);
@@ -178,27 +184,124 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
             TextView date_textview = (TextView) requestItemView.findViewById(R.id.date_rq);
             date_textview.setText(currRequest.getDate());
 
-            //action listener for buttons
-            Button accept_button = (Button)findViewById(R.id.accept_request_button);
-            Button decline_button = (Button)findViewById(R.id.decline_request_button);
+            final ImageView add_note_button = (ImageView) requestItemView.findViewById(R.id.edit_request);
 
-//            accept_button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //do stuff
-//                }
-//            });
-//
-//            decline_button.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    //do stuff
-//                }
-//            });
+            Button accept_button = (Button) requestItemView.findViewById(R.id.accept_request_button);
+            Button decline_button = (Button) requestItemView.findViewById(R.id.decline_request_button);
+
+
+            //action listener for Views
+            accept_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //do stuff
+                    Toast.makeText(DoctorRequestActivity.this, "Accept Stuff", Toast.LENGTH_LONG).show();
+
+                    /*
+                    *
+                    * if(!note[0].equals(""))
+                        Save Note
+                      else
+                        no Note
+
+                    * Call This when you done
+                    *
+                    *
+                    * requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
+                    * */
+                }
+            });
+
+            decline_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //do stuff
+                    Toast.makeText(DoctorRequestActivity.this, "Decline Stuff", Toast.LENGTH_LONG).show();
+
+                    /*
+                    * Call This when you done
+                    *
+                    * requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
+                    * */
+                }
+            });
+
+            //quantity action listener to edit quantity
+            quantity_textview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(DoctorRequestActivity.this);
+                    final NumberPicker numberPicker = (MaterialNumberPicker) dialogView.findViewById(R.id.number_picker);
+                    numberPicker.setBackgroundColor(getResources().getColor(R.color.grey));
+
+                    numberPicker.setValue(Integer.parseInt(quantity_textview.getText().toString()));
+                    final int[] value = {0};
+
+                    builder.setTitle("Edit Quantity").setView(dialogView)
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    value[0] = numberPicker.getValue();
+                                    quantity_textview.setText(value[0] + "");
+                                }
+                            }).setNegativeButton("CANCEL", null);
+
+
+                    AlertDialog dialog = builder.create();
+                    if (dialogView.getParent() != null)
+                        ((ViewGroup) dialogView.getParent()).removeView(dialogView); // <- fix
+                    dialog.show();
+
+                }
+            });
+
+
+            //add note
+            add_note_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    View dialogView = getLayoutInflater().inflate(R.layout.text_edit_view, null);
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(DoctorRequestActivity.this);
+                    final TextView noteDialog = (TextView) dialogView.findViewById(R.id.note_view_rq);
+                    noteDialog.setBackgroundColor(getResources().getColor(R.color.grey));
+
+                    noteDialog.setText(note[0]);
+                    builder.setTitle("Add Note").setView(dialogView)
+                            .setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    note[0] = noteDialog.getText().toString();
+
+                                    //indicate whether note has been added or not
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                                        if(!note[0].trim().equals(""))
+                                        {
+                                            add_note_button.setImageResource(R.drawable.ic_message_white_24dp);
+                                            add_note_button.setBackground(getResources().getDrawable(R.drawable.filled_oval));
+                                        }
+                                        else
+                                        {
+                                            add_note_button.setImageResource(R.drawable.ic_message_black_24dp);
+                                            add_note_button.setBackground(getResources().getDrawable(R.drawable.myrect));
+                                            note[0] = "";
+                                        }
+                                    }
+                                }
+                            }).setNegativeButton("CANCEL", null);
+
+
+                    AlertDialog dialog = builder.create();
+                    if (dialogView.getParent() != null)
+                        ((ViewGroup) dialogView.getParent()).removeView(dialogView); // <- fix
+                    dialog.show();
+
+                }
+            });
 
             return requestItemView;
         }
-
     }
 
     private void populateListView()
@@ -252,6 +355,11 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
         else if (id == R.id.nav_clients)
         {
             Intent intent = new Intent(DoctorRequestActivity.this, ClientListActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_notes)
+        {
+            Intent intent = new Intent(DoctorRequestActivity.this, NoteActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_mdlist)

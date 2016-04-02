@@ -238,6 +238,11 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(NoteActivity.this, MedicationActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_client_request)
+        {
+            Intent intent = new Intent(NoteActivity.this, DoctorRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(NoteActivity.this, LoginActivity.class);

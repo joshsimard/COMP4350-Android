@@ -179,18 +179,6 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
                 });
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
-
-        //listResult = accessCourses.getCourses(courseList);
-
-//        for(int i = 0; i < 5; i++)
-//        {
-//            eventList.add(new Event("Cancer Patient"+i+1,"Today 5:00am","Tommorow 9:00 pm"));
-//        }
-//
-//        selectedPositions = new ArrayList<Integer>();
-//        System.out.println("This is the size " + eventList.size());
-//        for(int i = 0; i < eventList.size(); i++)
-//            selectedPositions.add(0);
     }
 
     private class EventArrayAdapter extends ArrayAdapter<Event>
@@ -279,6 +267,11 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_mdlist)
         {
             Intent intent = new Intent(CalanderActivity.this, MedicationActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_client_request)
+        {
+            Intent intent = new Intent(CalanderActivity.this, DoctorRequestActivity.class);
             defaultIntentMessage(intent);
         }
         else if (id == R.id.nav_mterms_cl)

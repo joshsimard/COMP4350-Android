@@ -66,10 +66,10 @@
         <Button
             android:id="@+id/save_appoint_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="Submit"
             android:textColor="@color/white"
-            android:background="@color/colorAccent"
+            android:backgroundTint="@color/colorAccent"
             android:layout_marginTop="69dp"
             android:layout_below="@+id/end_time_spinner"
             android:layout_centerHorizontal="true" />

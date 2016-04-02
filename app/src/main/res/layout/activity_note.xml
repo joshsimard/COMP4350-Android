@@ -29,7 +29,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="@dimen/fab_margin"
-        android:src="@drawable/ic_add_white_48dp"
+        android:src="@drawable/ic_note_add_white_48dp"
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/listNotes"
         android:layout_alignEnd="@+id/listNotes" />

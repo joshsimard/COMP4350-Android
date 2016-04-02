@@ -118,60 +118,58 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onClick(View view) {
                 //attemptLogin();
 
-                //create request queue
-                final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                //login?email=john@doe.com&password=password
-                final String login = "login?email=" + mEmailView.getText().toString() +"&password=" + mPasswordView.getText().toString();
+                if(attemptLoginField()) {
+                    //create request queue
+                    final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+                    //login?email=john@doe.com&password=password
+                    final String login = "login?email=" + mEmailView.getText().toString() + "&password=" + mPasswordView.getText().toString();
 
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.POST, apiURL + login, null, new Response.Listener<JSONObject>() {
+                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                            (Request.Method.POST, apiURL + login, null, new Response.Listener<JSONObject>() {
 
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
 
-                                    Intent intent;
-                                    if (response.getString("data").equalsIgnoreCase("Invalid"))
-                                    {
-                                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                                        Intent intent;
+                                        if (response.getString("data").equalsIgnoreCase("Invalid")) {
+                                            Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_LONG).show();
+                                        } else if (response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("1")) {
+                                            JSONObject result = response.getJSONObject("data");
+                                            Toast.makeText(LoginActivity.this, "Welcome Doctor", Toast.LENGTH_LONG).show();
+                                            intent = new Intent(LoginActivity.this, ClientListActivity.class);
+                                            intent.putExtra("user_id", result.getString("id").toString()); //pass id
+                                            intent.putExtra("user_name", result.getString("firstName").toString() + " " + result.getString("lastName").toString()); //pass id
+                                            intent.putExtra("user_email", result.getString("email").toString()); //pass email
+                                            intent.putExtra("admin", 1);
+                                            startActivity(intent);
+                                        } else if (response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("0")) {
+                                            JSONObject result = response.getJSONObject("data");
+                                            Toast.makeText(LoginActivity.this, "Welcome Client", Toast.LENGTH_LONG).show();
+                                            intent = new Intent(LoginActivity.this, CalanderActivity.class);
+                                            intent.putExtra("user_id", result.getString("id").toString()); //pass id
+                                            intent.putExtra("user_name", result.getString("firstName").toString() + " " + result.getString("lastName").toString()); //pass id
+                                            intent.putExtra("user_email", result.getString("email").toString()); //pass email
+                                            intent.putExtra("admin", 0);
+                                            startActivity(intent);
+                                        }
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                    else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("1")) {
-                                        JSONObject result = response.getJSONObject("data");
-                                        Toast.makeText(LoginActivity.this, "Welcome Doctor", Toast.LENGTH_LONG).show();
-                                        intent = new Intent(LoginActivity.this, ClientListActivity.class);
-                                        intent.putExtra("user_id",result.getString("id").toString()); //pass id
-                                        intent.putExtra("user_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
-                                        intent.putExtra("user_email",result.getString("email").toString()); //pass email
-                                        intent.putExtra("admin",1);
-                                        startActivity(intent);
-                                    }
-                                    else if(response.getJSONObject("data").getString("admin").toString().equalsIgnoreCase("0")) {
-                                        JSONObject result = response.getJSONObject("data");
-                                        Toast.makeText(LoginActivity.this, "Welcome Client", Toast.LENGTH_LONG).show();
-                                        intent = new Intent(LoginActivity.this, CalanderActivity.class);
-                                        intent.putExtra("user_id", result.getString("id").toString()); //pass id
-                                        intent.putExtra("user_name",result.getString("firstName").toString()+" "+result.getString("lastName").toString()); //pass id
-                                        intent.putExtra("user_email",result.getString("email").toString()); //pass email
-                                        intent.putExtra("admin",0);
-                                        startActivity(intent);
-                                    }
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
                                 }
-                            }
-                        }, new Response.ErrorListener() {
+                            }, new Response.ErrorListener() {
 
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                // TODO Auto-generated method stub
-                                //uiUpdate.setText("Response: " + error.toString());
-                                Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                            }
-                        });
-                // Add the request to the RequestQueue.
-                queue.add(jsObjRequest);
-
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
+                                    //uiUpdate.setText("Response: " + error.toString());
+                                    Toast.makeText(LoginActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    // Add the request to the RequestQueue.
+                    queue.add(jsObjRequest);
+                }
 
             }
         });
@@ -221,6 +219,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 populateAutoComplete();
             }
         }
+    }
+
+    private boolean attemptLoginField()
+    {
+        boolean attempt = true;
+        if (mEmailView.getText().toString().isEmpty())
+        {
+            mEmailView.setError(getString(R.string.error_field_required));
+            attempt = false;
+        }
+        if (mPasswordView.getText().toString().isEmpty())
+        {
+            mPasswordView.setError(getString(R.string.error_field_required));
+            attempt = false;
+        }
+
+
+        // Check for a valid email address.
+        if (!(mEmailView.getText().toString().contains("@")))
+        {
+            mEmailView.setError(getString(R.string.error_invalid_email));
+            attempt = false;
+        }
+        return attempt;
     }
 
 

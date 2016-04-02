@@ -4,6 +4,7 @@ package comp4350.doctor_clientportal.objects;
  * Created by joshsimard on 2016-03-16.
  */
 public class MedRequest {
+    private int id;
     private String name;
     private String quantity;
     private String date;
@@ -13,8 +14,9 @@ public class MedRequest {
 
 
 
-    public MedRequest(String name, String quantity, String date, String status, String note, String clientName)
+    public MedRequest(int id, String name, String quantity, String date, String status, String note, String clientName)
     {
+        this.id = id;
         this.name = name;
         this.quantity = quantity;
         this.date = date;
@@ -27,6 +29,10 @@ public class MedRequest {
 
 
     //getters
+    public int getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }
@@ -52,6 +58,10 @@ public class MedRequest {
     }
 
     //setters
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }

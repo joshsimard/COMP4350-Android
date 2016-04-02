@@ -125,7 +125,8 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
                                 medRequestList.add(new MedRequest
-                                        (json_data.getString("name"),
+                                        (json_data.getInt("id"),
+                                                json_data.getString("name"),
                                                 json_data.getString("quantity"),
                                                 json_data.getString("created_at"),
                                                 json_data.getString("status"),
@@ -189,6 +190,9 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
             Button accept_button = (Button) requestItemView.findViewById(R.id.accept_request_button);
             Button decline_button = (Button) requestItemView.findViewById(R.id.decline_request_button);
 
+            final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+            final int currRequestId = currRequest.getId();
+
 
             //action listener for Views
             accept_button.setOnClickListener(new View.OnClickListener() {
@@ -197,18 +201,61 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                     //do stuff
                     Toast.makeText(DoctorRequestActivity.this, "Accept Stuff", Toast.LENGTH_LONG).show();
 
-                    /*
-                    *
-                    * if(!note[0].equals(""))
-                        Save Note
-                      else
-                        no Note
 
-                    * Call This when you done
-                    *
-                    *
-                    * requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
-                    * */
+
+                    if(note[0].equals(""))
+                    {
+                        //no note
+                        note[0] = "none";
+                    }
+
+
+                    JSONObject postData = new JSONObject();
+                    JSONObject data = new JSONObject();
+
+                    try {
+                        postData.put("quantity", quantity_textview.getText().toString());
+                        postData.put("status", "approved");
+                        postData.put("notes", note[0].toString());
+
+                        data.put("data", postData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                            (Request.Method.PUT, apiURL + "requests/" + currRequestId, data, new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONArray jsonArray = response.getJSONArray("data");
+
+                                        //after saving data
+                                        Toast.makeText(DoctorRequestActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
+
+                                        // Call This when you done
+                                        requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
+                                        //finish();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
+                                    //uiUpdate.setText("Response: " + error.toString());
+                                    Toast.makeText(DoctorRequestActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    // Add the request to the RequestQueue.
+                    queue.add(jsObjRequest);
+
+
+
                 }
             });
 
@@ -218,11 +265,55 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                     //do stuff
                     Toast.makeText(DoctorRequestActivity.this, "Decline Stuff", Toast.LENGTH_LONG).show();
 
-                    /*
-                    * Call This when you done
-                    *
-                    * requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
-                    * */
+                    if(note[0].equals(""))
+                    {
+                        //no note
+                        note[0] = "none";
+                    }
+
+                    JSONObject postData = new JSONObject();
+                    JSONObject data = new JSONObject();
+
+                    try {
+                        postData.put("quantity", quantity_textview.getText().toString());
+                        postData.put("status", "declined");
+                        postData.put("notes", note[0].toString());
+
+                        data.put("data", postData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+
+                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                            (Request.Method.PUT, apiURL + "requests/" + currRequestId, data, new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONArray jsonArray = response.getJSONArray("data");
+
+                                        //after saving data
+                                        Toast.makeText(DoctorRequestActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
+
+                                        // Call This when you done
+                                        requestArrayAdapter.remove(requestArrayAdapter.getItem(position));
+                                        //finish();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
+                                    //uiUpdate.setText("Response: " + error.toString());
+                                    Toast.makeText(DoctorRequestActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    // Add the request to the RequestQueue.
+                    queue.add(jsObjRequest);
                 }
             });
 

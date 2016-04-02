@@ -57,11 +57,11 @@
         <Button
             android:id="@+id/med_submit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="55dp"
             android:layout_below="@id/quantity_view"
             android:layout_marginTop="15dp"
             android:textColor="@color/white"
-            android:background="@color/colorAccent"
+            android:backgroundTint="@color/colorAccent"
             android:text="Submit"/>
 
     </RelativeLayout>

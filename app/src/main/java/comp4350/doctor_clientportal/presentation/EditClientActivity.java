@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
     private TextView client_marital_textView;
     private TextView client_kin_textView;
     private RadioGroup gender;
+    private RadioButton male_rb, female_rb;
 
     private NavigationView navigationView;
     private View headerView;
@@ -123,9 +125,9 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
                     postData.put("dob", client_dob_textView.getText().toString());
                     postData.put("email", client_email_textView.getText().toString());
 
-                    if ((findViewById(R.id.male_radio_edit)).isSelected())
+                    if(gender.getCheckedRadioButtonId() == R.id.male_radio_edit)
                         postData.put("gender", "Male");
-                    else if ((findViewById(R.id.female_radio_edit)).isSelected())
+                    else  if(gender.getCheckedRadioButtonId() == R.id.female_radio_edit)
                         postData.put("gender", "Female");
                     else
                         postData.put("gender", "");
@@ -198,10 +200,14 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
             client_dob_textView.setText(json_data.getString("dob"));
 
             gender = (RadioGroup)findViewById(R.id.gender_radiogp);
+            male_rb = (RadioButton)findViewById(R.id.male_radio_edit);
+            female_rb = (RadioButton)findViewById(R.id.female_radio_edit);
+
             if(json_data.getString("gender").equalsIgnoreCase("male"))
                 gender.check(R.id.male_radio_edit);
             else if(json_data.getString("gender").equalsIgnoreCase("female"))
                 gender.check(R.id.female_radio_edit);
+
 
             client_height_textView = (TextView)findViewById(R.id.client_height_edit);
             client_height_textView.setText(json_data.getString("height"));

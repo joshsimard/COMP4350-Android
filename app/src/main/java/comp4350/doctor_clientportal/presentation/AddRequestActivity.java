@@ -55,55 +55,69 @@ public class AddRequestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+//                {
+//                    "data":{
+//                    "name": "New Drug",
+//                            "client": "Jane Doe",
+//                            "email": "jane@doe.com",
+//                            "quantity": "5",
+//                            "status": "pending",
+//                            "notes": "none"
+//                }
+//                }
                 if(attemptSave())
                 {
 //                    //do stuff here
-//                    String name = title_text_view.getText().toString();
-//                    String quantity = body_text_view.getText().toString();
-                    Toast.makeText(AddRequestActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
+                    String name = name_text_view.getText().toString();
+                    String quantity = quantity_text_view.getText().toString();
+//                    Toast.makeText(AddRequestActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
 //
-//                    final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-//
-//                    JSONObject postData = new JSONObject();
-//                    JSONObject data = new JSONObject();
-//
-//
-//                    try {
-//                        postData.put("name", name);
-//                        postData.put("quantity", quantity);
-//
-//                        data.put("data", postData);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//
-//
-//                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
-//                            (Request.Method.POST, apiURL + "requests", data, new Response.Listener<JSONObject>() {
-//
-//                                @Override
-//                                public void onResponse(JSONObject response) {
-//                                    try {
-//                                        JSONArray jsonArray = response.getJSONArray("data");
-//
-//                                        //after saving data
-//                                        Toast.makeText(AddRequestActivity.this, jsonArray.getString(0), Toast.LENGTH_LONG).show();
-//                                        finish();
-//                                    } catch (JSONException e) {
-//                                        e.printStackTrace();
-//                                    }
-//                                }
-//                            }, new Response.ErrorListener() {
-//
-//                                @Override
-//                                public void onErrorResponse(VolleyError error) {
-//                                    // TODO Auto-generated method stub
-//                                    //uiUpdate.setText("Response: " + error.toString());
-//                                    Toast.makeText(AddRequestActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-//                                }
-//                            });
-//                    // Add the request to the RequestQueue.
-//                    queue.add(jsObjRequest);
+
+                    final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+                    JSONObject postData = new JSONObject();
+                    JSONObject data = new JSONObject();
+
+
+                    try {
+                        postData.put("name", name);
+                        postData.put("client", "John doe");
+                        postData.put("email", "John@doe.com");
+                        postData.put("quantity", quantity);
+                        postData.put("status", "pending");
+                        postData.put("notes", "none");
+
+                        data.put("data", postData);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                            (Request.Method.POST, apiURL + "requests", data, new Response.Listener<JSONObject>() {
+
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    try {
+                                        JSONArray jsonArray = response.getJSONArray("data");
+
+                                        //after saving data
+                                        Toast.makeText(AddRequestActivity.this, "Saved!", Toast.LENGTH_LONG).show();
+                                        finish();
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    // TODO Auto-generated method stub
+                                    //uiUpdate.setText("Response: " + error.toString());
+                                    Toast.makeText(AddRequestActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                    // Add the request to the RequestQueue.
+                    queue.add(jsObjRequest);
                 }
             }
         });

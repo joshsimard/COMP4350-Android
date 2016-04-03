@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -51,10 +53,12 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
     private View requestItemView;
     private String listResult;
     private ArrayAdapter<MedRequest> requestArrayAdapter;
+    private ArrayAdapter<MedRequest> emptyArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
     private View headerView;
     private NavigationView navigationView;
+    private LinearLayout layout;
 
     private int admin = 1;
     private String userID;
@@ -87,6 +91,7 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
         navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -96,7 +101,7 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
         }
 
         initt();
-        populateRequestList();
+        //populateRequestList(); /**make sure thisis not needed
     }
 
     private void initt()
@@ -106,6 +111,8 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
 
         TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
         username_textview.setText(userName);
+
+       layout = (LinearLayout)findViewById(R.id.empty_rq_dc);
     }
 
     private void populateRequestList()
@@ -159,6 +166,7 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
 
     private class RequestArrayAdapter extends ArrayAdapter<MedRequest> {
         public RequestArrayAdapter() {
+
             super(DoctorRequestActivity.this, R.layout.custom_request_item, medRequestList);
 
         }
@@ -199,9 +207,6 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                 @Override
                 public void onClick(View v) {
                     //do stuff
-                    Toast.makeText(DoctorRequestActivity.this, "Accept Stuff", Toast.LENGTH_LONG).show();
-
-
 
                     if(note[0].equals(""))
                     {
@@ -254,7 +259,8 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                     // Add the request to the RequestQueue.
                     queue.add(jsObjRequest);
 
-
+                    if(medRequestList.size() <= 0)
+                        layout.setVisibility(View.VISIBLE);
 
                 }
             });
@@ -263,8 +269,6 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                 @Override
                 public void onClick(View v) {
                     //do stuff
-                    Toast.makeText(DoctorRequestActivity.this, "Decline Stuff", Toast.LENGTH_LONG).show();
-
                     if(note[0].equals(""))
                     {
                         //no note
@@ -314,6 +318,9 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
                             });
                     // Add the request to the RequestQueue.
                     queue.add(jsObjRequest);
+
+                    if(medRequestList.size() <= 0)
+                        layout.setVisibility(View.VISIBLE);
                 }
             });
 
@@ -397,14 +404,13 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
 
     private void populateListView()
     {
-
         if(listResult == null)
         {
-
             requestArrayAdapter = new RequestArrayAdapter();
-
-            ListView courseListView = (ListView)findViewById(R.id.list_doctor_request);
-            courseListView.setAdapter(requestArrayAdapter);
+            ListView requestListView = (ListView)findViewById(R.id.list_doctor_request);
+            requestListView.setAdapter(requestArrayAdapter);
+            if(medRequestList.size() <= 0)
+                layout.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -476,5 +482,6 @@ public class DoctorRequestActivity extends AppCompatActivity implements Navigati
 
         //set drawer item
         navigationView.getMenu().getItem(4).setChecked(true);
+        populateRequestList();
     }
 }

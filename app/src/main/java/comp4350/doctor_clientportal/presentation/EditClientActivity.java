@@ -320,6 +320,11 @@ public class EditClientActivity extends AppCompatActivity  implements Navigation
             Intent intent = new Intent(EditClientActivity.this, MedicalTermsActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_request_cl)
+        {
+            Intent intent = new Intent(EditClientActivity.this, ClientRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(EditClientActivity.this, LoginActivity.class);

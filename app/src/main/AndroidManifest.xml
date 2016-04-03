@@ -37,8 +37,9 @@
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-        <activity android:name=".presentation.NoteDisplayActivity" />
-        <activity android:name=".presentation.AddNoteActivity" />
+        <activity
+            android:name=".presentation.AddNoteActivity"
+            android:label="New Note"/>
         <activity
             android:name=".presentation.CalanderActivity"
             android:label="@string/title_activity_calander"
@@ -70,10 +71,18 @@
             android:label="Client Requests"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".presentation.ClientRequestActivity"
+            android:label="Requests"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".presentation.AddEventActivity"
             android:label="Set Appointment" />
-        <activity android:name=".presentation.OrderMedsActivity"
-            android:label="Order Medication"></activity>
+        <activity
+            android:name=".presentation.OrderMedsActivity"
+            android:label="Order Medication" />
+        <activity
+            android:name=".presentation.AddRequestActivity"
+            android:label="New Request"></activity>
     </application>
 
 </manifest>

@@ -8,32 +8,44 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import biz.kasual.materialnumberpicker.MaterialNumberPicker;
 import comp4350.doctor_clientportal.R;
 
-public class AddNoteActivity extends AppCompatActivity {
+public class AddRequestActivity extends AppCompatActivity {
 
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
 
-    TextView title_text_view;
-    TextView body_text_view;
+    TextView name_text_view;
+    TextView quantity_text_view;
     Button submit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_note);
-
+        setContentView(R.layout.activity_add_request);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initt();
         addActionListener();
     }
 
+
     private void initt()
     {
-        title_text_view = (TextView)findViewById(R.id.note_name);
-        body_text_view = (TextView)findViewById(R.id.note_body);
-        submit = (Button)findViewById(R.id.note_submit);
+        name_text_view = (TextView)findViewById(R.id.drug_name_edit);
+        quantity_text_view = (TextView)findViewById(R.id.quantity_edit_cl);
+        submit = (Button)findViewById(R.id.drug_submit);
     }
 
     private void addActionListener()
@@ -48,7 +60,7 @@ public class AddNoteActivity extends AppCompatActivity {
 //                    //do stuff here
 //                    String name = title_text_view.getText().toString();
 //                    String quantity = body_text_view.getText().toString();
-                    Toast.makeText(AddNoteActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AddRequestActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
 //
 //                    final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 //
@@ -102,14 +114,14 @@ public class AddNoteActivity extends AppCompatActivity {
     private boolean attemptSave()
     {
         boolean attempt = true;
-        if (title_text_view.getText().toString().isEmpty())
+        if (name_text_view.getText().toString().isEmpty())
         {
-            title_text_view.setError(getString(R.string.error_field_required));
+            name_text_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
-        if (body_text_view.getText().toString().isEmpty())
+        if (quantity_text_view.getText().toString().isEmpty())
         {
-            body_text_view.setError(getString(R.string.error_field_required));
+            quantity_text_view.setError(getString(R.string.error_field_required));
             attempt = false;
         }
 
@@ -128,4 +140,3 @@ public class AddNoteActivity extends AppCompatActivity {
         }
     }
 }
-

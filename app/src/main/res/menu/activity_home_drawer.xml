@@ -37,6 +37,9 @@
         <item
             android:id="@+id/nav_mterms_cl"
             android:title="Medical Terms" />
+        <item
+            android:id="@+id/nav_request_cl"
+            android:title="Requests" />
 
     </group>
 

@@ -3,7 +3,6 @@ package comp4350.doctor_clientportal.presentation;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -80,6 +79,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
         navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -92,12 +92,13 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(NoteActivity.this, "Do Stuff!", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(NoteActivity.this, AddNoteActivity.class);
+                startActivity(intent);
             }
         });
 
         initt();
-        populateClientList();
+        //populateNoteList(); /**make sure this is not needed
     }
 
     private void initt()
@@ -109,7 +110,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
         username_textview.setText(userName);
     }
 
-    private void populateClientList()
+    private void populateNoteList()
     {
         noteList = new ArrayList<Note>();
         //create request queue
@@ -261,5 +262,6 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
 
         //set drawer item
         navigationView.getMenu().getItem(2).setChecked(true);
+        populateNoteList();
     }
 }

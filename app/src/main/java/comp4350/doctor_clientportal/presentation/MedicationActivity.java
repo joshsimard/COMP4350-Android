@@ -77,6 +77,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
         navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
@@ -95,7 +96,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         });
 
         initt();
-        populateClientList();
+        //populateMedList(); /**make sure this is not needed
     }
 
     private void initt()
@@ -107,7 +108,7 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         username_textview.setText(userName);
     }
 
-    private void populateClientList()
+    private void populateMedList()
     {
         medList = new ArrayList<Medication>();
         //create request queue
@@ -255,5 +256,6 @@ public class MedicationActivity extends AppCompatActivity implements NavigationV
         super.onResume();
         //set drawer item on resume
         navigationView.getMenu().getItem(3).setChecked(true);
+        populateMedList();
     }
 }

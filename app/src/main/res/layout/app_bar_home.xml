@@ -56,4 +56,9 @@
         layout="@layout/activity_request_dc"
         android:visibility="gone"/>
 
+    <include
+        android:id="@+id/include_request_view"
+        layout="@layout/activity_request_cl"
+        android:visibility="gone"/>
+
 </android.support.design.widget.CoordinatorLayout>

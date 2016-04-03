@@ -81,6 +81,7 @@ public class ClientListActivity extends AppCompatActivity
         navigationView.getMenu().getItem(5).setVisible(false);
         navigationView.getMenu().getItem(6).setVisible(false);
         navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
 
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {

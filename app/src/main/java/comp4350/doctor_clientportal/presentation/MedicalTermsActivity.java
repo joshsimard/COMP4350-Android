@@ -217,6 +217,11 @@ public class MedicalTermsActivity extends AppCompatActivity implements Navigatio
             Intent intent = new Intent(MedicalTermsActivity.this, EditClientActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_request_cl)
+        {
+            Intent intent = new Intent(MedicalTermsActivity.this, ClientRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
         else if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(MedicalTermsActivity.this, LoginActivity.class);

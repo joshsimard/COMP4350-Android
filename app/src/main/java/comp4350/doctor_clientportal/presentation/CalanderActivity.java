@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +45,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
     private View eventItemView;
     private String listResult;
     private ArrayAdapter<Event> eventArrayAdapter;
+    private LinearLayout layout;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
 
     View headerView;
@@ -100,7 +102,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
         });
 
         initt();
-        populateEventList();
+        //populateEventList(); /** make sure this is not needed
     }
 
     private void initt()
@@ -111,6 +113,7 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             navigationView.getMenu().getItem(5).setVisible(false);
             navigationView.getMenu().getItem(6).setVisible(false);
             navigationView.getMenu().getItem(7).setVisible(false);
+            navigationView.getMenu().getItem(8).setVisible(false);
         }
         else
         {
@@ -126,6 +129,8 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
 
         TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
         username_textview.setText(userName);
+
+        layout = (LinearLayout)findViewById(R.id.empty_appoint);
     }
 
     private void populateEventList()
@@ -144,18 +149,10 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
                             for(int i=0; i<jsonArray.length(); i++){
                                 JSONObject json_data = jsonArray.getJSONObject(i);
 
-                                // Toast.makeText(ClientListActivity.this, json_data.getString("firstName"), Toast.LENGTH_LONG).show();
-                                //clientList.add(new Client(json_data.getString("firstName") + " " + json_data.getString("lastName"), json_data.getString("email"), json_data.getString("id")));
-
-                                eventList.add(new Event(json_data.getString("title"),json_data.getString("start_time").substring(0,23),json_data.getString("end_time").substring(0,23)));
-//                                        Log.i("log_tag", "_id" + json_data.getInt("account") +
-//                                                        ", mall_name" + json_data.getString("name") +
-//                                                        ", location" + json_data.getString("number") +
-//                                                        ", telephone" + json_data.getString("url") +
-//                                                        ",----" + json_data.getString("balance") +
-//                                                        ",----" + json_data.getString("credit") +
-//                                                        ",----" + json_data.getString("displayName")
-//                                        );
+                                //only admin should see all events
+                                if(admin == 0 && !(json_data.getString("title").toLowerCase().contains(userName.toLowerCase())))
+                                    continue;
+                                eventList.add(new Event(json_data.getString("title"), json_data.getString("start_time").substring(0, 23), json_data.getString("end_time").substring(0, 23)));
                             }
                             selectedPositions = new ArrayList<Integer>();
                             System.out.println("This is the size " + eventList.size());
@@ -221,6 +218,9 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
 
             ListView courseListView = (ListView)findViewById(R.id.listAppoints);
             courseListView.setAdapter(eventArrayAdapter);
+
+            if(eventList.size() <= 0)
+                layout.setVisibility(View.VISIBLE);
         }
         else
         {
@@ -284,6 +284,11 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             Intent intent = new Intent(CalanderActivity.this, EditClientActivity.class);
             defaultIntentMessage(intent);
         }
+        else if (id == R.id.nav_request_cl)
+        {
+            Intent intent = new Intent(CalanderActivity.this, ClientRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
         if (id == R.id.nav_logout)
         {
             Intent intent = new Intent(CalanderActivity.this, LoginActivity.class);
@@ -305,6 +310,8 @@ public class CalanderActivity extends AppCompatActivity implements NavigationVie
             navigationView.getMenu().getItem(1).setChecked(true);
         else
             navigationView.getMenu().getItem(5).setChecked(true);
+
+        populateEventList();
     }
 
 }

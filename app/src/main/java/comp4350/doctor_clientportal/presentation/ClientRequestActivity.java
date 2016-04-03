@@ -102,6 +102,9 @@ public class ClientRequestActivity extends AppCompatActivity implements Navigati
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ClientRequestActivity.this, AddRequestActivity.class);
+                intent.putExtra("user_id", userID); //pass id
+                intent.putExtra("user_name", userName); //pass id
+                intent.putExtra("user_email", userEmail); //pass email
                 startActivity(intent);
             }
         });

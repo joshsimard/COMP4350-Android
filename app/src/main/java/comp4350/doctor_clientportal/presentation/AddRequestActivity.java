@@ -30,12 +30,22 @@ public class AddRequestActivity extends AppCompatActivity {
     TextView quantity_text_view;
     Button submit;
 
+    private String userID;
+    private String userName;
+    private String userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_request);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
+        }
         initt();
         addActionListener();
     }
@@ -81,8 +91,8 @@ public class AddRequestActivity extends AppCompatActivity {
 
                     try {
                         postData.put("name", name);
-                        postData.put("client", "John doe");
-                        postData.put("email", "John@doe.com");
+                        postData.put("client", userName);
+                        postData.put("email", userEmail);
                         postData.put("quantity", quantity);
                         postData.put("status", "pending");
                         postData.put("notes", "none");

@@ -93,6 +93,7 @@ public class NoteActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(NoteActivity.this, AddNoteActivity.class);
+                intent.putExtra("user_id", userID); //pass id
                 startActivity(intent);
             }
         });

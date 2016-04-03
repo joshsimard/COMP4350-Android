@@ -31,6 +31,7 @@ public class AddNoteActivity extends AppCompatActivity {
     TextView title_text_view;
     TextView body_text_view;
     Button submit;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,12 @@ public class AddNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_note);
 
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            userID =  bundle.getString("user_id");
+        }
 
         initt();
         addActionListener();
@@ -79,7 +86,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
 
                     try {
-                        postData.put("doctor_id", 1);
+                        postData.put("doctor_id", userID);
                         postData.put("subject", name);
                         postData.put("body", body);
 

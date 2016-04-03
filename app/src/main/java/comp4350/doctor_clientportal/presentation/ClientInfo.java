@@ -108,6 +108,53 @@ public class ClientInfo extends AppCompatActivity {
         }
     }
 
+    private void populateVisits()
+    {
+        final RequestQueue queue2 = Volley.newRequestQueue(this);
+        final String empty = "N/A";
+
+        Toast.makeText(ClientInfo.this, "Here", Toast.LENGTH_LONG).show();
+
+        JsonObjectRequest jsObjRequest2 = new JsonObjectRequest
+                (Request.Method.GET, apiURL + "visits/"+clientID, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONObject json_data = response.getJSONObject("data");
+                            Toast.makeText(ClientInfo.this, "Hmm", Toast.LENGTH_LONG).show();
+                            TextView symptom_textView = (TextView)findViewById(R.id.client_symptoms_info);
+                            TextView allergy_textView = (TextView)findViewById(R.id.client_allergies_info);
+
+                            //get symptoms
+                            if(!json_data.getString("symptoms").trim().equalsIgnoreCase(""))
+                                symptom_textView.setText(json_data.getString("symptoms"));
+                            else
+                                symptom_textView.setText(empty);
+
+                            //get allergy
+                            if(!json_data.getString("allergies").trim().equalsIgnoreCase(""))
+                                allergy_textView.setText(json_data.getString("allergies"));
+                            else
+                                allergy_textView.setText(empty);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        Toast.makeText(ClientInfo.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                });
+        // Add the request to the RequestQueue.
+        queue2.add(jsObjRequest2);
+
+    }
+
     private void populateEditForm()
     {
         //create request queue
@@ -121,6 +168,7 @@ public class ClientInfo extends AppCompatActivity {
                         try {
                             JSONObject json_data = response.getJSONObject("data");
                             populateForm(json_data);
+                            populateVisits();
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -135,7 +183,6 @@ public class ClientInfo extends AppCompatActivity {
                 });
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
-
     }
 
     @Override

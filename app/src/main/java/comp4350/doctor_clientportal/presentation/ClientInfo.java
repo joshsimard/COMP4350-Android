@@ -113,7 +113,7 @@ public class ClientInfo extends AppCompatActivity {
         final RequestQueue queue2 = Volley.newRequestQueue(this);
         final String empty = "N/A";
 
-        Toast.makeText(ClientInfo.this, "Here", Toast.LENGTH_LONG).show();
+        //Toast.makeText(ClientInfo.this, "Here", Toast.LENGTH_LONG).show();
 
         JsonObjectRequest jsObjRequest2 = new JsonObjectRequest
                 (Request.Method.GET, apiURL + "visits/"+clientID, null, new Response.Listener<JSONObject>() {
@@ -122,7 +122,7 @@ public class ClientInfo extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             JSONObject json_data = response.getJSONObject("data");
-                            Toast.makeText(ClientInfo.this, "Hmm", Toast.LENGTH_LONG).show();
+                            //Toast.makeText(ClientInfo.this, "Hmm", Toast.LENGTH_LONG).show();
                             TextView symptom_textView = (TextView)findViewById(R.id.client_symptoms_info);
                             TextView allergy_textView = (TextView)findViewById(R.id.client_allergies_info);
 

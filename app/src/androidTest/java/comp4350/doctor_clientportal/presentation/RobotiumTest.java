@@ -208,13 +208,13 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         solo.searchText("Declined");
 
         //click note button
-        solo.clickOnButton(R.id.edit_request_cl);
+        solo.clickOnView(solo.getView(R.id.edit_request_cl));
 
         //find Your problem is beyond me. ..I can't help you
-        solo.searchText("Your problem is beyond me. ..I can't help you");
+        //solo.searchText("Your problem is beyond me. ..I can't help you");
 
         //click Ok
-        solo.clickOnButton("Ok");
+        solo.clickOnText("Ok");
 
         //click add button
         solo.clickOnButton(R.id.fab_request);

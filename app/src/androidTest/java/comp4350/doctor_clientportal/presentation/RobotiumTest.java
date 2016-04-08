@@ -56,7 +56,7 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         solo.assertCurrentActivity("wrong activity", AddEventActivity.class);
 
         //get title
-        solo.enterText((AutoCompleteTextView) solo.getView(R.id.appoint_title), "Surgery - Jane Doe");
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.appoint_title), "Surgery");
 
         //get date - click the 3 spots
         solo.clickOnText("Date");

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Doctor-Client Portal</string>
+    <string name="app_name">DC Portal</string>
     <string name="action_search">search</string>
     <string name="action_submit">submit</string>
     <string name="action_shopping_cart">shopping cart</string>
@@ -54,10 +54,18 @@
     <string name="action_add_note">Add</string>
     <string name="prompt_title">Add a name...</string>
     <string name="prompt_body">Add a message...</string>
-    <string name="title_activity_calander">CalanderActivity</string>
+    <string name="title_activity_calander">Appointments</string>
 
     <!-- Strings related to client form -->
     <string name="prompt_height">Email</string>
     <string name="prompt_weight">Email</string>
+    <string name="title_activity_home">Home</string>
+    <string name="title_activity_client_list">Clients</string>
+    <string name="title_activity_notes">Notes</string>
+    <string name="title_activity_mterms">Medical Terms</string>
+    <string name="title_activity_edit_client">Edit Information</string>
     <!--<string name="prompt_height">Email</string>-->
+
+    <string name="profile_email">N/A</string>
+    <string name="title_activity_register">Register</string>
 </resources>

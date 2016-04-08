@@ -1,8 +1,15 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -17,20 +24,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import comp4350.doctor_clientportal.R;
-import comp4350.doctor_clientportal.objects.Note;
 
-public class EditClientActivity extends AppCompatActivity {
+public class EditClientActivity extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener{
 
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
-    private String clientID;
     RequestQueue queue;
     private TextView client_fname_textView;
     private TextView client_lname_textView;
@@ -49,42 +51,65 @@ public class EditClientActivity extends AppCompatActivity {
     private TextView client_marital_textView;
     private TextView client_kin_textView;
     private RadioGroup gender;
+    private RadioButton male_rb, female_rb;
+
+    private NavigationView navigationView;
+    private View headerView;
+    private String userID;
+    private String userName;
+    private int admin = 0;
+    private String userEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_client);
+        setContentView(R.layout.activity_drawer_template);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //select which layout to display
+        findViewById(R.id.include_edit_view).setVisibility(View.VISIBLE);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(6).setChecked(true);
+
+        navigationView.getMenu().getItem(0).setVisible(false);
+        navigationView.getMenu().getItem(1).setVisible(false);
+        navigationView.getMenu().getItem(2).setVisible(false);
+        navigationView.getMenu().getItem(3).setVisible(false);
+        navigationView.getMenu().getItem(4).setVisible(false);
+
+
         Bundle bundle = getIntent().getExtras();
         if(bundle != null) {
-            clientID =  bundle.getString("client_id");
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
         }
         queue = Volley.newRequestQueue(this);
+        initt();
         populateEditForm();
         submitButton();
     }
 
-//    {
-//        "data":{
-//        "userid":"2",
-//                "firstName":"Jane",
-//                "lastName":"Doe",
-//                "dob":"19300411",
-//                "email":"jane@doe.com",
-//                "gender":"female",
-//                "height":150,
-//                "weight":200,
-//                "mobileNum":"1234567",
-//                "homeNum":"987654",
-//                "address":"234 mary lane",
-//                "city":"winnipeg",
-//                "postalCode":"R2M2T2",
-//                "state":"Manitoba",
-//                "country":"Canada",
-//                "occupation":"student",
-//                "maritalStatus":"Married",
-//                "nextOfKin":"Brother"
-//    }
-//    }
+    private void initt()
+    {
+        TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
+        email_textview.setText(userEmail);
+
+        TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
+        username_textview.setText(userName);
+    }
+
     private void submitButton()
     {
         Button submit = (Button)findViewById(R.id.submit_button);
@@ -94,15 +119,15 @@ public class EditClientActivity extends AppCompatActivity {
                 JSONObject postData = new JSONObject();
                 JSONObject data = new JSONObject();
                 try {
-                    postData.put("userid", clientID);
+                    postData.put("userid", userID);
                     postData.put("firstName", client_fname_textView.getText().toString().replace("-", ""));
                     postData.put("lastName", client_lname_textView.getText().toString());
-                    postData.put("dob",client_dob_textView.getText().toString());
+                    postData.put("dob", client_dob_textView.getText().toString());
                     postData.put("email", client_email_textView.getText().toString());
 
-                    if((findViewById(R.id.male_radio_edit)).isSelected())
+                    if(gender.getCheckedRadioButtonId() == R.id.male_radio_edit)
                         postData.put("gender", "Male");
-                    else if ((findViewById(R.id.female_radio_edit)).isSelected())
+                    else  if(gender.getCheckedRadioButtonId() == R.id.female_radio_edit)
                         postData.put("gender", "Female");
                     else
                         postData.put("gender", "");
@@ -117,7 +142,7 @@ public class EditClientActivity extends AppCompatActivity {
                     postData.put("state", client_state_textView.getText().toString());
                     postData.put("country", client_country_textView.getText().toString());
                     postData.put("occupation", client_occupation_textView.getText().toString());
-                    postData.put("maritalStatus",client_marital_textView.getText().toString());
+                    postData.put("maritalStatus", client_marital_textView.getText().toString());
                     postData.put("nextOfKin", client_kin_textView.getText().toString());
 
                     data.put("data", postData);
@@ -175,10 +200,14 @@ public class EditClientActivity extends AppCompatActivity {
             client_dob_textView.setText(json_data.getString("dob"));
 
             gender = (RadioGroup)findViewById(R.id.gender_radiogp);
+            male_rb = (RadioButton)findViewById(R.id.male_radio_edit);
+            female_rb = (RadioButton)findViewById(R.id.female_radio_edit);
+
             if(json_data.getString("gender").equalsIgnoreCase("male"))
                 gender.check(R.id.male_radio_edit);
             else if(json_data.getString("gender").equalsIgnoreCase("female"))
                 gender.check(R.id.female_radio_edit);
+
 
             client_height_textView = (TextView)findViewById(R.id.client_height_edit);
             client_height_textView.setText(json_data.getString("height"));
@@ -223,11 +252,8 @@ public class EditClientActivity extends AppCompatActivity {
 
     private void populateEditForm()
     {
-        //create request queue
-        //final RequestQueue queue = Volley.newRequestQueue(this);
-
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, apiURL + "clients/"+clientID, null, new Response.Listener<JSONObject>() {
+                (Request.Method.GET, apiURL + "clients/"+ userID, null, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
@@ -249,5 +275,73 @@ public class EditClientActivity extends AppCompatActivity {
         // Add the request to the RequestQueue.
         queue.add(jsObjRequest);
 
+    }
+
+    private void defaultIntentMessage(Intent intent)
+    {
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_appoint_cl)
+        {
+            Intent intent = new Intent(EditClientActivity.this, CalanderActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_mterms_cl)
+        {
+            Intent intent = new Intent(EditClientActivity.this, MedicalTermsActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_request_cl)
+        {
+            Intent intent = new Intent(EditClientActivity.this, ClientRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_logout)
+        {
+            Intent intent = new Intent(EditClientActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item
+        navigationView.getMenu().getItem(6).setChecked(true);
     }
 }

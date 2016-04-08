@@ -1,8 +1,15 @@
 package comp4350.doctor_clientportal.presentation;
 
+import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -26,7 +33,7 @@ import java.util.ArrayList;
 import comp4350.doctor_clientportal.R;
 import comp4350.doctor_clientportal.objects.MTerms;
 
-public class MedicalTermsActivity extends AppCompatActivity {
+public class MedicalTermsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<MTerms> termList;
     static final String STATE_EVENT_LIST = null;
@@ -39,11 +46,62 @@ public class MedicalTermsActivity extends AppCompatActivity {
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
 
+    private NavigationView navigationView;
+    private  View headerView;
+    private int admin = 0;
+    private String userID;
+    private String userName;
+    private String userEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_medical_terms);
+        //setContentView(R.layout.activity_medical_terms);
+        setContentView(R.layout.activity_drawer_template);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //select which layout to display
+        findViewById(R.id.include_medical_view).setVisibility(View.VISIBLE);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(7).setChecked(true);
+
+        navigationView.getMenu().getItem(0).setVisible(false);
+        navigationView.getMenu().getItem(1).setVisible(false);
+        navigationView.getMenu().getItem(2).setVisible(false);
+        navigationView.getMenu().getItem(3).setVisible(false);
+        navigationView.getMenu().getItem(4).setVisible(false);
+
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
+            admin = bundle.getInt("admin");
+        }
+
+        intt();
         populateTermList();
+    }
+
+    public void intt()
+    {
+        //set profile info
+        TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
+        email_textview.setText(userEmail);
+        TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
+        username_textview.setText(userName);
     }
 
     private void populateTermList()
@@ -132,5 +190,65 @@ public class MedicalTermsActivity extends AppCompatActivity {
             Log.i("ERROR", "nawa");
         }
 
+    }
+
+    private void defaultIntentMessage(Intent intent)
+    {
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
+        startActivity(intent);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_appoint_cl)
+        {
+            Intent intent = new Intent(MedicalTermsActivity.this, CalanderActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_edit_cl)
+        {
+            Intent intent = new Intent(MedicalTermsActivity.this, EditClientActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_request_cl)
+        {
+            Intent intent = new Intent(MedicalTermsActivity.this, ClientRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_logout)
+        {
+            Intent intent = new Intent(MedicalTermsActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item
+        navigationView.getMenu().getItem(7).setChecked(true);
     }
 }

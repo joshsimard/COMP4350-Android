@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="#455A64">
+
+    <group
+        android:id="@+id/admin_drawer"
+        android:checkableBehavior="single"
+        android:visibility="visible">
+        <item
+            android:id="@+id/nav_clients"
+            android:title="Clients" />
+        <item
+            android:id="@+id/nav_appoint"
+            android:title="Appointments" />
+        <item
+            android:id="@+id/nav_notes"
+            android:title="Notes" />
+        <item
+            android:id="@+id/nav_mdlist"
+            android:title="Medication List" />
+        <item
+            android:id="@+id/nav_client_request"
+            android:title="Client Requests" />
+
+    </group>
+
+    <group
+        android:id="@+id/clients_drawer"
+        android:checkableBehavior="single"
+        android:visibility="gone">
+        <item
+            android:id="@+id/nav_appoint_cl"
+            android:title="Appointments" />
+        <item
+            android:id="@+id/nav_edit_cl"
+            android:title="Edit Information" />
+        <item
+            android:id="@+id/nav_mterms_cl"
+            android:title="Medical Terms" />
+        <item
+            android:id="@+id/nav_request_cl"
+            android:title="Requests" />
+
+    </group>
+
+    <item android:title="">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_power_settings_new_black_48dp"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

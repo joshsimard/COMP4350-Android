@@ -1,9 +1,16 @@
 package comp4350.doctor_clientportal.presentation;
 
 import android.content.Intent;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -28,7 +35,8 @@ import java.util.ArrayList;
 import comp4350.doctor_clientportal.R;
 import comp4350.doctor_clientportal.objects.Client;
 
-public class ClientListActivity extends AppCompatActivity {
+public class ClientListActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<Client> clientList;
     static final String STATE_EVENT_LIST = null;
@@ -40,13 +48,60 @@ public class ClientListActivity extends AppCompatActivity {
     private ArrayAdapter<Client> clientArrayAdapter;
     public final static String apiURL = "http://ec2-52-32-93-246.us-west-2.compute.amazonaws.com/api/";
     public final static String url = "http://jsonparsing.parseapp.com/jsonData/moviesDemoItem.txt";
+    private View headerView;
+    private  NavigationView navigationView;
+
+    private String userID;
+    private String userName;
+    private int admin = 1;
+    private String userEmail;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_client_list);
+        setContentView(R.layout.activity_drawer_template);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        //select which layout to display
+        findViewById(R.id.include_client_list_view).setVisibility(View.VISIBLE);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        headerView = navigationView.inflateHeaderView(R.layout.nav_header_home);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        navigationView.getMenu().getItem(5).setVisible(false);
+        navigationView.getMenu().getItem(6).setVisible(false);
+        navigationView.getMenu().getItem(7).setVisible(false);
+        navigationView.getMenu().getItem(8).setVisible(false);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle != null) {
+            userID =  bundle.getString("user_id");
+            userName =  bundle.getString("user_name");
+            userEmail =  bundle.getString("user_email");
+        }
+
+        initt();
         populateClientList();
         registerClick();
+    }
+
+    private void initt()
+    {
+        TextView email_textview = (TextView) headerView.findViewById(R.id.profile_email);
+        email_textview.setText(userEmail);
+
+        TextView username_textview = (TextView) headerView.findViewById(R.id.user_name);
+        username_textview.setText(userName);
     }
 
     private void registerClick()
@@ -54,13 +109,11 @@ public class ClientListActivity extends AppCompatActivity {
 
         list = (ListView)findViewById(R.id.listClients);
 
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id)
-            {
+                                    int position, long id) {
 
                 //pass client info to info activity
                 Intent intent = new Intent(ClientListActivity.this, ClientInfo.class);
@@ -72,6 +125,7 @@ public class ClientListActivity extends AppCompatActivity {
             }
         });
     }
+
     private void populateClientList()
     {
         clientList = new ArrayList<Client>();
@@ -149,6 +203,7 @@ public class ClientListActivity extends AppCompatActivity {
         }
 
     }
+
     private void populateListView()
     {
 
@@ -165,5 +220,77 @@ public class ClientListActivity extends AppCompatActivity {
             Log.i("ERROR", "nawa");
         }
 
+    }
+
+    private void defaultIntentMessage(Intent intent)
+    {
+        intent.putExtra("user_id", userID);
+        intent.putExtra("user_name", userName);
+        intent.putExtra("user_email", userEmail);
+        intent.putExtra("admin", admin);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.home, menu);
+        return true;
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_appoint)
+        {
+            Intent intent = new Intent(ClientListActivity.this, CalanderActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_notes)
+        {
+            Intent intent = new Intent(ClientListActivity.this, NoteActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_mdlist)
+        {
+            Intent intent = new Intent(ClientListActivity.this, MedicationActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_client_request)
+        {
+            Intent intent = new Intent(ClientListActivity.this, DoctorRequestActivity.class);
+            defaultIntentMessage(intent);
+        }
+        else if (id == R.id.nav_logout)
+        {
+            Intent intent = new Intent(ClientListActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //set drawer item on resume
+        navigationView.getMenu().getItem(0).setChecked(true);
     }
 }

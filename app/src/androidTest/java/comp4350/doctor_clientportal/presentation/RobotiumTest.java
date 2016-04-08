@@ -26,191 +26,6 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         super(LoginActivity.class);
     }
 
-    //runs tests for the doctor
-    public void testDoctor() {
-        //get the email view
-        solo.enterText((AutoCompleteTextView) solo.getView(R.id.email), "john@doe.com");
-
-        //get the password
-        solo.enterText((EditText) solo.getView(R.id.password), "password");
-
-        //click login
-        solo.clickOnButton("Sign In");
-
-        //assert activity is ClientListActivity
-        solo.waitForActivity(ClientListActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", ClientListActivity.class);
-
-        //click on text Jane Doe
-        solo.clickOnText("Jane Doe");
-
-        //assert activity is clientactivity
-        solo.waitForActivity(ClientInfo.class, 2000);
-        solo.assertCurrentActivity("wrong activity", ClientInfo.class);
-
-        //check for some info
-        solo.searchText("Jane Doe");
-        solo.searchText("jane@doe.com");
-        solo.searchText("170");
-        solo.searchText("50");
-        solo.searchText("female");
-
-        //go back to Doctor home
-        solo.goBack();
-
-        //click drawer
-        swipeToRight();
-
-        //click Edit Information
-        solo.clickOnText("Appointments");
-
-        /* ***************************************
-         *          Appointments Tests
-         * ***************************************/
-
-        //assert activity is Edit Client Activity
-        solo.waitForActivity(CalanderActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", CalanderActivity.class);
-
-        //click add button
-        solo.clickOnView(solo.getView(R.id.fab_cal));
-
-        //get title
-        solo.enterText((EditText) solo.getView(R.id.subject_name), "Cancer Surgery");
-
-        //get date - click the 3 spots
-
-        //get time - click the 3 spots
-
-        //click Submit
-        solo.clickOnButton("Submit");
-
-        //verify added thing there
-        solo.searchText("Cancer Surgery");
-
-        //click drawer
-        swipeToRight();
-
-        //click Notes
-        solo.clickOnText("Notes");
-
-        /* ***************************************
-         *          Notes Tests
-         * ***************************************/
-
-        //assert activity is Edit Client Activity
-        solo.waitForActivity(NoteActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", NoteActivity.class);
-
-        //search for the text on screen
-        solo.searchText("Large Growth");
-
-        //click on add notes
-        solo.clickOnView(solo.getView(R.id.fab_note));
-
-        //assert activity is Notes Activity
-        solo.waitForActivity(AddNoteActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", AddNoteActivity.class);
-
-        //enter title
-        solo.enterText((EditText) solo.getView(R.id.subject_name), "Test");
-
-        //enter content
-        solo.enterText((EditText) solo.getView(R.id.note_body), "This is a test");
-
-        //click submit
-        solo.clickOnButton("Submit");
-
-        //assert activity is Edit Client Activity
-        solo.waitForActivity(NoteActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", NoteActivity.class);
-
-        //look for text of title
-        solo.searchText("Test");
-
-        //look for text of content
-        solo.searchText("This is a test");
-
-        //click drawer
-        swipeToRight();
-
-        //click Medication List
-        solo.clickOnText("Medication List");
-
-        /* ***************************************
-         *          Medication List Tests
-         * ***************************************/
-
-        //assert activity is Medication List Activity
-        solo.waitForActivity(MedicationActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", MedicationActivity.class);
-
-        //search for the text on screen
-        solo.searchText("Cialis");
-        solo.searchText("10");
-
-        //click on add note
-
-        //enter medication name
-
-        //select quantity
-
-        //click submit
-        solo.clickOnButton("Submit");
-
-        //assert activity is Medication Activity
-        solo.waitForActivity(MedicationActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", MedicationActivity.class);
-
-        //look for name
-
-        //look for quantity
-
-        //click drawer
-        swipeToRight();
-
-        //click Client Requests
-        solo.clickOnText("Client Requests");
-
-        /* ***************************************
-         *          Client Requests Tests
-         * ***************************************/
-
-        //assert activity is CLient Requests
-        solo.waitForActivity(DoctorRequestActivity.class, 2000);
-        solo.assertCurrentActivity("wrong activity", DoctorRequestActivity.class);
-
-        //find bad request
-
-        //click add note
-
-        //add note "Not a chance"
-
-        //click ok
-        solo.clickOnText("Ok");
-
-        //click Decline
-        solo.clickOnButton("Decline");
-
-        //find good request
-
-        //click add note
-
-        //add note "seems okay"
-
-        //click ok
-        solo.clickOnText("Ok");
-
-        //approve request
-        solo.clickOnButton("Approve");
-
-        //click drawer
-        swipeToRight();
-
-        //click Logout
-        solo.clickOnButton("Logout");
-    }
-
     //runs tests for the client
     public void testClient() {
         //get the email view
@@ -233,19 +48,31 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         //find Checkup - Jane Doe
         solo.searchText("Checkup - Jane Doe");
 
-        //todo: Figure out how to use calendar
-
         //click add button
+        solo.clickOnView(solo.getView(R.id.fab_cal));
+
+        //assert activity is AddEventAcitivty
+        solo.waitForActivity(AddEventActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", AddEventActivity.class);
 
         //get title
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.appoint_title), "Surgery - Jane Doe");
 
-        //get date
+        //get date - click the 3 spots
+        solo.clickOnText("Date");
+        solo.clickOnText("Set Date");
+        solo.clickOnText("OK");
 
-        //get time
+        //get time - click the 3 spots
+        solo.clickOnText("Time");
+        solo.clickOnText("Set Time");
+        solo.clickOnText("OK");
 
         //click Submit
+        solo.clickOnButton("Submit");
 
         //verify added thing there
+        solo.searchText("Surgery - Jane Doe");
 
         /* ***************************************
          *         Edit Information Tests
@@ -314,22 +141,6 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         solo.waitForActivity(ClientRequestActivity.class, 2000);
         solo.assertCurrentActivity("wrong activity", ClientRequestActivity.class);
 
-        //find Nigerian puss
-        solo.searchText("Marijuana");
-
-        //find Declined
-        solo.searchText("Declined");
-
-        //click note button
-        solo.clickOnView(solo.getView(R.id.edit_request_cl));
-
-        //find Your problem is beyond me. ..I can't help you
-        //solo.searchText("Your problem is beyond me. ..I can't help you");
-
-        //TODO: figure out what the ok is
-        //click Ok
-        solo.clickOnText("ok");
-
         //click add button
         solo.clickOnView(solo.getView(R.id.fab_request));
 
@@ -353,9 +164,199 @@ public class RobotiumTest extends ActivityInstrumentationTestCase2<LoginActivity
         swipeToRight();
 
         //click Logout
-        solo.clickOnButton("Logout");
+        solo.clickOnText("Logout");
     }
 
+    //runs tests for the doctor
+    public void testDoctor() {
+        //get the email view
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.email), "john@doe.com");
+
+        //get the password
+        solo.enterText((EditText) solo.getView(R.id.password), "password");
+
+        //click login
+        solo.clickOnButton("Sign In");
+
+        /* ***************************************
+         *          Client List Tests
+         * ***************************************/
+
+        //assert activity is ClientListActivity
+        solo.waitForActivity(ClientListActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", ClientListActivity.class);
+
+        //click on text Jane Doe
+        solo.clickOnText("Jane Doe");
+
+        //assert activity is clientactivity
+        solo.waitForActivity(ClientInfo.class, 2000);
+        solo.assertCurrentActivity("wrong activity", ClientInfo.class);
+
+        //check for some info
+        solo.searchText("Jane Doe");
+        solo.searchText("jane@doe.com");
+        solo.searchText("170");
+        solo.searchText("50");
+        solo.searchText("female");
+
+        //go back to Doctor home
+        solo.goBack();
+
+        //click drawer
+        swipeToRight();
+
+        //click Edit Information
+        solo.clickOnText("Appointments");
+
+        /* ***************************************
+         *          Appointments Tests
+         * ***************************************/
+
+        //assert activity is Edit Client Activity
+        solo.waitForActivity(CalanderActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", CalanderActivity.class);
+
+        //click add button
+        solo.clickOnView(solo.getView(R.id.fab_cal));
+
+        //assert activity is AddEventAcitivty
+        solo.waitForActivity(AddEventActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", AddEventActivity.class);
+
+        //get title
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.appoint_title), "Cancer Surgery");
+
+        //get date - click the 3 spots
+        solo.clickOnText("Date");
+        solo.clickOnText("Set Date");
+        //solo.clickOnText("21");
+        solo.clickOnText("OK");
+
+        //get time - click the 3 spots
+        solo.clickOnText("Time");
+        solo.clickOnText("Set Time");
+        //solo.clickOnText("1");
+        solo.clickOnText("OK");
+
+        //click Submit
+        solo.clickOnButton("Submit");
+
+        //verify added thing there
+        solo.searchText("Cancer Surgery");
+
+        //click drawer
+        swipeToRight();
+
+        //click Notes
+        solo.clickOnText("Notes");
+
+        /* ***************************************
+         *          Notes Tests
+         * ***************************************/
+
+        //assert activity is Edit Client Activity
+        solo.waitForActivity(NoteActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", NoteActivity.class);
+
+        //search for the text on screen
+        solo.searchText("Large Growth");
+
+        //click on add notes
+        solo.clickOnView(solo.getView(R.id.fab_note));
+
+        //assert activity is Notes Activity
+        solo.waitForActivity(AddNoteActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", AddNoteActivity.class);
+
+        //enter title
+        solo.enterText((EditText) solo.getView(R.id.note_name), "Test");
+
+        //enter content
+        solo.enterText((EditText) solo.getView(R.id.note_body), "This is a test");
+
+        //click submit
+        solo.clickOnButton("Submit");
+
+        //assert activity is Edit Client Activity
+        solo.waitForActivity(NoteActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", NoteActivity.class);
+
+        //look for text of title
+        solo.searchText("Test");
+
+        //look for text of content
+        solo.searchText("This is a test");
+
+        //click drawer
+        swipeToRight();
+
+        //click Medication List
+        solo.clickOnText("Medication List");
+
+        /* ***************************************
+         *          Medication List Tests
+         * ***************************************/
+
+        //assert activity is Medication List Activity
+        solo.waitForActivity(MedicationActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", MedicationActivity.class);
+
+        //search for the text on screen
+        solo.searchText("Cialis");
+        solo.searchText("10");
+
+        //TODO: Do this
+        //click on add med
+        solo.clickOnView(solo.getView(R.id.fab_med));
+
+        //assert activity is Order Med Activity
+        solo.waitForActivity(OrderMedsActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", OrderMedsActivity.class);
+
+        //enter medication name Weed
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.med_name_edit), "Weed");
+
+        //select quantity 10
+        solo.enterText((AutoCompleteTextView) solo.getView(R.id.quantity_edit), "10");
+
+        //click submit
+        solo.clickOnButton("Submit");
+
+        //assert activity is Medication Activity
+        solo.waitForActivity(MedicationActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", MedicationActivity.class);
+
+        //look for name
+        solo.searchText("Weed");
+
+        //look for quantity
+        solo.searchText("10");
+
+        //click drawer
+        swipeToRight();
+
+        //click Client Requests
+        solo.clickOnText("Client Requests");
+
+        /* ***************************************
+         *          Client Requests Tests
+         * ***************************************/
+
+        //assert activity is CLient Requests
+        solo.waitForActivity(DoctorRequestActivity.class, 2000);
+        solo.assertCurrentActivity("wrong activity", DoctorRequestActivity.class);
+
+        solo.clickOnButton("Accept");
+
+        //click drawer
+        swipeToRight();
+
+        //click Logout
+        solo.clickOnText("Logout");
+    }
+
+    //method to swipe right for the drawer menu
     private void swipeToRight() {
         Display display = solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
         int width = display.getWidth();

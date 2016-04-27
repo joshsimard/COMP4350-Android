@@ -15,7 +15,7 @@ public class EventTest extends TestCase
     {
         System.out.println("Starting tests for event get");
 
-        assertEquals("John", event.getTitle());
+        assertEquals("New", event.getTitle());
         assertEquals("today", event.getStartTime());
         assertEquals("tomorrow", event.getEndTime());
 
